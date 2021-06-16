@@ -14,7 +14,8 @@
         openmct.install(openmct.plugins.LocalStorage());
         openmct.install(openmct.plugins.MyItems());
         openmct.install(openmct.plugins.UTCTimeSystem());
-        openmct.time.clock('local', {start: -15 * 60 * 1000, end: 0});
+        const ONE_MINUTE = 60 * 1000;
+        openmct.time.clock('local', {start: -ONE_MINUTE, end: 0});
         openmct.time.timeSystem('utc');
 
         openmct.install(DictionaryPlugin());
