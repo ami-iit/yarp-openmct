@@ -1,10 +1,24 @@
 /*
- icubtelemetry.js simulates a small spacecraft generating telemetry.
+ icubtelemetry.js generates the iCub sensors telemetry from data published in Yarp ports.
+
+ === IMU sensor data ===
+ Format source: <robotology-superbuild>/src/GazeboYARPPlugins/plugins/imu/src/IMUDriver.cpp
+
+ The network interface is a single Port.
+ We will stream bottles with 12 floats:
+ 0  1   2  = Euler orientation data (Roll-Pitch-Yaw)
+ 3  4   5  = Calibrated 3-axis (X, Y, Z) acceleration data
+ 6  7   8  = Calibrated 3-axis (X, Y, Z) gyroscope data
+ 9 10 11   = Calibrated 3-axis (X, Y, Z) magnetometer data
+
 */
 
 function ICubTelemetry() {
     this.state = {
-        "sens.imu": 0
+        "sens.imu.orientation": [0,0,0],
+        "sens.imu.accelerometer": [0,0,0],
+        "sens.imu.gyroscope": [0,0,0],
+        "sens.imu.magnetometer": [0,0,0]
     };
     this.maxDepthSamples = 1000;
     this.history = {};
@@ -22,7 +36,10 @@ function ICubTelemetry() {
 };
 
 ICubTelemetry.prototype.updateState = function (sensorSample) {
-    this.state["sens.imu"] = sensorSample;
+    this.state["sens.imu.orientation"] = sensorSample.slice(0,3);
+    this.state["sens.imu.accelerometer"] = sensorSample.slice(3,6);
+    this.state["sens.imu.gyroscope"] = sensorSample.slice(6,9);
+    this.state["sens.imu.magnetometer"] = sensorSample.slice(9,12);
 };
 
 /**
@@ -32,7 +49,10 @@ ICubTelemetry.prototype.updateState = function (sensorSample) {
 ICubTelemetry.prototype.generateTelemetry = function () {
     var timestamp = Date.now();
     Object.keys(this.state).forEach(function (id) {
-        var telemetrySample = { timestamp: timestamp, value: this.state[id], id: id};
+        var telemetrySample = {
+          timestamp: timestamp,
+          value0: this.state[id][0], value1: this.state[id][1], value2: this.state[id][2],
+          id: id};
         this.notify(telemetrySample);
         this.history[id].push(telemetrySample);
         if (this.history[id].length > this.maxDepthSamples) {
