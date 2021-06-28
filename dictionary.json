@@ -1,30 +1,129 @@
 {
-    "name": "Example Spacecraft",
-    "key": "sc",
-    "measurements": [
+  "name": "Example Spacecraft",
+  "key": "sc",
+  "measurements": [
+    {
+      "name": "IMU sensor measurements",
+      "key": "sens.imu",
+      "values": [
         {
-            "name": "iCub IMU",
-            "key": "sens.imu",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "Degrees",
-                    "format": "float",
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
+          "key": "value.ori.roll",
+          "name": "Roll",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "value.ori.pitch",
+          "name": "Pitch",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 2
+          }
+        },
+        {
+          "key": "value.ori.yaw",
+          "name": "Yaw",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 3
+          }
+        },
+        {
+          "key": "value.acc.x",
+          "name": "Acc X",
+          "units": "m/s^2",
+          "format": "float",
+          "hints": {
+            "range": 4
+          }
+        },
+        {
+          "key": "value.acc.y",
+          "name": "Acc Y",
+          "units": "m/s^2",
+          "format": "float",
+          "hints": {
+            "range": 5
+          }
+        },
+        {
+          "key": "value.acc.z",
+          "name": "Acc Z",
+          "units": "m/s^2",
+          "format": "float",
+          "hints": {
+            "range": 6
+          }
+        },
+        {
+          "key": "value.gyr.x",
+          "name": "Gyr X",
+          "units": "degrees/s",
+          "format": "float",
+          "hints": {
+            "range": 7
+          }
+        },
+        {
+          "key": "value.gyr.y",
+          "name": "Gyr Y",
+          "units": "degrees/s",
+          "format": "float",
+          "hints": {
+            "range": 8
+          }
+        },
+        {
+          "key": "value.gyr.z",
+          "name": "Gyr Z",
+          "units": "degrees/s",
+          "format": "float",
+          "hints": {
+            "range": 9
+          }
+        },
+        {
+          "key": "value.mag.x",
+          "name": "Mag X",
+          "units": "T",
+          "format": "float",
+          "hints": {
+            "range": 10
+          }
+        },
+        {
+          "key": "value.mag.y",
+          "name": "Mag Y",
+          "units": "T",
+          "format": "float",
+          "hints": {
+            "range": 11
+          }
+        },
+        {
+          "key": "value.mag.z",
+          "name": "Mag Z",
+          "units": "T",
+          "format": "float",
+          "hints": {
+            "range": 12
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
         }
-    ]
+      ]
+    }
+  ]
 }
