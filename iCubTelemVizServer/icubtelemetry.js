@@ -37,6 +37,22 @@ function ICubTelemetry() {
     console.log("iCub Telemetry server launched!");
 };
 
+ICubTelemetry.prototype.flattenHelper = function (nestedObj,parentKey) {
+  var flatObj = {};
+  Object.keys(nestedObj).forEach(function (k) {
+      if (typeof nestedObj[k] == "object") {
+          Object.assign(flatObj, this.flattenHelper(nestedObj[k], parentKey + k + "."));
+      } else {
+          flatObj[parentKey + k] = nestedObj[k];
+      }
+  }, this);
+  return flatObj;
+}
+
+ICubTelemetry.prototype.flatten = function (nestedObj) {
+  return this.flattenHelper(nestedObj,'');
+}
+
 ICubTelemetry.prototype.updateState = function (sensorSample) {
   this.state["sens.imu"].ori.roll = sensorSample[0];
   this.state["sens.imu"].ori.pitch = sensorSample[1];
@@ -59,7 +75,7 @@ ICubTelemetry.prototype.updateState = function (sensorSample) {
 ICubTelemetry.prototype.generateTelemetry = function () {
     var timestamp = Date.now();
     Object.keys(this.state).forEach(function (id) {
-        var telemetrySample = {timestamp: timestamp, value: this.state[id], id: id};
+        var telemetrySample = this.flatten({timestamp: timestamp, value: this.state[id], id: id});
         this.notify(telemetrySample);
         this.history[id].push(telemetrySample);
         if (this.history[id].length > this.maxDepthSamples) {
