@@ -15,10 +15,12 @@
 
 function ICubTelemetry() {
     this.state = {
-        "sens.imu.orientation": [0,0,0],
-        "sens.imu.accelerometer": [0,0,0],
-        "sens.imu.gyroscope": [0,0,0],
-        "sens.imu.magnetometer": [0,0,0]
+        "sens.imu": {
+          "ori": {"roll": 0, "pitch": 0, "yaw": 0},
+          "acc": {"x": 0, "y": 0, "z": 0},
+          "gyr": {"x": 0, "y": 0, "z": 0},
+          "mag": {"x": 0, "y": 0, "z": 0}
+        }
     };
     this.maxDepthSamples = 1000;
     this.history = {};
@@ -36,10 +38,18 @@ function ICubTelemetry() {
 };
 
 ICubTelemetry.prototype.updateState = function (sensorSample) {
-    this.state["sens.imu.orientation"] = sensorSample.slice(0,3);
-    this.state["sens.imu.accelerometer"] = sensorSample.slice(3,6);
-    this.state["sens.imu.gyroscope"] = sensorSample.slice(6,9);
-    this.state["sens.imu.magnetometer"] = sensorSample.slice(9,12);
+  this.state["sens.imu"].ori.roll = sensorSample[0];
+  this.state["sens.imu"].ori.pitch = sensorSample[1];
+  this.state["sens.imu"].ori.yaw = sensorSample[2];
+  this.state["sens.imu"].acc.x = sensorSample[3];
+  this.state["sens.imu"].acc.y = sensorSample[4];
+  this.state["sens.imu"].acc.z = sensorSample[5];
+  this.state["sens.imu"].gyr.x = sensorSample[6];
+  this.state["sens.imu"].gyr.y = sensorSample[7];
+  this.state["sens.imu"].gyr.z = sensorSample[8];
+  this.state["sens.imu"].mag.x = sensorSample[9];
+  this.state["sens.imu"].mag.y = sensorSample[10];
+  this.state["sens.imu"].mag.z = sensorSample[11];
 };
 
 /**
@@ -49,10 +59,7 @@ ICubTelemetry.prototype.updateState = function (sensorSample) {
 ICubTelemetry.prototype.generateTelemetry = function () {
     var timestamp = Date.now();
     Object.keys(this.state).forEach(function (id) {
-        var telemetrySample = {
-          timestamp: timestamp,
-          value0: this.state[id][0], value1: this.state[id][1], value2: this.state[id][2],
-          id: id};
+        var telemetrySample = {timestamp: timestamp, value: this.state[id], id: id};
         this.notify(telemetrySample);
         this.history[id].push(telemetrySample);
         if (this.history[id].length > this.maxDepthSamples) {
