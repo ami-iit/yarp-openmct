@@ -2,9 +2,9 @@
   "name": "openmct-tutorials",
   "version": "0.0.1",
   "description": "Tutorials for Open MCT",
-  "main": "example-server/server.js",
+  "main": "openmct-static-server/server.js",
   "scripts": {
-    "start": "node example-server/server.js"
+    "start": "node openmct-static-server/server.js"
   },
   "repository": {
     "type": "git",

@@ -2,14 +2,12 @@
  * Basic implementation of a history and realtime server.
  */
 
-var Spacecraft = require('./spacecraft');
 var StaticServer = require('./static-server');
 
 var expressWs = require('express-ws');
 var app = require('express')();
 expressWs(app);
 
-var spacecraft = new Spacecraft();
 var staticServer = new StaticServer();
 
 app.use('/', staticServer);
