@@ -1,3 +1,6 @@
+const DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.telemetry';
+const ROOT_DOMAIN_OBJECT_KEY = 'icubtelemetry';
+
 function getDictionary() {
     return http.get('/dictionary.json')
         .then(function (result) {
@@ -8,7 +11,7 @@ function getDictionary() {
 var objectProvider = {
     get: function (identifier) {
         return getDictionary().then(function (dictionary) {
-            if (identifier.key === 'spacecraft') {
+            if (identifier.key === ROOT_DOMAIN_OBJECT_KEY) {
                 return {
                     identifier: identifier,
                     name: dictionary.name,
@@ -22,11 +25,11 @@ var objectProvider = {
                 return {
                     identifier: identifier,
                     name: measurement.name,
-                    type: 'example.telemetry',
+                    type: 'icubsensor.telemetry',
                     telemetry: {
                         values: measurement.values
                     },
-                    location: 'example.taxonomy:spacecraft'
+                    location: DOMAIN_OBJECTS_NAMESPACE + ':' + ROOT_DOMAIN_OBJECT_KEY
                 };
             }
         });
@@ -35,7 +38,7 @@ var objectProvider = {
 
 var compositionProvider = {
     appliesTo: function (domainObject) {
-        return domainObject.identifier.namespace === 'example.taxonomy' &&
+        return domainObject.identifier.namespace === DOMAIN_OBJECTS_NAMESPACE &&
                domainObject.type === 'folder';
     },
     load: function (domainObject) {
@@ -43,7 +46,7 @@ var compositionProvider = {
             .then(function (dictionary) {
                 return dictionary.measurements.map(function (m) {
                     return {
-                        namespace: 'example.taxonomy',
+                        namespace: DOMAIN_OBJECTS_NAMESPACE,
                         key: m.key
                     };
                 });
@@ -54,17 +57,17 @@ var compositionProvider = {
 function DictionaryPlugin() {
     return function install(openmct) {
         openmct.objects.addRoot({
-            namespace: 'example.taxonomy',
-            key: 'spacecraft'
+            namespace: DOMAIN_OBJECTS_NAMESPACE,
+            key: ROOT_DOMAIN_OBJECT_KEY
         });
 
-        openmct.objects.addProvider('example.taxonomy', objectProvider);
+        openmct.objects.addProvider(DOMAIN_OBJECTS_NAMESPACE, objectProvider);
 
         openmct.composition.addProvider(compositionProvider);
 
-        openmct.types.addType('example.telemetry', {
-            name: 'Example Telemetry Point',
-            description: 'Example telemetry point from our happy tutorial.',
+        openmct.types.addType('icubsensor.telemetry', {
+            name: 'iCub Sensor Telemetry Point',
+            description: 'Telemetry point from one or multiple iCub sensors published on a single port.',
             cssClass: 'icon-telemetry'
         });
     };

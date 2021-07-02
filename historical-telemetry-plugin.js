@@ -6,7 +6,7 @@ function HistoricalTelemetryPlugin() {
     return function install (openmct) {
         var provider = {
             supportsRequest: function (domainObject) {
-                return domainObject.type === 'example.telemetry';
+                return domainObject.type === 'icubsensor.telemetry';
             },
             request: function (domainObject, options) {
                 var url = 'http://localhost:8081/history/' +
