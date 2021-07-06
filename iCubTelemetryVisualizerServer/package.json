@@ -1,0 +1,27 @@
+{
+  "name": "YarpJS",
+  "version": "1.0.0",
+  "author": "Carlo Ciliberto <cciliber@gmail.com>",
+  "description": "JS bindings for YARP",
+  "dependencies": {
+    "cmake-js": "3.2.1",
+    "express": "latest",
+    "jquery": "latest",
+    "nan": "latest",
+    "socket.io": "1.5.1",
+    "socket.io-stream": "latest",
+    "three": ">=0.125.0"
+  },
+  "scripts": {
+    "install": "cmake-js"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cciliber/YarpJS"
+  },
+  "devDependencies": {
+  "jquery": ">=3.5.0"
+  },
+  "main": "yarp.js"
+}
