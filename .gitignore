@@ -1,0 +1,4 @@
+iCubTelemVizServer/node_modules/*
+iCubTelemVizServer/npm-debug.log
+.DS_Store
+
