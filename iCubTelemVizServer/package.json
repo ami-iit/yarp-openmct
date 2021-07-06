@@ -1,27 +1,23 @@
 {
-  "name": "YarpJS",
+  "name": "iCubTelemVizServer",
   "version": "1.0.0",
-  "author": "Carlo Ciliberto <cciliber@gmail.com>",
-  "description": "JS bindings for YARP",
+  "author": "Nuno Guedelha <nuno.guedelha@iit.it>",
+  "description": "iCub telemetry data server for Open MCT framework",
   "dependencies": {
-    "cmake-js": "3.2.1",
     "express": "latest",
+    "express-ws": "2.0.0",
     "jquery": "latest",
-    "nan": "latest",
     "socket.io": "1.5.1",
     "socket.io-stream": "latest",
-    "three": ">=0.125.0"
+    "YarpJS": "https://github.com/robotology/yarp.js"
   },
   "scripts": {
-    "install": "cmake-js"
+    "start": "node iCubTelemVizServer.js"
   },
-  "license": "MIT",
+  "license": "LGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cciliber/YarpJS"
+    "url": "https://github.com/dic-iit/yarp-openmct"
   },
-  "devDependencies": {
-  "jquery": ">=3.5.0"
-  },
-  "main": "yarp.js"
+  "main": "iCubTelemVisServer.js"
 }

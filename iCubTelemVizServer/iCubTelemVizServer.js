@@ -17,12 +17,12 @@ var io = require('socket.io')(http);
 
 // require yarp.js and setup the communication
 //with the browser using websockets
-var yarp = require('../yarp');
+var yarp = require('YarpJS');
 yarp.browserCommunicator(io);
 
 // setup static folders
-app.use(express.static(__dirname + '/../node_modules'));
-app.use(express.static(__dirname + '/../js'));
+app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname + '/node_modules/YarpJS/js'));
 app.use(express.static(__dirname));
 
 // setup default page
