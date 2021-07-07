@@ -33,11 +33,43 @@ For instance, in the context of a simulation on Gazebo, the iCub head IMU measur
 
 ## Dependencies
 
+Server dependencies:
+- [YARP](https://github.com/robotology/yarp)
+- [node.js](https://nodejs.org/en/) version = 4.2.2
+- [npm]() package manager
+- [YarpJS](https://github.com/robotology/yarp.js) Yarp Javascript bindings
+- [Open MCT](https://github.com/nasa/openmct) visualization framework
 
-## Installation
+Client dependencies:
+- Browser: [Google Chrome](https://www.google.com/chrome), [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products), Apple Safari, etc.
+
+## Server Installation
+
+The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git]() and the . The installation and run has been tested on MacOS Catalina 10.15.7.
+
+1. Install YARP: it is recommended to install the binaries using the [Conda package manager](https://anaconda.org/) and installing the YARP package from the [Robotology Conda channel](https://anaconda.org/robotology).
+    - If you are not already using the `conda` package manager, install the `conda` miniforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-miniforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
+    - Install Mamba, create a new environment and install the YARP package:
+    ```
+    conda install mamba
+    conda create -n robotologyenv
+    conda activate robotologyenv
+    mamba install -c robotology yarp
+    ```
+    To read more about installing `robotology` package binaries refer to https://github.com/robotology/robotology-superbuild/blob/master/doc/conda-forge.md#binary-installation.
+2. Install **node.js** and **npm**: you can follow the official guides in the respective web pages but we recommend to install them through [NVM](). **YarpJS** is currently compatible only with **node.js v4.2.2** (Latest LTS: Argon), itself compatible with **npm v2.14.7**.
+    ```
+    ```
 
 
 ## How to Run the Server
+
+The telemetry data server is actually composed of three servers:
+- A YarpJS server listening to the YARP ports, asynchronously fetching sensor data as soon as it is available on the ports, synchronously generating the formatted telemetry samples and buffering them in the FIFO queue.
+- A history server replying to the Open MCT client time range telemetry samples requests.
+- A realtime server replying to the Open MCT client latest samples requests.
+
+We assume all three servers are running
 
 
 ## How to Run the Client
