@@ -36,18 +36,19 @@ For instance, in the context of a simulation on Gazebo, the iCub head IMU measur
 Server dependencies:
 - [YARP](https://github.com/robotology/yarp)
 - [node.js](https://nodejs.org/en/) version = 4.2.2
-- [npm]() package manager
+- [npm](https://www.npmjs.com/) package manager
 - [YarpJS](https://github.com/robotology/yarp.js) Yarp Javascript bindings
 - [Open MCT](https://github.com/nasa/openmct) visualization framework
 
 Client dependencies:
 - Browser: [Google Chrome](https://www.google.com/chrome), [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products), Apple Safari, etc.
 
+
 ## Server Installation
 
 The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git]() and the . The installation and run has been tested on MacOS Catalina 10.15.7.
 
-1. Install YARP: it is recommended to install the binaries using the [Conda package manager](https://anaconda.org/) and installing the YARP package from the [Robotology Conda channel](https://anaconda.org/robotology).
+1. Install **YARP**: it is recommended to install the binaries using the [Conda package manager](https://anaconda.org/) and installing the YARP package from the [Robotology Conda channel](https://anaconda.org/robotology).
     - If you are not already using the `conda` package manager, install the `conda` miniforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-miniforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
     - Install Mamba, create a new environment and install the YARP package:
     ```
@@ -57,9 +58,33 @@ The following instructions assume you are installing the software as a non-root 
     mamba install -c robotology yarp
     ```
     To read more about installing `robotology` package binaries refer to https://github.com/robotology/robotology-superbuild/blob/master/doc/conda-forge.md#binary-installation.
-2. Install **node.js** and **npm**: you can follow the official guides in the respective web pages but we recommend to install them through [NVM](). **YarpJS** is currently compatible only with **node.js v4.2.2** (Latest LTS: Argon), itself compatible with **npm v2.14.7**.
+2. Install **node.js** and **npm**: you can follow the official guides in the respective web pages but we recommend to install them through [NVM](). **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is currently compatible only with the LTS: Argon version **node.js v4.2.2** (refer to https://github.com/dic-iit/element_software-engineering/issues/49). Meanwhile, **Open MCT** is compatible with the latest LTS:Fermium version **node.js v14.17.0** () and respective latest **npm** version **v6.14.13** (refer to https://github.com/dic-iit/element_software-engineering/issues/47). For this reason we install both releases.
     ```
+    nvm install 4.2.2 --latest-npm          // installs the LTS:Argon version v4.2.2 and latest respective supported npm (v2.14.7)
+    nvm install 14.17.0 --latest-npm        // installs latest LTS:Fermium version v14.17.0 and latest respective supported npm (v6.14.13)
+    nvm alias default v4.2.2                // updates the default alias
+    nvm ls                                  // lists available and active nodejs and npm versions
     ```
+3. Clone the `yarp-openmct` repository into `<yarp-openmct-root-folder>` folder
+    ```
+    git clone https://github.com/dic-iit/yarp-openmct.git <yarp-openmct-root-folder>
+    ```
+4. Install the **iCubTelemVizServer** server: go to the `<yarp-openmct-root-folder>/iCubTelemVizServer` folder, select **node v4.2.2** and install the server
+    ```
+    cd yarp-openmct/iCubTelemVizServer
+    nvm use 4.2.2
+    npm install
+    ```
+5. Install the **Open MCT** based visualizer: got to `<yarp-openmct-root-folder>/openmctServer`, select **node v14.17.0** and install the server
+**node v4.2.2** and install the server
+    ```
+    cd yarp-openmct/openmctServer
+    nvm use 14.17.0
+    npm install
+    ```
+
+### Note
+For checking the active node.js/npm versions, run respectively `node -v` and `npm -v`.
 
 
 ## How to Run the Server
