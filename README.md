@@ -58,7 +58,7 @@ The following instructions assume you are installing the software as a non-root 
     mamba install -c robotology yarp
     ```
     To read more about installing `robotology` package binaries refer to https://github.com/robotology/robotology-superbuild/blob/master/doc/conda-forge.md#binary-installation.
-2. Install **node.js** and **npm**: we recommende to install them via  [NVM](). Currently, the latest **node.js** LTS version compatible with **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is the LTS: Argon release **node.js v4.2.2** (refer to https://github.com/robotology/yarp.js/issues/19). Meanwhile, the latest **node.js** LTS version compatible with **Open MCT** is latest LTS:Fermium version **node.js v14.17.0**. For this reason we install both releases.
+2. Install **node.js** and **npm**: we recommend to install them via [NVM](https://github.com/nvm-sh/nvm) (Node Version Manager). Currently, the latest **node.js** LTS version compatible with **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is the LTS: Argon release **node.js v4.2.2** (refer to https://github.com/robotology/yarp.js/issues/19). Meanwhile, the latest **node.js** LTS version compatible with **Open MCT** is latest LTS:Fermium version **node.js v14.17.0**. For this reason we install both releases.
     ```
     nvm install 4.2.2 --latest-npm          // installs the LTS:Argon version v4.2.2 and latest respective supported npm (v2.14.7)
     nvm install 14.17.0 --latest-npm        // installs latest LTS:Fermium version v14.17.0 and latest respective supported npm (v6.14.13)
