@@ -1,5 +1,6 @@
 # Yarp - Open MCT
 
+<b id="top"></b>
 An Open MCT and Yarp based iCub telemetry visualizer.
 
 * [Introduction](#introduction)
@@ -10,7 +11,7 @@ An Open MCT and Yarp based iCub telemetry visualizer.
 * [How to Run the Server](#how-to-run-the-server)
 * [How to Run the Client](#how-to-run-the-client)
 
-## Introduction
+## [Introduction](#top)
 
 The Yarp-OpenMCT tool is meant for visualizing and plotting telemetry data from iCub sensors, published over a Yarp network. It collects sensor data published on a predefined set of Yarp output ports opened by the Yarp Robot Interface and exposes that data on predefined telemetry nodes within the visualizer interface as vectors or scalar signals. The pipeline can be summarized as follows:
 - A telemetry data server reads the data from a Yarp port, then available within the server as realtime data.
@@ -22,7 +23,7 @@ All telemetry nodes exposing sensor measurements shall appear under the folder "
 The visualizer implementation is based on the [Open MCT](https://github.com/nasa/openmct) (Open Mission Control Technologies), open source, next-generation mission control framework for visualization of data on desktop and mobile devices. It is developed at NASA's Ames Research Center, and is being used by NASA for data analysis of spacecraft missions, as well as planning and operation of experimental rover systems.
 
 
-## Example
+## [Example](#top)
 
 For instance, in the context of a simulation on Gazebo, the iCub head IMU measurements read on the port `/icubSim/inertial` are sent over a local network to the visualization tool client and exposed as a telemetry node, referred to as a "Domain Object" in the Open MCT nomenclature. The telemetry node wraps all the 12 measurement components:
 - The orientation estimation Roll, Pitch and Yaw.
@@ -30,7 +31,7 @@ For instance, in the context of a simulation on Gazebo, the iCub head IMU measur
 - The gyroscope measuremtents x, y, z components.
 - The magnetometer measuremtents x, y, z components.
 
-## Dependencies
+## [Dependencies](#top)
 
 Server dependencies:
 - [YARP](https://github.com/robotology/yarp): Middleware for handling the communication with the robot.
@@ -43,7 +44,7 @@ Client dependencies:
 - Browser: [Google Chrome](https://www.google.com/chrome), [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products), Apple Safari, etc.
 
 
-## Server Installation
+## [Server Installation](#top)
 
 The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) and the . The installation and run has been tested on MacOS Catalina 10.15.7.
 
@@ -86,12 +87,12 @@ The following instructions assume you are installing the software as a non-root 
 - The installation of Open MCT dependency completes with a warning on (refer to https://github.com/dic-iit/element_software-engineering/issues/47#issuecomment-855276088).
 
 
-## Client Installation
+## [Client Installation](#top)
 
 Install one of the browsers listed in the client dependencies.
 
 
-## How to Run the Server
+## [How to Run the Server](#top)
 
 The telemetry data server `iCubTelemVizServer` actually runs three servers:
 - A YarpJS based server listening to the YARP ports, asynchronously fetching sensor data as soon as it is available on the ports, synchronously generating the formatted telemetry samples and buffering them in the FIFO queue.
@@ -123,7 +124,7 @@ All three servers will be run on the same machine through the same process:
     The Open MCT visualizer static server creates the main interface page and sends it to the Open MCT client.
 6. Read the device IP address using `ifconfig` (Linux,MacOS) or `ipconfig` (Windows). We shall refer to this address as <server-IP-address>.
 
-## How to Run the Client
+## [How to Run the Client](#top)
 
 Open a browser on any other device connected to the same network and go to `<server-IP-address>:8080`.
 
@@ -131,4 +132,4 @@ Open a browser on any other device connected to the same network and go to `<ser
 <img src="images/iCubTelemetryOpenMCTexample.png" width="80%">
 </p>
 
-<b id="f1">1</b>: The [Socket.IO](https://socket.io/docs/v4) connection wraps a [Websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) protocol. The client tries to establish a websocket connection whenever possible, and falls back to HTTP long polling otherwise. [↩](#a1)
+<b id="f1">1</b>: The [Socket.IO](https://socket.io/docs/v4) connection wraps a [Websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) protocol. The client tries to establish a websocket connection whenever possible, and falls back to HTTP long polling otherwise. [:arrow_up:](#a1)
