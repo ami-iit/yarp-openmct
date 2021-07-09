@@ -7,21 +7,21 @@
     <script src="dictionary-plugin.js"></script>
     <script src="historical-telemetry-plugin.js"></script>
     <script src="realtime-telemetry-plugin.js"></script>
-    <link rel="stylesheet" href="node_modules/openmct/dist/openmct.css">
+    <link rel="stylesheet" href="node_modules/openmct/dist/espressoTheme.css">
 </head>
 <body>
-<script>
-    openmct.install(openmct.plugins.LocalStorage());
-    openmct.install(openmct.plugins.MyItems());
-    openmct.install(openmct.plugins.UTCTimeSystem());
-    openmct.time.clock('local', {start: -15 * 60 * 1000, end: 0});
-    openmct.time.timeSystem('utc');
+    <script>
+        openmct.install(openmct.plugins.LocalStorage());
+        openmct.install(openmct.plugins.MyItems());
+        openmct.install(openmct.plugins.UTCTimeSystem());
+        openmct.time.clock('local', {start: -15 * 60 * 1000, end: 0});
+        openmct.time.timeSystem('utc');
 
-    openmct.install(DictionaryPlugin());
-    openmct.install(HistoricalTelemetryPlugin());
-    openmct.install(RealtimeTelemetryPlugin());
+        openmct.install(DictionaryPlugin());
+        openmct.install(HistoricalTelemetryPlugin());
+        openmct.install(RealtimeTelemetryPlugin());
 
-    openmct.start();
-</script>
+        openmct.start();
+    </script>
 </body>
 </html>
