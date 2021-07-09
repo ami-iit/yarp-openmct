@@ -15,5 +15,5 @@ app.use('/', staticServer);
 var port = process.env.PORT || 8080
 
 app.listen(port, function () {
-    console.log('Open MCT hosted at http://localhost:' + port);
+    console.log('iCub Telemetry Visualizer (Open MCT based) hosted at http://localhost:' + port);
 });

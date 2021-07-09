@@ -75,9 +75,9 @@ The following instructions assume you are installing the software as a non-root 
     nvm use 4.2.2
     npm install
     ```
-5. Install the **Open MCT** based visualizer: go to `<yarp-openmct-root-folder>/openmctServer`, select **node v14.17.0** and install the server
+5. Install the **Open MCT** based visualizer: go to `<yarp-openmct-root-folder>/openmctStaticServer`, select **node v14.17.0** and install the server
     ```
-    cd yarp-openmct/openmctServer
+    cd yarp-openmct/openmctStaticServer
     nvm use 14.17.0
     npm install
     ```
@@ -114,12 +114,12 @@ All three servers will be run on the same machine through the same process:
     ICubTelemetry Realtime hosted at ws://localhost:8081/realtime
     listening on *:3000
     ```
-5. On the same machine, run `npm start` from `<yarp-openmct-root-folder>/openmctServer` folder. You should get the following output on the terminal:
+5. On the same machine, run `npm start` from `<yarp-openmct-root-folder>/openmctStaticServer` folder. You should get the following output on the terminal:
     ```
-    > openmct-tutorials@0.0.1 start /Users/nunoguedelha/dev/openmct-tutorial
-    > node openmct-static-server/server.js
+    > openmctStaticServer@1.0.0 start <yarp-openmct-root-folder>/openmctStaticServer
+    > node server.js
 
-    Open MCT hosted at http://localhost:8080
+    iCub Telemetry Visualizer (Open MCT based) hosted at http://localhost:8080
     ```
     The Open MCT visualizer static server creates the main interface page and sends it to the Open MCT client.
 6. Read the device IP address using `ifconfig` (Linux,MacOS) or `ipconfig` (Windows). We shall refer to this address as <server-IP-address>.
