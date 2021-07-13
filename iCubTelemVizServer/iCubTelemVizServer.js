@@ -47,14 +47,28 @@ app.use('/realtime', realtimeServer);
 app.use('/history', historyServer);
 
 // Open the Yarp ports and feed the data to the 'icubtelemetry' object
-var port_imu_in_name = '/yarpjs/inertial:i';
-var port_imu_in = yarp.portHandler.open(port_imu_in_name,'bottle');
 
-port_imu_in.onRead(function(bottle){
-  icubtelemetry.updateState(bottle.toArray());
+// Define the ports
+var portInConfig = {
+    "sens.imu": {"yarpName":'/icubSim/inertial', "localName":'/yarpjs/inertial:i',"portType":'bottle'},
+    "sens.camLeftEye": {"yarpName":'/icubSim/camLeftEye', "localName":'/yarpjs/camLeftEye:i',"portType":'image'},
+    "sens.camRightEye": {"yarpName":'/icubSim/camRightEye', "localName":'/yarpjs/camRightEye:i',"portType":'image'}
+};
+
+// Open the ports, register read callback functions, connect the ports
+Object.keys(portInConfig).forEach(function (id) {
+    var portIn = yarp.portHandler.open(portInConfig[id]["localName"],portInConfig[id]["portType"]);
+    switch (portInConfig[id]["portType"]) {
+        case 'bottle':
+            portIn.onRead(function (bottle){ icubtelemetry.updateState(id,bottle.toArray()); });
+            break;
+        case 'image':
+            portIn.onRead(function (image){ icubtelemetry.updateState(id,image); });
+            break;
+        default:
+    }
+    yarp.Network.connect(portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
 });
-
-yarp.Network.connect('/icubSim/inertial',port_imu_in_name);
 
 // Start history and realtime servers
 app.listen(portTelemetryRespOrigin, function () {

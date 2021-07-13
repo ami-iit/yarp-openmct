@@ -124,6 +124,40 @@
           }
         }
       ]
+    },
+    {
+      "name": "Camera view Left eye",
+      "key": "sens.camLeftEye",
+      "values": [
+        {
+          "key": "value.camLeftEye",
+          "name": "Cam Left Eye",
+          "format": "image",
+          "hints": {
+            "image": 1,
+            "priority": 1
+          }
+        },
+        {
+          "key": "value.camRightEye",
+          "name": "Cam Right Eye",
+          "format": "image",
+          "hints": {
+            "image": 1,
+            "priority": 1
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1,
+            "priority": 0
+          }
+        }
+      ]
     }
   ]
 }

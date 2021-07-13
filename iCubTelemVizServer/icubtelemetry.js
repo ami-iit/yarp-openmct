@@ -20,7 +20,9 @@ function ICubTelemetry() {
           "acc": {"x": 0, "y": 0, "z": 0},
           "gyr": {"x": 0, "y": 0, "z": 0},
           "mag": {"x": 0, "y": 0, "z": 0}
-        }
+        },
+        "sens.camLeftEye": 0,
+        "sens.camRightEye":0
     };
     this.maxDepthSamples = 1000;
     this.history = {};
@@ -53,7 +55,9 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
   return this.flattenHelper(nestedObj,'');
 }
 
-ICubTelemetry.prototype.updateState = function (sensorSample) {
+ICubTelemetry.prototype.updateState = function (id,sensorSample) {
+    switch(id) {
+        case "sens.imu":
   this.state["sens.imu"].ori.roll = sensorSample[0];
   this.state["sens.imu"].ori.pitch = sensorSample[1];
   this.state["sens.imu"].ori.yaw = sensorSample[2];
@@ -66,6 +70,12 @@ ICubTelemetry.prototype.updateState = function (sensorSample) {
   this.state["sens.imu"].mag.x = sensorSample[9];
   this.state["sens.imu"].mag.y = sensorSample[10];
   this.state["sens.imu"].mag.z = sensorSample[11];
+            break;
+        case "sens.camLeftEye":
+            this.state["sens.camLeftEye"] = sensorSample;
+            break;
+        default:
+    }
 };
 
 /**

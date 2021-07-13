@@ -2,4 +2,5 @@ iCubTelemVizServer/node_modules/*
 iCubTelemVizServer/npm-debug.log
 openmctStaticServer/node_modules/*
 openmctStaticServer/npm-debug.log
+.idea
 .DS_Store
