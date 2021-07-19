@@ -21,11 +21,11 @@ function ICubTelemetry() {
           "gyr": {"x": 0, "y": 0, "z": 0},
           "mag": {"x": 0, "y": 0, "z": 0}
         },
-        "sens.camLeftEye": 0,
-        "sens.camRightEye": 0,
         "sens.leftLegState": {
             "jointPos": {"l_hip_pitch": 0, "l_hip_roll": 0, "l_hip_yaw": 0, "l_knee": 0, "l_ankle_pitch": 0, "l_ankle_roll": 0}
-        }
+        },
+        "sens.camLeftEye": 0,
+        "sens.camRightEye": 0
     };
     this.maxDepthSamples = 1000;
     this.history = {};
@@ -75,12 +75,12 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
             this.state[id].mag.z = sensorSample[11];
             break;
         case "sens.leftLegState":
-            this.state[id].jointPos.l_hip_pitch = sensorSample[0];
-            this.state[id].jointPos.l_hip_roll = sensorSample[1];
-            this.state[id].jointPos.l_hip_yaw = sensorSample[2];
-            this.state[id].jointPos.l_knee = sensorSample[3];
-            this.state[id].jointPos.l_ankle_pitch = sensorSample[4];
-            this.state[id].jointPos.l_ankle_roll = sensorSample[5];
+            this.state[id].jointPos.l_hip_pitch = sensorSample[0][0];
+            this.state[id].jointPos.l_hip_roll = sensorSample[0][1];
+            this.state[id].jointPos.l_hip_yaw = sensorSample[0][2];
+            this.state[id].jointPos.l_knee = sensorSample[0][3];
+            this.state[id].jointPos.l_ankle_pitch = sensorSample[0][4];
+            this.state[id].jointPos.l_ankle_roll = sensorSample[0][5];
             break;
         default:
             this.state[id] = sensorSample;

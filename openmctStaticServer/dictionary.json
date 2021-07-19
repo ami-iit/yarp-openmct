@@ -126,52 +126,6 @@
       ]
     },
     {
-      "name": "Camera view Left eye",
-      "key": "sens.camLeftEye",
-      "values": [
-        {
-          "key": "value.camLeftEye",
-          "name": "Cam Left Eye",
-          "format": "image",
-          "hints": {
-            "image": 1
-          }
-        },
-        {
-          "key": "utc",
-          "source": "timestamp",
-          "name": "Timestamp",
-          "format": "utc",
-          "hints": {
-            "domain": 1
-          }
-        }
-      ]
-    },
-    {
-      "name": "Camera view Right eye",
-      "key": "sens.camLeftEye",
-      "values": [
-        {
-          "key": "value.camRightEye",
-          "name": "Cam Right Eye",
-          "format": "image",
-          "hints": {
-            "image": 1
-          }
-        },
-        {
-          "key": "utc",
-          "source": "timestamp",
-          "name": "Timestamp",
-          "format": "utc",
-          "hints": {
-            "domain": 1
-          }
-        }
-      ]
-    },
-    {
       "name": "Left leg joint State measurements",
       "key": "sens.leftLegState",
       "values": [
@@ -227,6 +181,52 @@
           "format": "float",
           "hints": {
             "range": 6
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "Camera view Left eye",
+      "key": "sens.camLeftEye",
+      "values": [
+        {
+          "key": "value.camLeftEye",
+          "name": "Cam Left Eye",
+          "format": "image",
+          "hints": {
+            "image": 1
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "Camera view Right eye",
+      "key": "sens.camLeftEye",
+      "values": [
+        {
+          "key": "value.camRightEye",
+          "name": "Cam Right Eye",
+          "format": "image",
+          "hints": {
+            "image": 1
           }
         },
         {
