@@ -94,7 +94,14 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
 ICubTelemetry.prototype.generateTelemetry = function () {
     var timestamp = Date.now();
     Object.keys(this.state).forEach(function (id) {
-        var telemetrySample = this.flatten({timestamp: timestamp, value: this.state[id], id: id});
+        switch(id) {
+            case "sens.imu":
+            case "sens.leftLegState":
+                var telemetrySample = this.flatten({timestamp: timestamp, value: this.state[id], id: id});
+                break;
+            default:
+                var telemetrySample = {timestamp: timestamp, value: this.state[id], id: id};
+        }
         this.notify(telemetrySample);
         this.history[id].push(telemetrySample);
         if (this.history[id].length > this.maxDepthSamples) {

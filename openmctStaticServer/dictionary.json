@@ -199,9 +199,9 @@
       "key": "sens.camLeftEye",
       "values": [
         {
-          "key": "value.camLeftEye",
+          "key": "value",
           "name": "Cam Left Eye",
-          "format": "image",
+          "format": "imageDownloadName",
           "hints": {
             "image": 1
           }
@@ -219,12 +219,12 @@
     },
     {
       "name": "Camera view Right eye",
-      "key": "sens.camLeftEye",
+      "key": "sens.camRightEye",
       "values": [
         {
-          "key": "value.camRightEye",
+          "key": "value",
           "name": "Cam Right Eye",
-          "format": "image",
+          "format": "imageDownloadName",
           "hints": {
             "image": 1
           }
