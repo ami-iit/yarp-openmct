@@ -22,7 +22,10 @@ function ICubTelemetry() {
           "mag": {"x": 0, "y": 0, "z": 0}
         },
         "sens.camLeftEye": 0,
-        "sens.camRightEye":0
+        "sens.camRightEye": 0,
+        "sens.leftLegState": {
+            "jointPos": {"l_hip_pitch": 0, "l_hip_roll": 0, "l_hip_yaw": 0, "l_knee": 0, "l_ankle_pitch": 0, "l_ankle_roll": 0}
+        }
     };
     this.maxDepthSamples = 1000;
     this.history = {};
@@ -58,23 +61,29 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
 ICubTelemetry.prototype.updateState = function (id,sensorSample) {
     switch(id) {
         case "sens.imu":
-  this.state["sens.imu"].ori.roll = sensorSample[0];
-  this.state["sens.imu"].ori.pitch = sensorSample[1];
-  this.state["sens.imu"].ori.yaw = sensorSample[2];
-  this.state["sens.imu"].acc.x = sensorSample[3];
-  this.state["sens.imu"].acc.y = sensorSample[4];
-  this.state["sens.imu"].acc.z = sensorSample[5];
-  this.state["sens.imu"].gyr.x = sensorSample[6];
-  this.state["sens.imu"].gyr.y = sensorSample[7];
-  this.state["sens.imu"].gyr.z = sensorSample[8];
-  this.state["sens.imu"].mag.x = sensorSample[9];
-  this.state["sens.imu"].mag.y = sensorSample[10];
-  this.state["sens.imu"].mag.z = sensorSample[11];
+            this.state[id].ori.roll = sensorSample[0];
+            this.state[id].ori.pitch = sensorSample[1];
+            this.state[id].ori.yaw = sensorSample[2];
+            this.state[id].acc.x = sensorSample[3];
+            this.state[id].acc.y = sensorSample[4];
+            this.state[id].acc.z = sensorSample[5];
+            this.state[id].gyr.x = sensorSample[6];
+            this.state[id].gyr.y = sensorSample[7];
+            this.state[id].gyr.z = sensorSample[8];
+            this.state[id].mag.x = sensorSample[9];
+            this.state[id].mag.y = sensorSample[10];
+            this.state[id].mag.z = sensorSample[11];
             break;
-        case "sens.camLeftEye":
-            this.state["sens.camLeftEye"] = sensorSample;
+        case "sens.leftLegState":
+            this.state[id].jointPos.l_hip_pitch = sensorSample[0];
+            this.state[id].jointPos.l_hip_roll = sensorSample[1];
+            this.state[id].jointPos.l_hip_yaw = sensorSample[2];
+            this.state[id].jointPos.l_knee = sensorSample[3];
+            this.state[id].jointPos.l_ankle_pitch = sensorSample[4];
+            this.state[id].jointPos.l_ankle_roll = sensorSample[5];
             break;
         default:
+            this.state[id] = sensorSample;
     }
 };
 
