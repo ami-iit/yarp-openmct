@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>iCub Telemetry Visualizer (Open MCT based)</title>
+    <script src="node_modules/openmct/dist/openmct.js"></script>
+    <script src="lib/http.js"></script>
+    <script src="dictionary-plugin.js"></script>
+    <script src="historical-telemetry-plugin.js"></script>
+    <script src="realtime-telemetry-plugin.js"></script>
+    <link rel="stylesheet" href="node_modules/openmct/dist/espressoTheme.css">
+</head>
+<body>
+    <script>
+        openmct.install(openmct.plugins.LocalStorage());
+        openmct.install(openmct.plugins.MyItems());
+        openmct.install(openmct.plugins.UTCTimeSystem());
+        const ONE_MINUTE = 60 * 1000;
+        openmct.time.clock('local', {start: -ONE_MINUTE, end: 0});
+        openmct.time.timeSystem('utc');
+
+        openmct.install(DictionaryPlugin());
+        openmct.install(HistoricalTelemetryPlugin());
+        openmct.install(RealtimeTelemetryPlugin());
+
+        openmct.start();
+    </script>
+</body>
+</html>
