@@ -35,6 +35,9 @@ var ICubTelemetry = require('./icubtelemetry');
 var RealtimeServer = require('./realtime-server');
 var HistoryServer = require('./history-server');
 
+// Handle Data URI Scheme
+var getDataURIscheme = require('./getDataURIscheme');
+
 // Setup 'express-ws' in order to add WebSocket routes
 var expressWs = require('express-ws');
 expressWs(app);
@@ -64,7 +67,7 @@ Object.keys(portInConfig).forEach(function (id) {
             portIn.onRead(function (bottle){ icubtelemetry.updateState(id,bottle.toArray()); });
             break;
         case 'image':
-            portIn.onRead(function (image){ icubtelemetry.updateState(id,image); });
+            portIn.onRead(function (image){ icubtelemetry.updateState(id,getDataURIscheme(image.compression_type,image.buffer)); });
             break;
         default:
     }

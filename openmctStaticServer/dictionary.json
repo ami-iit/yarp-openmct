@@ -201,7 +201,7 @@
         {
           "key": "value",
           "name": "Cam Left Eye",
-          "format": "imageDownloadName",
+          "format": "image",
           "hints": {
             "image": 1
           }
@@ -224,7 +224,7 @@
         {
           "key": "value",
           "name": "Cam Right Eye",
-          "format": "imageDownloadName",
+          "format": "image",
           "hints": {
             "image": 1
           }
