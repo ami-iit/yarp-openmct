@@ -10,7 +10,7 @@ function base64ArrayBuffer(arrayBuffer)
     var base64    = ''
     var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-    var bytes         = new Uint8Array(arrayBuffer)
+    var bytes         = arrayBuffer // 'arrayBuffer' is already of type 'Uint8Array'
     var byteLength    = bytes.byteLength
     var byteRemainder = byteLength % 3
     var mainLength    = byteLength - byteRemainder

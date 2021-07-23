@@ -64,10 +64,14 @@ Object.keys(portInConfig).forEach(function (id) {
     var portIn = yarp.portHandler.open(portInConfig[id]["localName"],portInConfig[id]["portType"]);
     switch (portInConfig[id]["portType"]) {
         case 'bottle':
-            portIn.onRead(function (bottle){ icubtelemetry.updateState(id,bottle.toArray()); });
+            portIn.onRead(function (bottle){
+                cubtelemetry.updateState(id,bottle.toArray());
+            });
             break;
         case 'image':
-            portIn.onRead(function (image){ icubtelemetry.updateState(id,getDataURIscheme(image.compression_type,image.buffer)); });
+            portIn.onRead(function (image){
+                icubtelemetry.updateState(id,getDataURIscheme(image.getCompressionType(),image.toBinary()));
+            });
             break;
         default:
     }
