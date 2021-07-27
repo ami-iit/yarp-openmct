@@ -65,7 +65,7 @@ Object.keys(portInConfig).forEach(function (id) {
     switch (portInConfig[id]["portType"]) {
         case 'bottle':
             portIn.onRead(function (bottle){
-                cubtelemetry.updateState(id,bottle.toArray());
+                icubtelemetry.updateState(id,bottle.toArray());
             });
             break;
         case 'image':
