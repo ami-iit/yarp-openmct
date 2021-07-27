@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="visualizerServerStart" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="start" />
+    </scripts>
+    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.17.0/bin/node" />
+    <envs>
+      <env name="NODE_DEBUG_OPTION" value="--debug" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>

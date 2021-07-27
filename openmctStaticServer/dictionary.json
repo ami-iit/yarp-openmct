@@ -124,6 +124,121 @@
           }
         }
       ]
+    },
+    {
+      "name": "Left leg joint State measurements",
+      "key": "sens.leftLegState",
+      "values": [
+        {
+          "key": "value.jointPos.l_hip_pitch",
+          "name": "Hip Pitch",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "value.jointPos.l_hip_roll",
+          "name": "Hip Roll",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 2
+          }
+        },
+        {
+          "key": "value.jointPos.l_hip_yaw",
+          "name": "Hip Yaw",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 3
+          }
+        },
+        {
+          "key": "value.jointPos.l_knee",
+          "name": "Knee",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 4
+          }
+        },
+        {
+          "key": "value.jointPos.l_ankle_pitch",
+          "name": "Ankle Pitch",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 5
+          }
+        },
+        {
+          "key": "value.jointPos.l_ankle_roll",
+          "name": "Ankle Roll",
+          "units": "degrees",
+          "format": "float",
+          "hints": {
+            "range": 6
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "Camera view Left eye",
+      "key": "sens.camLeftEye",
+      "values": [
+        {
+          "key": "value",
+          "name": "Cam Left Eye",
+          "format": "image",
+          "hints": {
+            "image": 1
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "Camera view Right eye",
+      "key": "sens.camRightEye",
+      "values": [
+        {
+          "key": "value",
+          "name": "Cam Right Eye",
+          "format": "image",
+          "hints": {
+            "image": 1
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
     }
   ]
 }

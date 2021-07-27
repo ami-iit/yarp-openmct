@@ -20,7 +20,12 @@ function ICubTelemetry() {
           "acc": {"x": 0, "y": 0, "z": 0},
           "gyr": {"x": 0, "y": 0, "z": 0},
           "mag": {"x": 0, "y": 0, "z": 0}
-        }
+        },
+        "sens.leftLegState": {
+            "jointPos": {"l_hip_pitch": 0, "l_hip_roll": 0, "l_hip_yaw": 0, "l_knee": 0, "l_ankle_pitch": 0, "l_ankle_roll": 0}
+        },
+        "sens.camLeftEye": 0,
+        "sens.camRightEye": 0
     };
     this.maxDepthSamples = 1000;
     this.history = {};
@@ -53,19 +58,33 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
   return this.flattenHelper(nestedObj,'');
 }
 
-ICubTelemetry.prototype.updateState = function (sensorSample) {
-  this.state["sens.imu"].ori.roll = sensorSample[0];
-  this.state["sens.imu"].ori.pitch = sensorSample[1];
-  this.state["sens.imu"].ori.yaw = sensorSample[2];
-  this.state["sens.imu"].acc.x = sensorSample[3];
-  this.state["sens.imu"].acc.y = sensorSample[4];
-  this.state["sens.imu"].acc.z = sensorSample[5];
-  this.state["sens.imu"].gyr.x = sensorSample[6];
-  this.state["sens.imu"].gyr.y = sensorSample[7];
-  this.state["sens.imu"].gyr.z = sensorSample[8];
-  this.state["sens.imu"].mag.x = sensorSample[9];
-  this.state["sens.imu"].mag.y = sensorSample[10];
-  this.state["sens.imu"].mag.z = sensorSample[11];
+ICubTelemetry.prototype.updateState = function (id,sensorSample) {
+    switch(id) {
+        case "sens.imu":
+            this.state[id].ori.roll = sensorSample[0];
+            this.state[id].ori.pitch = sensorSample[1];
+            this.state[id].ori.yaw = sensorSample[2];
+            this.state[id].acc.x = sensorSample[3];
+            this.state[id].acc.y = sensorSample[4];
+            this.state[id].acc.z = sensorSample[5];
+            this.state[id].gyr.x = sensorSample[6];
+            this.state[id].gyr.y = sensorSample[7];
+            this.state[id].gyr.z = sensorSample[8];
+            this.state[id].mag.x = sensorSample[9];
+            this.state[id].mag.y = sensorSample[10];
+            this.state[id].mag.z = sensorSample[11];
+            break;
+        case "sens.leftLegState":
+            this.state[id].jointPos.l_hip_pitch = sensorSample[0][0];
+            this.state[id].jointPos.l_hip_roll = sensorSample[0][1];
+            this.state[id].jointPos.l_hip_yaw = sensorSample[0][2];
+            this.state[id].jointPos.l_knee = sensorSample[0][3];
+            this.state[id].jointPos.l_ankle_pitch = sensorSample[0][4];
+            this.state[id].jointPos.l_ankle_roll = sensorSample[0][5];
+            break;
+        default:
+            this.state[id] = sensorSample;
+    }
 };
 
 /**
@@ -75,7 +94,14 @@ ICubTelemetry.prototype.updateState = function (sensorSample) {
 ICubTelemetry.prototype.generateTelemetry = function () {
     var timestamp = Date.now();
     Object.keys(this.state).forEach(function (id) {
-        var telemetrySample = this.flatten({timestamp: timestamp, value: this.state[id], id: id});
+        switch(id) {
+            case "sens.imu":
+            case "sens.leftLegState":
+                var telemetrySample = this.flatten({timestamp: timestamp, value: this.state[id], id: id});
+                break;
+            default:
+                var telemetrySample = {timestamp: timestamp, value: this.state[id], id: id};
+        }
         this.notify(telemetrySample);
         this.history[id].push(telemetrySample);
         if (this.history[id].length > this.maxDepthSamples) {

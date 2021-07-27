@@ -35,6 +35,9 @@ var ICubTelemetry = require('./icubtelemetry');
 var RealtimeServer = require('./realtime-server');
 var HistoryServer = require('./history-server');
 
+// Handle Data URI Scheme
+var getDataURIscheme = require('./getDataURIscheme');
+
 // Setup 'express-ws' in order to add WebSocket routes
 var expressWs = require('express-ws');
 expressWs(app);
@@ -47,14 +50,33 @@ app.use('/realtime', realtimeServer);
 app.use('/history', historyServer);
 
 // Open the Yarp ports and feed the data to the 'icubtelemetry' object
-var port_imu_in_name = '/yarpjs/inertial:i';
-var port_imu_in = yarp.portHandler.open(port_imu_in_name,'bottle');
 
-port_imu_in.onRead(function(bottle){
-  icubtelemetry.updateState(bottle.toArray());
+// Define the ports
+var portInConfig = {
+    "sens.imu": {"yarpName":'/icubSim/inertial', "localName":'/yarpjs/inertial:i',"portType":'bottle'},
+    "sens.leftLegState": {"yarpName":'/icubSim/left_leg/stateExt:o', "localName":'/yarpjs/left_leg/stateExt:o',"portType":'bottle'},
+    "sens.camLeftEye": {"yarpName":'/icubSim/camLeftEye', "localName":'/yarpjs/camLeftEye:i',"portType":'image'},
+    "sens.camRightEye": {"yarpName":'/icubSim/camRightEye', "localName":'/yarpjs/camRightEye:i',"portType":'image'}
+};
+
+// Open the ports, register read callback functions, connect the ports
+Object.keys(portInConfig).forEach(function (id) {
+    var portIn = yarp.portHandler.open(portInConfig[id]["localName"],portInConfig[id]["portType"]);
+    switch (portInConfig[id]["portType"]) {
+        case 'bottle':
+            portIn.onRead(function (bottle){
+                cubtelemetry.updateState(id,bottle.toArray());
+            });
+            break;
+        case 'image':
+            portIn.onRead(function (image){
+                icubtelemetry.updateState(id,getDataURIscheme(image.getCompressionType(),image.toBinary()));
+            });
+            break;
+        default:
+    }
+    yarp.Network.connect(portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
 });
-
-yarp.Network.connect('/icubSim/inertial',port_imu_in_name);
 
 // Start history and realtime servers
 app.listen(portTelemetryRespOrigin, function () {
@@ -64,5 +86,5 @@ app.listen(portTelemetryRespOrigin, function () {
 
 // start the server!
 http.listen(3000, function(){
-  console.log('listening on *:3000');
+  console.log('listening on http://localhost:3000');
 });
