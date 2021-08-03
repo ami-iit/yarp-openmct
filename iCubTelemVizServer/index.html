@@ -1,112 +1,153 @@
 <!doctype html>
 <html>
-  <head>
-    <title>yarp.js Publish Inertial Data</title>
+<head>
+  <title>Walking Controller</title>
 
-    <meta name=viewport content="width=device-width, initial-scale=1">
+  <meta name=viewport content="width=device-width, initial-scale=1">
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
-    <style>
-      .cont {
-        text-align: center;
-      }
+  <style>
+    .cont {
+      text-align: center;
+    }
 
-      .cont * {
-        display: inline-block;
-      }
+    .cont * {
+      display: inline-block;
+    }
 
-      .main {
-        margin-top: 4em;
-      }
+    .main {
+      margin-top: 4em;
+    }
 
-      .invisible {
-          display: none;
-      }
+    .invisible {
+      display: none;
+    }
 
-      #description {
-          padding: 3em;
-      }
+    .btn{
+      font-size: 1.5em;
+    }
 
-      #description * {
-          text-align: left;
-      }
+    #description {
+      padding: 3em;
+    }
 
-      #description p {
-          font-size: 1.3em;
-          margin-top: 3em;
-      }
+    #description * {
+      text-align: left;
+    }
 
-      #description b {
-          font-weight: bold;
-          color: cornflowerblue;
-      }
+    #description p {
+      font-size: 1.3em;
+      margin-top: 3em;
+    }
 
-      #description h1 b {
-          font-family: 'Lobster', serif;
-      }
+    #description b {
+      font-weight: bold;
+      color: cornflowerblue;
+    }
 
-    </style>
+    #description h1 b {
+      font-family: 'Lobster', serif;
+    }
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/yarp.js"></script>
+  </style>
 
-  </head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/yarp.js"></script>
+
+</head>
 
 
 <!-- ############  BODY ################# -->
+<body>
 
-  <body>
-    <div class='main cont'>
-    <div id='description'>
-      <div class='closebutton'>x</div>
+<div class="main cont" id="commands">
 
-      <h1>Published iCub Telemetry Data</h1>
+  <!-- DOM elements for sending wholeBodyDynamics RPC commands -->
+  <div class="forms-container" id="wholebodydynamics">
 
-      <p>
-        This service provides inertial data received from the robot iCub through the YARP port <b>/icubSim/inertial</b>.
-      </p>
+    <form action = "" id='form-send-resetOffset' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-resetOffset" type="button" class="btn">
+        [resetOffset] Reset FT sensors Offsets
+      </button>
+    </form>
 
-      <p>
-        Data received from port:
-      </p>
-    </div>
+    <form action = "" id='form-send-calib' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-calib" type="button" class="btn">
+        [calib] Calibrate FT sensors
+      </button>
+      <input type="text" class="form-speak" id="input-send-calib" placeholder="all 300" value="all 300">
+    </form>
 
-    <div id='port-imu-in-data'></div>
+    <div id="replyToWholebodydynamicsCmd"></div>
+
   </div>
-  </body>
+  <!--  -->
+</div>
 
-<!-- ############  END BODY ################# -->
+<!-- Initialization of socket.io and yarp.js -->
+<script>
 
-  <script src="/jquery/dist/jquery.min.js"></script>
+  var socket = io();
+  yarp.init(socket);
+</script>
 
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-  <script>
-    var socket = io();
-    yarp.init(socket);
-  </script>
+<!-- yarp.js "main" -->
+<script>
 
-  <script>
-    var port_imu_in_data = document.getElementById('port-imu-in-data');
+  // as soon as the yarp.js module is ready...
+  yarp.onInit(function() {
 
-    var t_prev = Date.now();
+    // Open /wholeBodyDynamics/rpc:o RPC client port
+    let wholeBodyDynamicsRPCport = yarp.PortHandler.openPort('/wholeBodyDynamics/rpc:o','rpc');
 
-    // what to do as soon as the yarp module is ready
-    yarp.onInit(function() {
-      var port_imu_in_name = '/yarpjs/inertial:i';
-      var port_imu_in = yarp.PortHandler.openPort(port_imu_in_name);
-
-      port_imu_in.onRead(function(bottle){
-        port_imu_in_data.innerHTML = bottle.content;
-        t_prev = Date.now();
-      });
-
-      yarp.Network.connect('/icubSim/inertial',port_imu_in_name);
+    // whenever we get a reply from the RPC server, notify the user by displaying "OK!" or "ERROR!"
+    // next to the command depending on the received reply.
+    wholeBodyDynamicsRPCport.onReplyFromWrite(function (rply) {
+      theReplyToWholebodydynamicsCmd = document.getElementById('replyToWholebodydynamicsCmd');
+      theReplyToWholebodydynamicsCmd.innerHTML = (rply.content.toString());
     });
-  </script>
+
+    // Connect the RPC client to the RPC server port
+    yarp.Network.connect('/wholeBodyDynamics/rpc:o','/wholeBodyDynamics/rpc');
+
+    // get the handlers to the DOM elements in charge of sending the RPC commands
+    let form = {
+      resetOffset: document.getElementById('form-send-resetOffset'),
+      calib: document.getElementById('form-send-calib')
+    }
+
+    // get the handlers to the DOM elements containing the RPC commands parameters
+    let input = {
+      resetOffset: '',
+      calib: document.getElementById('input-send-calib').value
+    }
+
+    let btn = {
+      resetOffset: document.getElementById('btn-send-resetOffset'),
+      calib: document.getElementById('btn-send-calib')
+    }
+
+    // whenever an RPC command is sent (either by pressing the form button
+    // or by pressing enter in the text box), send the input parameters.
+    Object.keys(form).forEach(function (cmd) {
+      function sendCommand() {
+        wholeBodyDynamicsRPCport.write(cmd+' '+input[cmd]);
+      }
+      btn[cmd].onclick = sendCommand;
+      form[cmd].addEventListener("submit", function (event) {
+        event.preventDefault();
+        sendCommand();
+      });
+    });
+  });
+
+</script>
+
+</body>
+
 
 </html>
