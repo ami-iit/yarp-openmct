@@ -72,6 +72,7 @@
       <button id="btn-send-resetOffset" type="button" class="btn">
         [resetOffset] Reset FT sensors Offsets
       </button>
+      <input type="text" class="form-speak" id="input-send-resetOffset" placeholder="all" value="all">
     </form>
 
     <form action = "" id='form-send-calib' class="form-inline" style="margin-bottom: 1em">
@@ -108,7 +109,7 @@
     // next to the command depending on the received reply.
     wholeBodyDynamicsRPCport.onReplyFromWrite(function (rply) {
       theReplyToWholebodydynamicsCmd = document.getElementById('replyToWholebodydynamicsCmd');
-      theReplyToWholebodydynamicsCmd.innerHTML = (rply.content.toString());
+      theReplyToWholebodydynamicsCmd.innerHTML = (rply.contentStr.toString());
     });
 
     // Connect the RPC client to the RPC server port
@@ -122,7 +123,7 @@
 
     // get the handlers to the DOM elements containing the RPC commands parameters
     let input = {
-      resetOffset: '',
+      resetOffset: document.getElementById('input-send-resetOffset').value,
       calib: document.getElementById('input-send-calib').value
     }
 
