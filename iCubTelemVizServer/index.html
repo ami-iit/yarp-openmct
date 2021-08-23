@@ -42,6 +42,15 @@
       font-size: 1.5em;
     }
 
+    .form-reply {
+      width: 750px;
+      height: 500px;
+      text-align: start;
+      vertical-align: top;
+      border: 2px solid red;
+      word-wrap: anywhere;
+    }
+
     #description {
       padding: 3em;
     }
@@ -94,7 +103,16 @@
       <input type="text" class="form-speak" id="input-send-calib" placeholder="all 300" value="all 300">
     </form>
 
-    <div id="replyToWholebodydynamicsCmd"></div>
+    <form action = "" id='form-send-help' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-help" type="button" class="btn">
+        [help] Help
+      </button>
+      <input type="text" class="form-speak" id="input-send-help">
+    </form>
+
+    <form action = "" id='form-cmd-reply' class="form-inline" style="margin-bottom: 1em">
+      <textarea id="replyToWholebodydynamicsCmd" name="text" rows="14" cols="66" wrap="soft" maxlength="100" style="overflow:hidden; resize:none;"></textarea>
+    </form>
 
   </div>
   <!--  -->
@@ -121,7 +139,7 @@
     // next to the command depending on the received reply.
     wholeBodyDynamicsRPCport.onReplyFromWrite(function (rply) {
       theReplyToWholebodydynamicsCmd = document.getElementById('replyToWholebodydynamicsCmd');
-      theReplyToWholebodydynamicsCmd.innerHTML = (rply.contentStr.toString());
+      theReplyToWholebodydynamicsCmd.value = rply.contentStr.toString();
     });
 
     // Connect the RPC client to the RPC server port
@@ -130,18 +148,21 @@
     // get the handlers to the DOM elements in charge of sending the RPC commands
     let form = {
       resetOffset: document.getElementById('form-send-resetOffset'),
-      calib: document.getElementById('form-send-calib')
+      calib: document.getElementById('form-send-calib'),
+      help: document.getElementById('form-send-help')
     }
 
     // get the handlers to the DOM elements containing the RPC commands parameters
     let input = {
       resetOffset: document.getElementById('input-send-resetOffset').value,
-      calib: document.getElementById('input-send-calib').value
+      calib: document.getElementById('input-send-calib').value,
+      help: document.getElementById('input-send-help').value
     }
 
     let btn = {
       resetOffset: document.getElementById('btn-send-resetOffset'),
-      calib: document.getElementById('btn-send-calib')
+      calib: document.getElementById('btn-send-calib'),
+      help: document.getElementById('btn-send-help')
     }
 
     // whenever an RPC command is sent (either by pressing the form button
