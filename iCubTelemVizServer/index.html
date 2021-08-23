@@ -107,11 +107,11 @@
       <button id="btn-send-help" type="button" class="btn">
         [help] Help
       </button>
-      <input type="text" class="form-speak" id="input-send-help">
+      <input type="text" class="form-speak" id="input-send-help" placeholder="<command-name>">
     </form>
 
     <form action = "" id='form-cmd-reply' class="form-inline" style="margin-bottom: 1em">
-      <textarea id="replyToWholebodydynamicsCmd" name="text" rows="14" cols="66" wrap="soft" maxlength="100" style="overflow:hidden; resize:none;"></textarea>
+      <textarea id="replyToWholeBodyDynamicsCmd" name="text" rows="8" cols="66" wrap="soft" maxlength="100" style="overflow:hidden; resize:none;"></textarea>
     </form>
 
   </div>
@@ -138,8 +138,8 @@
     // whenever we get a reply from the RPC server, notify the user by displaying "OK!" or "ERROR!"
     // next to the command depending on the received reply.
     wholeBodyDynamicsRPCport.onReplyFromWrite(function (rply) {
-      theReplyToWholebodydynamicsCmd = document.getElementById('replyToWholebodydynamicsCmd');
-      theReplyToWholebodydynamicsCmd.value = rply.contentStr.toString();
+      theReplyToWholeBodyDynamicsCmd = document.getElementById('replyToWholeBodyDynamicsCmd');
+      theReplyToWholeBodyDynamicsCmd.value = rply.contentStr.toString();
     });
 
     // Connect the RPC client to the RPC server port
@@ -154,9 +154,9 @@
 
     // get the handlers to the DOM elements containing the RPC commands parameters
     let input = {
-      resetOffset: document.getElementById('input-send-resetOffset').value,
-      calib: document.getElementById('input-send-calib').value,
-      help: document.getElementById('input-send-help').value
+      resetOffset: document.getElementById('input-send-resetOffset'),
+      calib: document.getElementById('input-send-calib'),
+      help: document.getElementById('input-send-help')
     }
 
     let btn = {
@@ -169,7 +169,7 @@
     // or by pressing enter in the text box), send the input parameters.
     Object.keys(form).forEach(function (cmd) {
       function sendCommand() {
-        wholeBodyDynamicsRPCport.write(cmd+' '+input[cmd]);
+        wholeBodyDynamicsRPCport.write(cmd+' '+input[cmd].value);
       }
       btn[cmd].onclick = sendCommand;
       form[cmd].addEventListener("submit", function (event) {
