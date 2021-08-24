@@ -145,25 +145,24 @@
     // Connect the RPC client to the RPC server port
     yarp.Network.connect('/wholeBodyDynamics/rpc:o','/wholeBodyDynamics/rpc');
 
+    // Define commands (syntax, default parameters)
+    let commandsDefTable = {
+        resetOffset: {},
+        calib: {},
+        help: {}
+    };
+
     // get the handlers to the DOM elements in charge of sending the RPC commands
-    let form = {
-      resetOffset: document.getElementById('form-send-resetOffset'),
-      calib: document.getElementById('form-send-calib'),
-      help: document.getElementById('form-send-help')
-    }
-
-    // get the handlers to the DOM elements containing the RPC commands parameters
-    let input = {
-      resetOffset: document.getElementById('input-send-resetOffset'),
-      calib: document.getElementById('input-send-calib'),
-      help: document.getElementById('input-send-help')
-    }
-
-    let btn = {
-      resetOffset: document.getElementById('btn-send-resetOffset'),
-      calib: document.getElementById('btn-send-calib'),
-      help: document.getElementById('btn-send-help')
-    }
+    let form = {};
+    let input = {};
+    let btn = {};
+    // get the handlers to the DOM elements defining the RPC command buttons (forms,
+    // buttons, inputs
+    Object.keys(commandsDefTable).forEach(function (cmd) {
+        form[cmd] = document.getElementById('form-send-'+cmd);
+        input[cmd] = document.getElementById('input-send-'+cmd);
+        btn[cmd] = document.getElementById('btn-send-'+cmd);
+    });
 
     // whenever an RPC command is sent (either by pressing the form button
     // or by pressing enter in the text box), send the input parameters.
