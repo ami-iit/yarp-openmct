@@ -98,9 +98,16 @@
 
     <form action = "" id='form-send-wbd-calib' class="form-inline" style="margin-bottom: 1em">
       <button id="btn-send-wbd-calib" type="button" class="btn">
-        [calib] Calibrate FT sensors
+        [calib] Calibrate FT sensors (pole)
       </button>
       <input type="text" class="form-speak" id="input-send-wbd-calib" placeholder="<calib_code>, [<Nsamples>]" value="all 300">
+    </form>
+
+    <form action = "" id='form-send-wbd-calibStanding' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wbd-calibStanding" type="button" class="btn">
+        [calibStanding] Calibrate FT sensors
+      </button>
+      <input type="text" class="form-speak" id="input-send-wbd-calibStanding" placeholder="<calib_code>, [<Nsamples>]" value="all 300">
     </form>
 
     <form action = "" id='form-send-wbd-help' class="form-inline" style="margin-bottom: 1em">
@@ -201,6 +208,7 @@
     let cmdsDefTbl = [
       {name: 'resetOffset'  , module: 'wbd'},
       {name: 'calib'        , module: 'wbd'},
+      {name: 'calibStanding', module: 'wbd'},
       {name: 'help'         , module: 'wbd'},
       {name: 'prepareRobot' , module: 'wco'},
       {name: 'startWalking' , module: 'wco'},
