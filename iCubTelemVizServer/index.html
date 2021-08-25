@@ -1,112 +1,264 @@
 <!doctype html>
 <html>
-  <head>
-    <title>yarp.js Publish Inertial Data</title>
+<head>
+  <title>Walking Controller</title>
 
-    <meta name=viewport content="width=device-width, initial-scale=1">
+  <meta name=viewport content="width=device-width, initial-scale=1">
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
-    <style>
-      .cont {
-        text-align: center;
-      }
+  <style>
+    .cont {
+      text-align: center;
+    }
 
-      .cont * {
-        display: inline-block;
-      }
+    .cont * {
+      display: inline-block;
+    }
 
-      .main {
-        margin-top: 4em;
-      }
+    .main {
+      margin-top: 4em;
+    }
 
-      .invisible {
-          display: none;
-      }
+    .invisible {
+      display: none;
+    }
 
-      #description {
-          padding: 3em;
-      }
+    .btn{
+      font-size: 1.3em;
+      width: 500px;
+      text-align: left;
+    }
 
-      #description * {
-          text-align: left;
-      }
+    .forms-container > form {
+      display: block;
+    }
 
-      #description p {
-          font-size: 1.3em;
-          margin-top: 3em;
-      }
+    form {
+      margin-top: 1em;
+      margin-bottom: 0;
+      font-size: 1.5em;
+    }
 
-      #description b {
-          font-weight: bold;
-          color: cornflowerblue;
-      }
+    .form-reply {
+      width: 750px;
+      height: 500px;
+      text-align: start;
+      vertical-align: top;
+      border: 2px solid red;
+      word-wrap: anywhere;
+    }
 
-      #description h1 b {
-          font-family: 'Lobster', serif;
-      }
+    #description {
+      padding: 3em;
+    }
 
-    </style>
+    #description * {
+      text-align: left;
+    }
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/yarp.js"></script>
+    #description p {
+      font-size: 1.3em;
+      margin-top: 3em;
+    }
 
-  </head>
+    #description b {
+      font-weight: bold;
+      color: cornflowerblue;
+    }
+
+    #description h1 b {
+      font-family: 'Lobster', serif;
+    }
+
+  </style>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/yarp.js"></script>
+
+</head>
 
 
 <!-- ############  BODY ################# -->
+<body>
 
-  <body>
-    <div class='main cont'>
-    <div id='description'>
-      <div class='closebutton'>x</div>
+<div class="main cont" id="commands">
 
-      <h1>Published iCub Telemetry Data</h1>
+  <!-- DOM elements for sending wholeBodyDynamics RPC commands -->
+  <div class="forms-container" id="wholebodydynamics">
 
-      <p>
-        This service provides inertial data received from the robot iCub through the YARP port <b>/icubSim/inertial</b>.
-      </p>
+    <form action = "" id='form-send-wbd-resetOffset' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wbd-resetOffset" type="button" class="btn">
+        [resetOffset] Reset FT sensors Offsets
+      </button>
+      <input type="text" class="form-speak" id="input-send-wbd-resetOffset" placeholder="<calib_code>" value="all">
+    </form>
 
-      <p>
-        Data received from port:
-      </p>
-    </div>
+    <form action = "" id='form-send-wbd-calib' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wbd-calib" type="button" class="btn">
+        [calib] Calibrate FT sensors (pole)
+      </button>
+      <input type="text" class="form-speak" id="input-send-wbd-calib" placeholder="<calib_code>, [<Nsamples>]" value="all 300">
+    </form>
 
-    <div id='port-imu-in-data'></div>
+    <form action = "" id='form-send-wbd-calibStanding' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wbd-calibStanding" type="button" class="btn">
+        [calibStanding] Calibrate FT sensors
+      </button>
+      <input type="text" class="form-speak" id="input-send-wbd-calibStanding" placeholder="<calib_code>, [<Nsamples>]" value="all 300">
+    </form>
+
+    <form action = "" id='form-send-wbd-help' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wbd-help" type="button" class="btn">
+        [help] Help
+      </button>
+      <input type="text" class="form-speak" id="input-send-wbd-help" placeholder="[<command-name>]">
+    </form>
+
+    <form action = "" id='form-out-wbd-reply' class="form-inline" style="margin-bottom: 1em">
+      <textarea id="replyToWholeBodyDynamicsCmd" name="text" rows="8" cols="66" wrap="soft" maxlength="100" style="overflow:hidden; resize:none;"></textarea>
+    </form>
+
+    <form action = "" id='form-send-wco-prepareRobot' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wco-prepareRobot" type="button" class="btn">
+        [prepareRobot]
+      </button>
+      <input type="text" class="form-speak" id="input-send-wco-prepareRobot" placeholder="[<onTheFly>]" value="false">
+    </form>
+
+    <form action = "" id='form-send-wco-startWalking' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wco-startWalking" type="button" class="btn">
+        [startWalking]
+      </button>
+    </form>
+
+    <form action = "" id='form-send-wco-setGoal' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wco-setGoal" type="button" class="btn">
+        [setGoal]
+      </button>
+      <input type="text" class="form-speak" id="input-send-wco-setGoal" placeholder="<x y>" value="1.0 0.0">
+    </form>
+
+    <form action = "" id='form-send-wco-pauseWalking' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wco-pauseWalking" type="button" class="btn">
+        [pauseWalking]
+      </button>
+    </form>
+
+    <form action = "" id='form-send-wco-stopWalking' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wco-stopWalking" type="button" class="btn">
+        [stopWalking]
+      </button>
+    </form>
+
+    <form action = "" id='form-send-wco-help' class="form-inline" style="margin-bottom: 1em">
+      <button id="btn-send-wco-help" type="button" class="btn">
+          [help] Help
+      </button>
+      <input type="text" class="form-speak" id="input-send-wco-help" placeholder="[<command-name>]">
+    </form>
+
+    <form action = "" id='form-out-wco-reply' class="form-inline" style="margin-bottom: 1em">
+      <textarea id="replyToWalkingCoordinatorCmd" name="text" rows="8" cols="66" wrap="soft" maxlength="100" style="overflow:hidden; resize:none;"></textarea>
+    </form>
+
   </div>
-  </body>
+  <!--  -->
+</div>
 
-<!-- ############  END BODY ################# -->
+<!-- Initialization of socket.io and yarp.js -->
+<script>
 
-  <script src="/jquery/dist/jquery.min.js"></script>
+  var socket = io();
+  yarp.init(socket);
+</script>
 
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-  <script>
-    var socket = io();
-    yarp.init(socket);
-  </script>
+<!-- yarp.js "main" -->
+<script>
 
-  <script>
-    var port_imu_in_data = document.getElementById('port-imu-in-data');
+  // as soon as the yarp.js module is ready...
+  yarp.onInit(function() {
 
-    var t_prev = Date.now();
+    // Open /wholeBodyDynamics/rpc:o RPC client port
+    let wholeBodyDynamicsRPCport = yarp.PortHandler.openPort('/wholeBodyDynamics/rpc:o','rpc');
+    let walkingCoordinatorRPCport = yarp.PortHandler.openPort('/walking-coordinator/rpc:o','rpc');
 
-    // what to do as soon as the yarp module is ready
-    yarp.onInit(function() {
-      var port_imu_in_name = '/yarpjs/inertial:i';
-      var port_imu_in = yarp.PortHandler.openPort(port_imu_in_name);
-
-      port_imu_in.onRead(function(bottle){
-        port_imu_in_data.innerHTML = bottle.content;
-        t_prev = Date.now();
-      });
-
-      yarp.Network.connect('/icubSim/inertial',port_imu_in_name);
+    // whenever we get a reply from the RPC server, notify the user by displaying "OK!" or "ERROR!"
+    // next to the command depending on the received reply.
+    wholeBodyDynamicsRPCport.onReplyFromWrite(function (rply) {
+      theReplyToWholeBodyDynamicsCmd = document.getElementById('replyToWholeBodyDynamicsCmd');
+      theReplyToWholeBodyDynamicsCmd.value = rply.contentStr.toString();
     });
-  </script>
+
+    // whenever we get a reply from the RPC server, notify the user by displaying "OK!" or "ERROR!"
+    // next to the command depending on the received reply.
+    walkingCoordinatorRPCport.onReplyFromWrite(function (rply) {
+      theReplyToWalkingCoordinatorCmd = document.getElementById('replyToWalkingCoordinatorCmd');
+      theReplyToWalkingCoordinatorCmd.value = rply.contentStr.toString();
+    });
+
+    // Connect the RPC client to the RPC server port
+    yarp.Network.connect('/wholeBodyDynamics/rpc:o','/wholeBodyDynamics/rpc');
+    yarp.Network.connect('/walking-coordinator/rpc:o','/walking-coordinator/rpc');
+
+    // Define commands (syntax, default parameters)
+    let cmdsDefTbl = [
+      {name: 'resetOffset'  , module: 'wbd'},
+      {name: 'calib'        , module: 'wbd'},
+      {name: 'calibStanding', module: 'wbd'},
+      {name: 'help'         , module: 'wbd'},
+      {name: 'prepareRobot' , module: 'wco'},
+      {name: 'startWalking' , module: 'wco'},
+      {name: 'setGoal'      , module: 'wco'},
+      {name: 'pauseWalking' , module: 'wco'},
+      {name: 'stopWalking'  , module: 'wco'},
+      {name: 'help'         , module: 'wco'}
+    ];
+
+    let module2PortMap = {
+        wbd: wholeBodyDynamicsRPCport, // /wholeBodyDynamics/rpc port
+        wco: walkingCoordinatorRPCport // /walking-coordinator/rpc port
+    };
+
+    // get the handlers to the DOM elements in charge of sending the RPC commands
+    // (forms, buttons, input/output areas).
+    let cmdName = {}, port = {}, form = {}, input = {}, btn = {};
+
+    cmdsDefTbl.forEach(function (cmdDef) {
+        cmdID = cmdDef.module + '-' + cmdDef.name;
+        cmdName[cmdID] = cmdDef.name;
+        port[cmdID] = module2PortMap[cmdDef.module];
+        form[cmdID] = document.getElementById('form-send-'+cmdID);
+        input[cmdID] = document.getElementById('input-send-'+cmdID);
+        btn[cmdID] = document.getElementById('btn-send-'+cmdID);
+    });
+
+    // whenever an RPC command is sent (either by pressing the form button
+    // or by pressing enter in the text box), send the input parameters.
+    Object.keys(form).forEach(function (cmdID) {
+      function sendCommand() {
+        if (input[cmdID]) {
+          port[cmdID].write(cmdName[cmdID]+' '+input[cmdID].value);
+        }
+        else {
+          port[cmdID].write(cmdName[cmdID]);
+        }
+      }
+
+      btn[cmdID].onclick = sendCommand;
+      form[cmdID].addEventListener("submit", function (event) {
+        event.preventDefault();
+        sendCommand();
+      });
+    });
+  });
+
+</script>
+
+</body>
+
 
 </html>
