@@ -100,14 +100,14 @@
       <button id="btn-send-wbd-calib" type="button" class="btn">
         [calib] Calibrate FT sensors
       </button>
-      <input type="text" class="form-speak" id="input-send-wbd-calib" placeholder="<calib_code>, <Nsamples>" value="all 300">
+      <input type="text" class="form-speak" id="input-send-wbd-calib" placeholder="<calib_code>, [<Nsamples>]" value="all 300">
     </form>
 
     <form action = "" id='form-send-wbd-help' class="form-inline" style="margin-bottom: 1em">
       <button id="btn-send-wbd-help" type="button" class="btn">
         [help] Help
       </button>
-      <input type="text" class="form-speak" id="input-send-wbd-help" placeholder="<command-name>">
+      <input type="text" class="form-speak" id="input-send-wbd-help" placeholder="[<command-name>]">
     </form>
 
     <form action = "" id='form-out-wbd-reply' class="form-inline" style="margin-bottom: 1em">
@@ -118,7 +118,7 @@
       <button id="btn-send-wco-prepareRobot" type="button" class="btn">
         [prepareRobot]
       </button>
-      <input type="text" class="form-speak" id="input-send-wco-prepareRobot" placeholder="<onTheFly>" value="false">
+      <input type="text" class="form-speak" id="input-send-wco-prepareRobot" placeholder="[<onTheFly>]" value="false">
     </form>
 
     <form action = "" id='form-send-wco-startWalking' class="form-inline" style="margin-bottom: 1em">
@@ -150,7 +150,7 @@
       <button id="btn-send-wco-help" type="button" class="btn">
           [help] Help
       </button>
-      <input type="text" class="form-speak" id="input-send-wco-help" placeholder="<command-name>">
+      <input type="text" class="form-speak" id="input-send-wco-help" placeholder="[<command-name>]">
     </form>
 
     <form action = "" id='form-out-wco-reply' class="form-inline" style="margin-bottom: 1em">
@@ -199,9 +199,15 @@
 
     // Define commands (syntax, default parameters)
     let cmdsDefTbl = [
-        {name: 'resetOffset', module: 'wbd'},
-        {name: 'calib'      , module: 'wbd'},
-        {name: 'help'       , module: 'wbd'}
+      {name: 'resetOffset'  , module: 'wbd'},
+      {name: 'calib'        , module: 'wbd'},
+      {name: 'help'         , module: 'wbd'},
+      {name: 'prepareRobot' , module: 'wco'},
+      {name: 'startWalking' , module: 'wco'},
+      {name: 'setGoal'      , module: 'wco'},
+      {name: 'pauseWalking' , module: 'wco'},
+      {name: 'stopWalking'  , module: 'wco'},
+      {name: 'help'         , module: 'wco'}
     ];
 
     let module2PortMap = {
@@ -226,7 +232,12 @@
     // or by pressing enter in the text box), send the input parameters.
     Object.keys(form).forEach(function (cmdID) {
       function sendCommand() {
-        port[cmdID].write(cmdName[cmdID]+' '+input[cmdID].value);
+        if (input[cmdID]) {
+          port[cmdID].write(cmdName[cmdID]+' '+input[cmdID].value);
+        }
+        else {
+          port[cmdID].write(cmdName[cmdID]);
+        }
       }
 
       btn[cmdID].onclick = sendCommand;
