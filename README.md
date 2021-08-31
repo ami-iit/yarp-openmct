@@ -49,10 +49,9 @@ Client dependencies:
 The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) and the . The installation and run has been tested on MacOS Catalina 10.15.7.
 
 1. Install **YARP**: it is recommended to install the binaries using the [Conda package manager](https://anaconda.org/) and installing the YARP package from the [Robotology Conda channel](https://anaconda.org/robotology).
-    - If you are not already using the `conda` package manager, install the `conda` miniforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-miniforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
-    - Install Mamba, create a new environment and install the YARP package:
+    - If you are not already using the `conda` package manager, install the `conda` mambaforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-mambaforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
+    - Create a new environment and install the YARP package:
     ```
-    conda install mamba
     conda create -n robotologyenv
     conda activate robotologyenv
     mamba install -c robotology yarp
