@@ -7,7 +7,7 @@
     </scripts>
     <node-interpreter value="project" />
     <envs>
-      <env name="NODE_DEBUG_OPPTION" value="debug" />
+      <env name="NODE_DEBUG_OPTION" value="debug" />
     </envs>
     <method v="2" />
   </configuration>

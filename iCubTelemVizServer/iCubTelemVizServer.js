@@ -35,15 +35,16 @@ var ICubTelemetry = require('./icubtelemetry');
 var RealtimeServer = require('./realtime-server');
 var HistoryServer = require('./history-server');
 
+// Create the ping handler
+var PingHandler = require('./pingHandler');
+var pingHandler = new PingHandler();
+
 // Handle Data URI Scheme
 var getDataURIscheme = require('./getDataURIscheme');
 
 // Setup 'express-ws' in order to add WebSocket routes
 var expressWs = require('express-ws');
 expressWs(app);
-
-// Create a child process spawn for executing shell commands
-var spawn = require('child_process').spawn;
 
 // Create the servers
 var icubtelemetry = new ICubTelemetry();
@@ -81,19 +82,61 @@ Object.keys(portInConfig).forEach(function (id) {
     yarp.Network.connect(portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
 });
 
-// Run network ping as a network performance indicator
-var ping = spawn('ping',['-i 1','192.168.1.18']); // "ping" with 1s delay between ICMPs
-ping.stdout.on('data', function (data) {
-    console.log('stdout: '+data);
-});
-ping.stderr.on('data', function (data) {
-    console.log('stderr: '+data);
-});
-ping.on('error', function (error) {
-    console.log('error: '+error.message);
-});
-ping.on('close', function (code) {
-    console.log('stdout: '+code);
+// Create RPC server for executing system commands
+portRPCserver4sysCmds = yarp.portHandler.open('/yarpjs/sysCmdsGenerator/rpc','rpc');
+
+portRPCserver4sysCmds.onRead(function (cmdNparams) {
+    var cmdArray = cmdNparams.toArray();
+    switch (cmdArray[0].toString()) {
+        case 'pingON':
+        case 'pingOFF':
+            const pingRet = startStopPingOnSelectedServer(cmdArray);
+            portRPCserver4sysCmds.reply(pingRet.status + ' ' + pingRet.err);
+            break;
+        default:
+            portRPCserver4sysCmds.reply('ERROR Unknown command ' + cmdNparams.toString());
+    }
+
+    function startStopPingOnSelectedServer(cmdArray) {
+        var startStopRet;
+        switch (cmdArray[0].toString()) {
+            case 'pingON':
+                // Check for errors
+                if (cmdArray.length > 3) {
+                    return {status: 'ERROR', err: 'Too many input parameters'};
+                }
+                if (typeof cmdArray[1] != 'number' || typeof cmdArray[2] != 'string') {
+                    return {status: 'ERROR', err: 'Wrong input parameters'};
+                }
+                // Define the output callbacks
+                onStdout = function (data) {
+                    if (data=='-1') {
+                        console.log('error: Missing round trip time');
+                    }
+                    else {
+                        console.log('stdout: ' + data);
+                    }
+                }
+                onStderror = function (data) {
+                    console.log('stderr: ' + data);
+                }
+                onError = function (error) {
+                    console.log('error: ' + error.message);
+                }
+                onClose = function (code) {
+                    console.log('close: ' + code);
+                }
+                // Create and run network ping process
+                startStopRet = pingHandler.start(cmdArray[1],cmdArray[2].toString(),onStdout,onStderror,onError,onClose);
+                break;
+            case 'pingOFF':
+                startStopRet = pingHandler.stop();
+                break;
+            default:
+                startStopRet = {status: 'OK', err: ''};
+        }
+        return startStopRet;
+    }
 });
 
 // Start history and realtime servers
