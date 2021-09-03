@@ -50,4 +50,4 @@ PingHandler.prototype.isOn = function () {
 
 module.exports = function () {
     return new PingHandler();
-};
+}

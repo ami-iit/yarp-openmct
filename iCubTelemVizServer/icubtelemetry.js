@@ -27,20 +27,24 @@ function ICubTelemetry() {
         "sens.camLeftEye": 0,
         "sens.camRightEye": 0
     };
+
     this.maxDepthSamples = 1000;
     this.history = {};
     this.listeners = [];
-    Object.keys(this.state).forEach(function (k) {
+    Object.keys(this.state).concat('ping').forEach(function (k) {
         this.history[k] = [];
     }, this);
 
     const TEN_MS_REPEAT_INTERVAL = 10;
     setInterval(function () {
-        this.generateTelemetry();
+        var timestamp = Date.now();
+        Object.keys(this.state).forEach(function (id) {
+            this.generateTelemetry(timestamp,this.state[id],id);
+        }, this);
     }.bind(this), TEN_MS_REPEAT_INTERVAL);
 
     console.log("iCub Telemetry server launched!");
-};
+}
 
 ICubTelemetry.prototype.flattenHelper = function (nestedObj,parentKey) {
   var flatObj = {};
@@ -85,36 +89,33 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
         default:
             this.state[id] = sensorSample;
     }
-};
+}
 
 /**
  * Takes a measurement of spacecraft state, stores in history, and notifies
  * listeners.
  */
-ICubTelemetry.prototype.generateTelemetry = function () {
-    var timestamp = Date.now();
-    Object.keys(this.state).forEach(function (id) {
-        switch(id) {
-            case "sens.imu":
-            case "sens.leftLegState":
-                var telemetrySample = this.flatten({timestamp: timestamp, value: this.state[id], id: id});
-                break;
-            default:
-                var telemetrySample = {timestamp: timestamp, value: this.state[id], id: id};
-        }
-        this.notify(telemetrySample);
-        this.history[id].push(telemetrySample);
-        if (this.history[id].length > this.maxDepthSamples) {
-          this.history[id].shift();
-        }
-    }, this);
-};
+ICubTelemetry.prototype.generateTelemetry = function (timestamp,value,id) {
+    switch(id) {
+        case "sens.imu":
+        case "sens.leftLegState":
+            var telemetrySample = this.flatten({timestamp: timestamp, value: value, id: id});
+            break;
+        default:
+            var telemetrySample = {timestamp: timestamp, value: value, id: id};
+    }
+    this.notify(telemetrySample);
+    this.history[id].push(telemetrySample);
+    if (this.history[id].length > this.maxDepthSamples) {
+        this.history[id].shift(); // removes the oldest element
+    }
+}
 
 ICubTelemetry.prototype.notify = function (point) {
     this.listeners.forEach(function (l) {
         l(point);
     });
-};
+}
 
 ICubTelemetry.prototype.listen = function (listener) {
     this.listeners.push(listener);
@@ -123,8 +124,8 @@ ICubTelemetry.prototype.listen = function (listener) {
             return l !== listener;
         });
     }.bind(this);
-};
+}
 
 module.exports = function () {
     return new ICubTelemetry()
-};
+}
