@@ -239,6 +239,30 @@
           }
         }
       ]
+    },
+    {
+      "name": "Network Performance (Ping)",
+      "key": "ping",
+      "values": [
+        {
+          "key": "value",
+          "name": "packet round trip time",
+          "units": "milliseconds",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
     }
   ]
 }
