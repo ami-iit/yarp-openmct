@@ -41,7 +41,7 @@ PingHandler.prototype.start = function (period,targetHost,onStdout,onStderr,onEr
 
 PingHandler.prototype.stop = function () {
     this.processHandle.kill();
-    return {status: 'OK', err: 'Process stopping...'};
+    return {status: 'DELAYED_REPLY', err: 'Process stopping...'};
 }
 
 PingHandler.prototype.isOn = function () {

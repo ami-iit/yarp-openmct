@@ -217,6 +217,7 @@
     sysCmdsGeneratorRPCport.onReplyFromWrite(function (rply) {
       theReplyToSysCmdsGeneratorCmd = document.getElementById('replyToSysCmdsGeneratorCmd');
       theReplyToSysCmdsGeneratorCmd.value = rply.contentStr.toString();
+      if (rply.content[0].toString() === 'OK') btnPing.toggleAction();
     });
 
     // Connect the RPC client to the RPC server port
@@ -275,6 +276,32 @@
         sendCommand();
       });
     });
+
+    let btnPing = {elem:null,toggleAction:null};
+    btnPing.elem = document.getElementById('btn-toggle-sys-ping');
+    btnPing.elem.addEventListener("click", togglePingOnListener);
+
+    inputPing = document.getElementById('input-toggle-sys-ping');
+    function togglePingOnListener() {
+      sysCmdsGeneratorRPCport.write('pingON '+inputPing.value);
+      btnPing.toggleAction = function () {togglePingOn(btnPing.elem);};
+    }
+    function togglePingOffListener() {
+      theReplyToSysCmdsGeneratorCmd.value = 'Stopping ping process...';
+      sysCmdsGeneratorRPCport.write('pingOFF');
+      btnPing.toggleAction = function () {togglePingOff(btnPing.elem);};
+    }
+
+    function togglePingOn(btn) {
+      btn.innerHTML = "Toggle OFF";
+      btn.removeEventListener("click", togglePingOnListener);
+      btn.addEventListener("click", togglePingOffListener);
+    }
+    function togglePingOff(btn) {
+      btn.innerHTML = "Toggle ON";
+      btn.removeEventListener("click", togglePingOffListener);
+      btn.addEventListener("click", togglePingOnListener);
+    }
   });
 
 </script>

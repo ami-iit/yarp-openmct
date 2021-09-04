@@ -90,14 +90,16 @@ portRPCserver4sysCmds.onRead(function (cmdNparams) {
     switch (cmdArray[0].toString()) {
         case 'pingON':
         case 'pingOFF':
-            const pingRet = startStopPingOnSelectedServer(cmdArray);
-            portRPCserver4sysCmds.reply(pingRet.status + ' ' + pingRet.err);
+            const pingRet = startStopPingOnSelectedServer(cmdArray,portRPCserver4sysCmds.reply);
+            if (pingRet.status != 'DELAYED_REPLY') {
+                portRPCserver4sysCmds.reply(pingRet.status + ' ' + pingRet.err);
+            }
             break;
         default:
             portRPCserver4sysCmds.reply('ERROR Unknown command ' + cmdNparams.toString());
     }
 
-    function startStopPingOnSelectedServer(cmdArray) {
+    function startStopPingOnSelectedServer(cmdArray,replyCallback) {
         var startStopRet;
         switch (cmdArray[0].toString()) {
             case 'pingON':
@@ -124,6 +126,7 @@ portRPCserver4sysCmds.onRead(function (cmdNparams) {
                     console.log('error: ' + error.message);
                 }
                 onClose = function (code) {
+                    replyCallback('OK Process stopped.');
                     console.log('close: ' + code);
                 }
                 // Create and run network ping process
