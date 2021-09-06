@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd ./iCubTelemVizServer
+nvm use v4.2.2
+npm start &
+
+cd ../openmctStaticServer
+nvm use v14.17.0
+npm start &
+
+cd ..
