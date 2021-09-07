@@ -148,6 +148,12 @@ app.listen(portTelemetryRespOrigin, function () {
     console.log('ICubTelemetry Realtime hosted at ws://localhost:' + portTelemetryRespOrigin + '/realtime');
 });
 
+// Create and start the OpenMCT server
+var OpenMctServerHandler = require('./openMctServerHandler');
+var openMctServerHandler = new OpenMctServerHandler(console.log);
+openMctServerHandler.setNVMversion('v14.17.0');
+openMctServerHandler.start();
+
 // start the server!
 http.listen(3000, function(){
   console.log('listening on http://localhost:3000');
