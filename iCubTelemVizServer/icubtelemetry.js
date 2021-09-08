@@ -25,7 +25,15 @@ function ICubTelemetry() {
             "jointPos": {"l_hip_pitch": 0, "l_hip_roll": 0, "l_hip_yaw": 0, "l_knee": 0, "l_ankle_pitch": 0, "l_ankle_roll": 0}
         },
         "sens.camLeftEye": 0,
-        "sens.camRightEye": 0
+        "sens.camRightEye": 0,
+        "sens.leftLegEEwrench": {
+            "force": {"x": 0, "y": 0, "z": 0},
+            "torque": {"x": 0, "y": 0, "z": 0}
+        },
+        "sens.rightLegEEwrench": {
+            "force": {"x": 0, "y": 0, "z": 0},
+            "torque": {"x": 0, "y": 0, "z": 0}
+        }
     };
 
     this.maxDepthSamples = 1000;
@@ -86,6 +94,15 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
             this.state[id].jointPos.l_ankle_pitch = sensorSample[0][4];
             this.state[id].jointPos.l_ankle_roll = sensorSample[0][5];
             break;
+        case "sens.leftLegEEwrench":
+        case "sens.rightLegEEwrench":
+            this.state[id].force.x = sensorSample[0];
+            this.state[id].force.y = sensorSample[1];
+            this.state[id].force.z = sensorSample[2];
+            this.state[id].torque.x = sensorSample[3];
+            this.state[id].torque.y = sensorSample[4];
+            this.state[id].torque.z = sensorSample[5];
+            break;
         default:
             this.state[id] = sensorSample;
     }
@@ -99,6 +116,8 @@ ICubTelemetry.prototype.generateTelemetry = function (timestamp,value,id) {
     switch(id) {
         case "sens.imu":
         case "sens.leftLegState":
+        case "sens.leftLegEEwrench":
+        case "sens.rightLegEEwrench":
             var telemetrySample = this.flatten({timestamp: timestamp, value: value, id: id});
             break;
         default:

@@ -263,6 +263,144 @@
           }
         }
       ]
+    },
+    {
+      "name": "Left Leg End Effector Wrench",
+      "key": "sens.leftLegEEwrench",
+      "values": [
+        {
+          "key": "value.force.x",
+          "name": "Fx",
+          "units": "newtons",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "value.force.y",
+          "name": "Fy",
+          "units": "newtons",
+          "format": "float",
+          "hints": {
+            "range":2
+          }
+        },
+        {
+          "key": "value.force.z",
+          "name": "Fz",
+          "units": "newtons",
+          "format": "float",
+          "hints": {
+            "range": 3
+          }
+        },
+        {
+          "key": "value.torque.x",
+          "name": "taux",
+          "units": "newton-metres",
+          "format": "float",
+          "hints": {
+            "range": 4
+          }
+        },
+        {
+          "key": "value.torque.y",
+          "name": "tauy",
+          "units": "newton-metres",
+          "format": "float",
+          "hints": {
+            "range": 5
+          }
+        },
+        {
+          "key": "value.torque.z",
+          "name": "tauz",
+          "units": "newton-metres",
+          "format": "float",
+          "hints": {
+            "range": 6
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "Right Leg End Effector Wrench",
+      "key": "sens.rightLegEEwrench",
+      "values": [
+        {
+          "key": "value.force.x",
+          "name": "Fx",
+          "units": "newtons",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "value.force.y",
+          "name": "Fy",
+          "units": "newtons",
+          "format": "float",
+          "hints": {
+            "range":2
+          }
+        },
+        {
+          "key": "value.force.z",
+          "name": "Fz",
+          "units": "newtons",
+          "format": "float",
+          "hints": {
+            "range": 3
+          }
+        },
+        {
+          "key": "value.torque.x",
+          "name": "taux",
+          "units": "newton-metres",
+          "format": "float",
+          "hints": {
+            "range": 4
+          }
+        },
+        {
+          "key": "value.torque.y",
+          "name": "tauy",
+          "units": "newton-metres",
+          "format": "float",
+          "hints": {
+            "range": 5
+          }
+        },
+        {
+          "key": "value.torque.z",
+          "name": "tauz",
+          "units": "newton-metres",
+          "format": "float",
+          "hints": {
+            "range": 6
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
     }
   ]
 }

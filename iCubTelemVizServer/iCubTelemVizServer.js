@@ -60,7 +60,9 @@ var portInConfig = {
     "sens.imu": {"yarpName":'/icubSim/inertial', "localName":'/yarpjs/inertial:i',"portType":'bottle'},
     "sens.leftLegState": {"yarpName":'/icubSim/left_leg/stateExt:o', "localName":'/yarpjs/left_leg/stateExt:o',"portType":'bottle'},
     "sens.camLeftEye": {"yarpName":'/icubSim/camLeftEye', "localName":'/yarpjs/camLeftEye:i',"portType":'image'},
-    "sens.camRightEye": {"yarpName":'/icubSim/camRightEye', "localName":'/yarpjs/camRightEye:i',"portType":'image'}
+    "sens.camRightEye": {"yarpName":'/icubSim/camRightEye', "localName":'/yarpjs/camRightEye:i',"portType":'image'},
+    "sens.leftLegEEwrench": {"yarpName":'/wholeBodyDynamics/left_leg/cartesianEndEffectorWrench:o', "localName":'/yarpjs/left_leg/cartesianEndEffectorWrench:i',"portType":'bottle'},
+    "sens.rightLegEEwrench": {"yarpName":'/wholeBodyDynamics/right_leg/cartesianEndEffectorWrench:o', "localName":'/yarpjs/right_leg/cartesianEndEffectorWrench:i',"portType":'bottle'}
 };
 
 // Open the ports, register read callback functions, connect the ports
