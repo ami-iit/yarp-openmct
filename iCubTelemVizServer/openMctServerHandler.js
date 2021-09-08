@@ -1,29 +1,30 @@
 "use strict";
 
 function OpenMctServerHandler(outputCallback) {
-    // Create a child process spawn for setting the NVM version and running the server
-    if (typeof nvmVersion != 'string') {
-        outputCallback('NVM version must be a string.');
-    }
+    // Create a child process spawn for later setting the NVM version and running the server
     this.childProcess = require('child_process');
     this.processHandle = null;
     this.outputCallback = outputCallback;
 }
 
-OpenMctServerHandler.prototype.setNVMversion = function (nvmVersion) {
+OpenMctServerHandler.prototype.setNvmVersion = function (nvmVersion) {
+    if (typeof nvmVersion != 'string') {
+        this.outputCallback('NVM version must be a string.');
+    }
+
     // Switch the NVM version
-    let {status,stdout,stderr,signal,error} = this.childProcess.spawnSync('nvm',['use',nvmVersion],{cwd:'../openmctStaticServer',timeout:3000});
-    if (signal) {
-        return {status: status, message: 'exited with signal ${signal}'};
+    let ret = this.childProcess.spawnSync('nvm',['use',nvmVersion],{cwd:[process.cwd()+'/../openmctStaticServer'],timeout:3000});
+    if (ret.signal) {
+        return {status: ret.status, message: ['exited with signal '+ret.signal]};
     }
-    if (error) {
-        return {status: status, message:'error: ${error.message}'};
+    if (ret.error != undefined) {
+        return {status: ret.status, message: ['error: '+ret.error.message]};
     }
-    if (stderr) {
-        return {satus: status, message: 'stderr: ${stderr}'};
+    if (ret.stderr.length > 0) {
+        return {satus: ret.status, message: ['stderr: '+ret.stderr]};
     }
     this.nvmVersion = nvmVersion;
-    return {status: status, message: 'stdout: ${stdout}'};
+    return {status: ret.status, message: ['stdout: '+ret.stdout]};
 }
 
 OpenMctServerHandler.prototype.start = function () {
@@ -57,6 +58,6 @@ OpenMctServerHandler.prototype.isOn = function () {
     return (this.processHandle != null);
 }
 
-module.exports = function () {
-    return new OpenMctServerHandler();
+module.exports = function (outputCallback) {
+    return new OpenMctServerHandler(outputCallback);
 }
