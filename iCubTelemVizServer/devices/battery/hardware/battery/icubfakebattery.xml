@@ -5,11 +5,11 @@
 
 	<group name="GENERAL">    
 		<param name="name">  icub_fake_battery  </param>   
-		<param name="thread_period">        100 </param>
-		<param name="screen">                1  </param>
-		<param name="verbose">               1  </param>
-		<param name="debug  ">               0  </param>
-		<param name="silence_sync_warnings"> 1  </param>
+		<param name="thread_period">        0.1 </param>
+		<param name="charge">             100.0 </param>
+		<param name="voltage">             30.0 </param>
+		<param name="current">              3.0 </param>
+		<param name="temperature">         20.0 </param>
 	</group>             
 		
 	</device>    
