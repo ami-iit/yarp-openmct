@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+
+      
+	<device xmlns:xi="http://www.w3.org/2001/XInclude" name="icub_fake_battery" type="fakeBattery">  
+
+	<group name="GENERAL">    
+		<param name="name">  icub_fake_battery  </param>   
+		<param name="thread_period">        100 </param>
+		<param name="screen">                1  </param>
+		<param name="verbose">               1  </param>
+		<param name="debug  ">               0  </param>
+		<param name="silence_sync_warnings"> 1  </param>
+	</group>             
+		
+	</device>    
+          
