@@ -63,7 +63,7 @@ var portInConfig = {
     "sens.camRightEye": {"yarpName":'/icubSim/camRightEye', "localName":'/yarpjs/camRightEye:i',"portType":'image'},
     "sens.leftLegEEwrench": {"yarpName":'/wholeBodyDynamics/left_leg/cartesianEndEffectorWrench:o', "localName":'/yarpjs/left_leg/cartesianEndEffectorWrench:i',"portType":'bottle'},
     "sens.rightLegEEwrench": {"yarpName":'/wholeBodyDynamics/right_leg/cartesianEndEffectorWrench:o', "localName":'/yarpjs/right_leg/cartesianEndEffectorWrench:i',"portType":'bottle'},
-    "sens.batteryStatus": {"yarpName":'/icubSim/batteryStatus', "localName":'/yarpjs/batteryStatus:i',"portType":'bottle'}
+    "sens.batteryStatus": {"yarpName":'/icubSim/battery/data:o', "localName":'/yarpjs/battery/data:i',"portType":'bottle'}
 };
 
 // Open the ports, register read callback functions, connect the ports

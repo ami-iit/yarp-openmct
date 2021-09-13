@@ -112,6 +112,7 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
             this.state[id].charge = sensorSample[2];
             this.state[id].temperature = sensorSample[3];
             this.state[id].status = sensorSample[4];
+            break;
         default:
             this.state[id] = sensorSample;
     }
