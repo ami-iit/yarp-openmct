@@ -33,6 +33,9 @@ function ICubTelemetry() {
         "sens.rightLegEEwrench": {
             "force": {"x": 0, "y": 0, "z": 0},
             "torque": {"x": 0, "y": 0, "z": 0}
+        },
+        "sens.batteryStatus": {
+            "voltage": 0, "current": 0, "charge": 0, "temperature": 0, "status": 0
         }
     };
 
@@ -103,6 +106,12 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
             this.state[id].torque.y = sensorSample[4];
             this.state[id].torque.z = sensorSample[5];
             break;
+        case "sens.batteryStatus":
+            this.state[id].voltage = sensorSample[0];
+            this.state[id].current = sensorSample[1];
+            this.state[id].charge = sensorSample[2];
+            this.state[id].temperature = sensorSample[3];
+            this.state[id].status = sensorSample[4];
         default:
             this.state[id] = sensorSample;
     }
@@ -118,6 +127,7 @@ ICubTelemetry.prototype.generateTelemetry = function (timestamp,value,id) {
         case "sens.leftLegState":
         case "sens.leftLegEEwrench":
         case "sens.rightLegEEwrench":
+        case "sens.batteryStatus":
             var telemetrySample = this.flatten({timestamp: timestamp, value: value, id: id});
             break;
         default:
