@@ -4,6 +4,15 @@
 cmake_minimum_required(VERSION 3.5)
 project(yarp-openmct)
 
+# Find YARP dependency
+find_package(YARP REQUIRED)
+
+# Define specific installation directories like:
+# - YARPOPENMCT_ROBOTS_INSTALL_DIR for the project specific files
+# - YARP_ROBOTS_INSTALL_DIR for robot configuration files
+#   (Yarp share installation folder)
+yarp_configure_external_installation(yarpopenmct)
+
 # Load custom macro and functions
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ycm-0.12)
 
