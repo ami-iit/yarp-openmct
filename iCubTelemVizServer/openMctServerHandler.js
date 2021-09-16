@@ -5,6 +5,7 @@ function OpenMctServerHandler(outputCallback) {
     this.childProcess = require('child_process');
     this.processHandle = null;
     this.outputCallback = outputCallback;
+    this.nvmVars = {};
 }
 
 OpenMctServerHandler.prototype.setNvmVersion = function (nvmVersion) {
@@ -12,33 +13,43 @@ OpenMctServerHandler.prototype.setNvmVersion = function (nvmVersion) {
         this.outputCallback('NVM version must be a string.');
     }
 
-    // Switch the NVM version
-    let ret = this.childProcess.spawnSync('nvm',['use',nvmVersion],{cwd:[process.cwd()+'/../openmctStaticServer'],timeout:3000});
-    if (ret.signal) {
-        return {status: ret.status, message: ['exited with signal '+ret.signal]};
+    // Build the string of shell commands
+    const homeDir = process.env.HOME;
+    const cmdString = [
+        '. /Users/nunoguedelha/.nvm/nvm.sh 1> /dev/null' // Load the NVM function script
+        + '&& nvm use v14.17.0 1> /dev/null'               // Set the NVM version
+        + '&& echo {\\"NVM_INC\\":\\"$NVM_INC\\", \\"NVM_CD_FLAGS\\":\\"$NVM_CD_FLAGS\\", \\"NVM_BIN\\":\\"$NVM_BIN\\"}' // Return the updated NVM path (env. variables)
+    ];
+    const execPath = [process.cwd() + '/../openmctStaticServer'];
+    try {
+        const stdout = this.childProcess.execSync(cmdString, {shell:'bash',cwd:execPath, timeout: 3000});
+        this.nvmVars = JSON.parse(stdout.toString());
+        this.nvmVersion = nvmVersion;
+        return {status: 'OK', message: 'Updated NVM config in spawned shell: '+stdout.toString()+'\n'};
     }
-    if (ret.error != undefined) {
-        return {status: ret.status, message: ['error: '+ret.error.message]};
+    catch (error) {
+        this.nvmVersion = 'default';
+        return {status: 'ERROR', message: 'command "nvm use version" failed!'};
     }
-    if (ret.stderr.length > 0) {
-        return {satus: ret.status, message: ['stderr: '+ret.stderr]};
-    }
-    this.nvmVersion = nvmVersion;
-    return {status: ret.status, message: ['stdout: '+ret.stdout]};
 }
 
 OpenMctServerHandler.prototype.start = function () {
     if (this.isOn()) {
         return {status: 'WARNING', msg: 'OpenMCT server already running.'};
-    }
-    else {
+    } else {
         const embeddedThis = this;
         // Start the process
         let npmStart = this.childProcess.spawn('npm', ['start']);
         // Set the output callbacks
-        npmStart.stdout.on('data', function (data) {this.outputCallback('stdout: ' + data);});
-        npmStart.stderr.on('data', function (data) {this.outputCallback('stderr: ' + data);});
-        npmStart.on('error', function (error) {this.outputCallback('error: ' + error.message);});
+        npmStart.stdout.on('data', function (data) {
+            this.outputCallback('stdout: ' + data);
+        });
+        npmStart.stderr.on('data', function (data) {
+            this.outputCallback('stderr: ' + data);
+        });
+        npmStart.on('error', function (error) {
+            this.outputCallback('error: ' + error.message);
+        });
         npmStart.on('close', function (code) {
             embeddedThis.processHandle = null;
             this.outputCallback('close: ' + code);
@@ -56,6 +67,20 @@ OpenMctServerHandler.prototype.stop = function () {
 
 OpenMctServerHandler.prototype.isOn = function () {
     return (this.processHandle != null);
+}
+
+function spawnSynchInOpenMCTserverPath(childProcess, shellCommand, cmdArgs) {
+    // Run a shell command from a child process in 'openmctStaticServer' folder working path.
+    let ret = childProcess.spawnSync(shellCommand, cmdArgs, {shell: 'bash', cwd: process.cwd(), timeout: 3000});
+    if (ret.signal) {
+        return {success: false, cmdRet: {status: ret.status, message: ['exited with signal ' + ret.signal]}};
+    } else if (ret.error !== undefined) {
+        return {success: false, cmdRet: {status: ret.status, message: ['error: ' + ret.error.message]}};
+    } else if (ret.stderr.length > 0) {
+        return {success: false, cmdRet: {status: ret.status, message: ['stderr: ' + ret.stderr]}};
+    } else {
+        return {success: true, cmdRet: {status: ret.status, message: ['stdout: ' + ret.stdout]}};
+    }
 }
 
 module.exports = function (outputCallback) {
