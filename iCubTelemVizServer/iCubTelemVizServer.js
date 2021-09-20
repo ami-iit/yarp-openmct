@@ -162,4 +162,4 @@ var openMctServerHandler = new OpenMctServerHandler(console.log);
 var ret = openMctServerHandler.setNvmVersion('v14.17.0');
 console.log(ret.status);
 console.log(ret.message);
-// openMctServerHandler.start();
+openMctServerHandler.start();

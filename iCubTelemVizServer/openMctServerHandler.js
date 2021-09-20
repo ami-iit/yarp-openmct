@@ -21,7 +21,7 @@ OpenMctServerHandler.prototype.setNvmVersion = function (nvmVersion) {
     const cmdString =
         '. ' + path.join(process.env.NVM_DIR, 'nvm.sh') + ' 1> /dev/null ' +     // Load the NVM function script
         '&& nvm use ' + nvmVersion + ' 1> /dev/null ' +                          // Set the NVM version
-        '&& echo {\\"NVM_INC\\":\\"$NVM_INC\\", \\"NVM_CD_FLAGS\\":\\"$NVM_CD_FLAGS\\", \\"NVM_BIN\\":\\"$NVM_BIN\\"}'; // Return the updated NVM path (env. variables)
+        '&& echo {\\"PATH\\":\\"$PATH\\", \\"NVM_INC\\":\\"$NVM_INC\\", \\"NVM_CD_FLAGS\\":\\"$NVM_CD_FLAGS\\", \\"NVM_BIN\\":\\"$NVM_BIN\\"}'; // Return the updated NVM path (env. variables)
     try {
         const stdout = this.childProcess.execSync(cmdString, {shell: 'bash', timeout: 3000});
         this.nvmVars = JSON.parse(stdout.toString());
@@ -37,29 +37,37 @@ OpenMctServerHandler.prototype.start = function () {
     // Check if the server is already running
     if (this.isOn()) {
         return {status: 'WARNING', msg: 'OpenMCT server already running.'};
-    } else {
-        const embeddedThis = this;
-        // Start the process
-        const execPath = path.join(process.cwd(), '..', 'openmctStaticServer');
-        let npmStart = this.childProcess.spawn('npm', ['start'],{shell: 'bash', cwd: execPath);
-        // Set the output callbacks
-        npmStart.stdout.on('data', function (data) {
-            this.outputCallback('stdout: ' + data);
-        });
-        npmStart.stderr.on('data', function (data) {
-            this.outputCallback('stderr: ' + data);
-        });
-        npmStart.on('error', function (error) {
-            this.outputCallback('error: ' + error.message);
-        });
-        npmStart.on('close', function (code) {
-            embeddedThis.processHandle = null;
-            this.outputCallback('close: ' + code);
-        });
-
-        this.processHandle = npmStart;
-        return {status: 'OK', msg: 'Process started.'};
     }
+
+    // Inside the callbacks, for 'this' to be the 'OpenMctServerHandler' object instead of the
+    // callback caller, we need to back it up.
+    const embeddedThis = this;
+
+    // Prepare the environment for selecting the Node.js version through NVM_BIN...
+    let childProcEnv = Object.assign({},process.env);
+    Object.assign(childProcEnv,this.nvmVars);
+
+    // Start the process
+    const execPath = path.join(process.cwd(), '..', 'openmctStaticServer');
+    let npmStart = this.childProcess.spawn('npm', ['start'], {shell: 'bash', env: childProcEnv, cwd: execPath});
+
+    // Set the output callbacks
+    npmStart.stdout.on('data', function (data) {
+        embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] stdout: ' + data);
+    });
+    npmStart.stderr.on('data', function (data) {
+        embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] stderr: ' + data);
+    });
+    npmStart.on('error', function (error) {
+        embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] error: ' + error.message);
+    });
+    npmStart.on('close', function (code) {
+        embeddedThis.processHandle = null;
+        embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] close: ' + code);
+    });
+
+    this.processHandle = npmStart;
+    return {status: 'OK', msg: '[OPEN-MCT STATIC SERVER] Process started.'};
 }
 
 OpenMctServerHandler.prototype.stop = function () {
