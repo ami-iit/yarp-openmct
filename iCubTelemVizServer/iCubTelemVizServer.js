@@ -1,5 +1,13 @@
 // Server http (non secure)
 
+// Process the termination signals callbacks.
+// When the signal comes from the terminal, the generated event doesn't have a 'signal' parameter,
+// so it appears undefined in the callback body. We worked around this issue by explicitly setting
+// the 'signal' parameter case by case.
+process.once('SIGQUIT', () => {handleTermination('SIGQUIT');});
+process.once('SIGTERM', () => {handleTermination('SIGTERM');});
+process.once('SIGINT', () => {handleTermination('SIGINT');});
+
 // require and setup basic http functionalities
 var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || 8080
 var portTelemetryRespOrigin = process.env.PORT_TLM_RSP_ORIGIN || 8081
@@ -146,13 +154,13 @@ portRPCserver4sysCmds.onRead(function (cmdNparams) {
 });
 
 // Start history and realtime servers
-app.listen(portTelemetryRespOrigin, function () {
+const telemServer = app.listen(portTelemetryRespOrigin, function () {
     console.log('ICubTelemetry History hosted at http://localhost:' + portTelemetryRespOrigin + '/history');
     console.log('ICubTelemetry Realtime hosted at ws://localhost:' + portTelemetryRespOrigin + '/realtime');
 });
 
 // start the server!
-http.listen(3000, function(){
+const consoleServer = http.listen(3000, function(){
   console.log('listening on http://localhost:3000');
 });
 
@@ -162,3 +170,7 @@ var openMctServerHandler = new OpenMctServerHandler(console.log);
 var ret = openMctServerHandler.start();
 console.log(ret.status);
 console.log(ret.message);
+
+function handleTermination(signal) {
+    console.log('Received '+signal+' ...');
+}

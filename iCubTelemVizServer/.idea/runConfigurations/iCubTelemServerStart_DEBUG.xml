@@ -1,12 +1,14 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="iCubTelemServerStart" type="js.build_tools.npm" singleton="false">
+  <configuration default="false" name="iCubTelemServerStart_DEBUG" type="js.build_tools.npm" singleton="false">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
       <script value="start" />
     </scripts>
     <node-interpreter value="project" />
-    <envs />
+    <envs>
+      <env name="NODE_DEBUG_OPTION" value="debug" />
+    </envs>
     <method v="2" />
   </configuration>
 </component>
