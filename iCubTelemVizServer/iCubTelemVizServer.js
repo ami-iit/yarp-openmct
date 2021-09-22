@@ -159,7 +159,6 @@ http.listen(3000, function(){
 // Create and start the OpenMCT server
 var OpenMctServerHandler = require('./openMctServerHandler');
 var openMctServerHandler = new OpenMctServerHandler(console.log);
-var ret = openMctServerHandler.setNvmVersion('v14.17.0');
+var ret = openMctServerHandler.start();
 console.log(ret.status);
 console.log(ret.message);
-openMctServerHandler.start();

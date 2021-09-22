@@ -8,11 +8,11 @@ function OpenMctServerHandler(outputCallback) {
     this.childProcess = require('child_process');
     this.processHandle = null;
     this.outputCallback = outputCallback;
-    this.nvmVars = {};
+    this.nvmEnv = {};
 }
 
-OpenMctServerHandler.prototype.setNvmVersion = function (nvmVersion) {
-    if (typeof nvmVersion != 'string') {
+OpenMctServerHandler.prototype.getNvmEnvFromNodejsVersion = function (nodejsVersion) {
+    if (typeof nodejsVersion != 'string') {
         this.outputCallback('NVM version must be a string.');
     }
 
@@ -20,36 +20,38 @@ OpenMctServerHandler.prototype.setNvmVersion = function (nvmVersion) {
     const homeDir = process.env.HOME;
     const cmdString =
         '. ' + path.join(process.env.NVM_DIR, 'nvm.sh') + ' 1> /dev/null ' +     // Load the NVM function script
-        '&& nvm use ' + nvmVersion + ' 1> /dev/null ' +                          // Set the NVM version
+        '&& nvm use ' + nodejsVersion + ' 1> /dev/null ' +                          // Set the NVM version
         '&& echo {\\"PATH\\":\\"$PATH\\", \\"NVM_INC\\":\\"$NVM_INC\\", \\"NVM_CD_FLAGS\\":\\"$NVM_CD_FLAGS\\", \\"NVM_BIN\\":\\"$NVM_BIN\\"}'; // Return the updated NVM path (env. variables)
     try {
         const stdout = this.childProcess.execSync(cmdString, {shell: 'bash', timeout: 3000});
-        this.nvmVars = JSON.parse(stdout.toString());
-        this.nvmVersion = nvmVersion;
-        return {status: 'OK', message: 'Updated NVM config in spawned shell: ' + stdout.toString() + '\n'};
+        this.nvmEnv = JSON.parse(stdout.toString());
+        this.nodejsVersion = nodejsVersion;
+        return {
+            status: 'OK',
+            message: 'NVM environment variables selecting ' + this.nodejsVersion + 'would be' + this.nvmEnv.stringify() + '\n'
+        };
     } catch (error) {
-        this.nvmVersion = 'default';
-        return {status: 'ERROR', message: 'command "nvm use version" failed!'};
+        this.nodejsVersion = 'default';
+        return {
+            status: 'ERROR',
+            message: 'command "nvm use version" failed in spawned shell!'
+        };
     }
 }
 
 OpenMctServerHandler.prototype.start = function () {
     // Check if the server is already running
     if (this.isOn()) {
-        return {status: 'WARNING', msg: 'OpenMCT server already running.'};
+        return {status: 'WARNING', message: 'OpenMCT server already running.'};
     }
 
     // Inside the callbacks, for 'this' to be the 'OpenMctServerHandler' object instead of the
     // callback caller, we need to back it up.
     const embeddedThis = this;
 
-    // Prepare the environment for selecting the Node.js version through NVM_BIN...
-    let childProcEnv = Object.assign({},process.env);
-    Object.assign(childProcEnv,this.nvmVars);
-
     // Start the process
     const execPath = path.join(process.cwd(), '..', 'openmctStaticServer');
-    let npmStart = this.childProcess.spawn('npm', ['start'], {shell: 'bash', env: childProcEnv, cwd: execPath});
+    let npmStart = this.childProcess.spawn('npm', ['start'], {shell: 'bash', cwd: execPath});
 
     // Set the output callbacks
     npmStart.stdout.on('data', function (data) {
@@ -67,12 +69,12 @@ OpenMctServerHandler.prototype.start = function () {
     });
 
     this.processHandle = npmStart;
-    return {status: 'OK', msg: '[OPEN-MCT STATIC SERVER] Process started.'};
+    return {status: 'OK', message: 'Opem-MCT static server process started.'};
 }
 
 OpenMctServerHandler.prototype.stop = function () {
     this.processHandle.kill();
-    return {status: 'DELAYED_REPLY', msg: 'Process stopping...'};
+    return {status: 'PROMISE', message: 'Opem-MCT static server process stopping...'};
 }
 
 OpenMctServerHandler.prototype.isOn = function () {
