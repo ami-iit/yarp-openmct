@@ -35,8 +35,9 @@ For instance, in the context of a simulation on Gazebo, the iCub head IMU measur
 
 Server dependencies:
 - [YARP](https://github.com/robotology/yarp): Middleware for handling the communication with the robot.
-- [node.js](https://nodejs.org/en/): Asynchronous event-driven JavaScript runtime, designed to build scalable network applications.
+- [Node.js](https://nodejs.org/en/): Asynchronous event-driven JavaScript runtime, designed to build scalable network applications.
 - [npm](https://www.npmjs.com/): Node package manager.
+- [NVM](https://github.com/nvm-sh/nvm): Node Version Manager.
 - [YarpJS](https://github.com/robotology/yarp.js): Yarp Javascript bindings
 - [Open MCT](https://github.com/nasa/openmct): Open source visualization framework by NASA.
 
@@ -46,35 +47,61 @@ Client dependencies:
 
 ## [Server Installation](#top)
 
-The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) and the . The installation and run has been tested on MacOS Catalina 10.15.7.
+The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) and the . The installation and run has been tested on MacOS Catalina 10.15.7 and Vanilla Ubuntu 20.04.
 
 1. Install **YARP**: it is recommended to install the binaries using the [Conda package manager](https://anaconda.org/) and installing the YARP package from the [Robotology Conda channel](https://anaconda.org/robotology).
     - If you are not already using the `conda` package manager, install the `conda` mambaforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-mambaforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
     - Create a new environment and install the YARP package:
-    ```
-    conda create -n robotologyenv
-    conda activate robotologyenv
-    mamba install -c robotology yarp
-    ```
+        ```
+        conda create -n robotologyenv
+        conda activate robotologyenv
+        mamba install -c robotology yarp
+        ```
     To read more about installing `robotology` package binaries refer to https://github.com/robotology/robotology-superbuild/blob/master/doc/conda-forge.md#binary-installation.
-2. Install **node.js** and **npm**: we recommend to install them via [NVM](https://github.com/nvm-sh/nvm) (Node Version Manager). Currently, the latest **node.js** LTS version compatible with **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is the LTS: Argon release **node.js v4.2.2** (refer to https://github.com/robotology/yarp.js/issues/19). Meanwhile, the latest **node.js** LTS version compatible with **Open MCT** is latest LTS:Fermium version **node.js v14.17.0**. For this reason we install both releases.
+2. Install [**NVM**](https://github.com/nvm-sh/nvm), a **Node.js** Version Manager by MIT, which safely handles the installation of multiple versions of Node.js and easy switching between versions. As mentioned in later steps, two different versions of Node.js versions are required for installing and running the visualization tool.
+    Follow the NVM installation instruction steps in https://github.com/nvm-sh/nvm.
+    
+    ⚠️ **Note:** Run the installation steps from a new terminal without a `conda` environment enabled. The NVM installation steps are recapped below:
+    
+    a. Run the command below which downloads and runs the one-line installer
+    ```
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+    ```
+    b. After restarting the terminal, the following lines were added to the `~/.bashrc` (`~/.bash_profile` on MacOS)
+    ```
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    ```
+    c. List available Node.js releases
+    ```
+    nvm ls-remote
+    ```
+
+3. Install **Node.js** and **npm** from the same terminal. Currently, the latest **Node.js** LTS version compatible with **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is the LTS: Argon release **Node.js v4.2.2** (refer to https://github.com/robotology/yarp.js/issues/19). Meanwhile, the latest **Node.js** LTS version compatible with **Open MCT** is latest LTS:Fermium version **Node.js v14.17.0**. For this reason we install both releases.
     ```
     nvm install 4.2.2 --latest-npm          // installs the LTS:Argon version v4.2.2 and latest respective supported npm (v2.14.7)
     nvm install 14.17.0 --latest-npm        // installs latest LTS:Fermium version v14.17.0 and latest respective supported npm (v6.14.13)
     nvm alias default v4.2.2                // updates the default alias
     nvm ls                                  // lists available and active nodejs and npm versions
     ```
-3. Clone the `yarp-openmct` repository into `<yarp-openmct-root-folder>` folder
+4. Clone the `yarp-openmct` repository into `<yarp-openmct-root-folder>` folder
     ```
     git clone https://github.com/dic-iit/yarp-openmct.git <yarp-openmct-root-folder>
     ```
-4. Install the **iCubTelemVizServer** server: go to the `<yarp-openmct-root-folder>/iCubTelemVizServer` folder, select **node v4.2.2** and install the server
+5. Activate the `conda` environment `robotologyenv` created in step 1.
+    In the following steps, some of the installed Node.js packages have YARP as a dependency (YarpJS). It is critical that you haven't any **node.js** package installed through `conda` in the environment `robotologyenv` since you will have to run the `nvm` command.
+6. Install the `compilers` and `cmake` packages through `conda`
+    ```
+    mamba install compilers cmake
+    ```
+7. Install the **iCubTelemVizServer** server: go to the `<yarp-openmct-root-folder>/iCubTelemVizServer` folder, select **node v4.2.2** and install the server
     ```
     cd yarp-openmct/iCubTelemVizServer
     nvm use 4.2.2
     npm install
     ```
-5. Install the **Open MCT** based visualizer: go to `<yarp-openmct-root-folder>/openmctStaticServer`, select **node v14.17.0** and install the server
+8. Install the **Open MCT** based visualizer: go to `<yarp-openmct-root-folder>/openmctStaticServer`, select **node v14.17.0** and install the server
     ```
     cd yarp-openmct/openmctStaticServer
     nvm use 14.17.0
@@ -82,7 +109,7 @@ The following instructions assume you are installing the software as a non-root 
     ```
 
 ### Notes
-- For checking the active node.js/npm versions, run respectively `node -v` and `npm -v`.
+- For checking the active Node.js/npm versions, run respectively `node -v` and `npm -v`.
 - The installation of Open MCT dependency completes with a warning on (refer to https://github.com/dic-iit/element_software-engineering/issues/47#issuecomment-855276088).
 
 
