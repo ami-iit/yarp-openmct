@@ -3,14 +3,6 @@
 <b id="top"></b>
 An Open MCT and Yarp based iCub telemetry visualizer.
 
-* [Introduction](#introduction)
-* [Example](#example)
-* [Dependencies](#dependencies)
-* [Server Installation](#server-installation)
-* [Client Installation](#client-installation)
-* [How to Run the Server](#how-to-run-the-server)
-* [How to Run the Client](#how-to-run-the-client)
-
 ## [Introduction](#top)
 
 The Yarp-OpenMCT tool is meant for visualizing and plotting telemetry data from iCub sensors, published over a Yarp network. It collects sensor data published on a predefined set of Yarp output ports opened by the Yarp Robot Interface and exposes that data on predefined telemetry nodes within the visualizer interface as vectors or scalar signals. The pipeline can be summarized as follows:
@@ -34,12 +26,22 @@ For instance, in the context of a simulation on Gazebo, the iCub head IMU measur
 ## [Dependencies](#top)
 
 Server dependencies:
-- [YARP](https://github.com/robotology/yarp): Middleware for handling the communication with the robot.
+- [NVM](https://github.com/nvm-sh/nvm): Node Version Manager.
 - [Node.js](https://nodejs.org/en/): Asynchronous event-driven JavaScript runtime, designed to build scalable network applications.
 - [npm](https://www.npmjs.com/): Node package manager.
-- [NVM](https://github.com/nvm-sh/nvm): Node Version Manager.
-- [YarpJS](https://github.com/robotology/yarp.js): Yarp Javascript bindings
 - [Open MCT](https://github.com/nasa/openmct): Open source visualization framework by NASA.
+- [YarpJS](https://github.com/robotology/yarp.js): Yarp Javascript bindings
+- [YARP](https://github.com/robotology/yarp): Middleware for handling the communication with the robot.
+- [CMake](http://www.cmake.org/download/)
+- A proper C/C++ compiler toolchain for the given platform
+    - Windows:
+        - [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) or a recent version of Visual C++ will do ([the free Community](https://www.visualstudio.com/products/visual-studio-community-vs) version works well)
+    - Unix/Posix:
+        - Clang or GCC
+
+#### Notes
+- Additional dependencies [Open MCT](https://github.com/nasa/openmct) (Open source visualization framework by NASA) and [YarpJS](https://github.com/robotology/yarp.js) (Yarp Javascript bindings) are automatially installed by the Node.js `npm` package manager when installing the repository main modules (steps 7 and 8).
+- [YARP](https://github.com/robotology/yarp), [CMake](http://www.cmake.org/download/) and C/C++ compiler toolchain are transitory dependencies which shouldn't be mentioned a priori here, but since they are not handled by the [YarpJS](https://github.com/robotology/yarp.js) installation process (via the package manager `npm`), they need to be manually installed.
 
 Client dependencies:
 - Browser: [Google Chrome](https://www.google.com/chrome), [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products), Apple Safari, etc.
@@ -47,21 +49,12 @@ Client dependencies:
 
 ## [Server Installation](#top)
 
-The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) and the . The installation and run has been tested on MacOS Catalina 10.15.7 and Vanilla Ubuntu 20.04.
+The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) installed in your platform. The installation and run have been tested on MacOS Catalina 10.15.7 and Vanilla Ubuntu 20.04.
 
-1. Install **YARP**: it is recommended to install the binaries using the [Conda package manager](https://anaconda.org/) and installing the YARP package from the [Robotology Conda channel](https://anaconda.org/robotology).
-    - If you are not already using the `conda` package manager, install the `conda` mambaforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-mambaforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
-    - Create a new environment and install the YARP package:
-        ```
-        conda create -n robotologyenv
-        conda activate robotologyenv
-        mamba install -c robotology yarp
-        ```
-    To read more about installing `robotology` package binaries refer to https://github.com/robotology/robotology-superbuild/blob/master/doc/conda-forge.md#binary-installation.
-2. Install [**NVM**](https://github.com/nvm-sh/nvm), a **Node.js** Version Manager by MIT, which safely handles the installation of multiple versions of Node.js and easy switching between versions. As mentioned in later steps, two different versions of Node.js versions are required for installing and running the visualization tool.
-    Follow the NVM installation instruction steps in https://github.com/nvm-sh/nvm.
-    
-    ⚠️ **Note:** Run the installation steps from a new terminal without a `conda` environment enabled. The NVM installation steps are recapped below:
+⚠️ Run the installation steps 1 and 2 from a new terminal without any `conda` package manager environment enabled.
+
+1. Install [**NVM**](https://github.com/nvm-sh/nvm), a **Node.js** Version Manager by MIT, which safely handles the installation of multiple versions of Node.js and easy switching between versions. As mentioned in later steps, two different versions of Node.js versions are required for installing and running the visualization tool.
+    Follow the NVM installation instruction steps in https://github.com/nvm-sh/nvm, recapped below:
     
     a. Run the command below which downloads and runs the one-line installer
     ```
@@ -78,29 +71,47 @@ The following instructions assume you are installing the software as a non-root 
     nvm ls-remote
     ```
 
-3. Install **Node.js** and **npm** from the same terminal. Currently, the latest **Node.js** LTS version compatible with **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is the LTS: Argon release **Node.js v4.2.2** (refer to https://github.com/robotology/yarp.js/issues/19). Meanwhile, the latest **Node.js** LTS version compatible with **Open MCT** is latest LTS:Fermium version **Node.js v14.17.0**. For this reason we install both releases.
+2. Install **Node.js** and **npm** from the same terminal. Currently, the latest **Node.js** LTS version compatible with **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is the LTS: Argon release **Node.js v4.2.2** (refer to https://github.com/robotology/yarp.js/issues/19). Meanwhile, the latest **Node.js** LTS version compatible with **Open MCT** is latest LTS:Fermium version **Node.js v14.17.0**. For this reason we install both releases.
     ```
     nvm install 4.2.2 --latest-npm          // installs the LTS:Argon version v4.2.2 and latest respective supported npm (v2.14.7)
     nvm install 14.17.0 --latest-npm        // installs latest LTS:Fermium version v14.17.0 and latest respective supported npm (v6.14.13)
     nvm alias default v4.2.2                // updates the default alias
     nvm ls                                  // lists available and active nodejs and npm versions
     ```
-4. Clone the `yarp-openmct` repository into `<yarp-openmct-root-folder>` folder
+
+⚠️ It is recommended to install the **YARP, CMake** and **C/C++ compiler toolchain** binaries using the [Conda package manager](https://anaconda.org/) and installing the respective packages from the [Robotology Conda channel](https://anaconda.org/robotology), as described in the following steps.
+
+3. If you are not already using the `conda` package manager, install the `conda` mambaforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-mambaforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
+    - Create a new environment and activate it:
+        ```
+        conda create -n robotologyenv
+        conda activate robotologyenv
+        ```
+    All the following steps shall be run within the activated `conda` **robotologyenv** environment. It is critical that you haven't any Node.js package installed through `conda` (**nodejs**) in that same environment since you will be using the Node.js package from NVM.
+
+4. Install **YARP** from the [Robotology Conda channel](https://anaconda.org/robotology)
+    ```
+    mamba install -c robotology yarp
+    ```
+    To read more about installing `robotology` package binaries refer to https://github.com/robotology/robotology-superbuild/blob/master/doc/conda-forge.md#binary-installation.
+
+5. Install the `compilers` and `cmake` packages from the [Robotology Conda channel](https://anaconda.org/robotology) (in case a specific CMake version meeting specific **YarpJS** requirements is maintained in that channel. Otherwise, `mamba` falls back to its default channel)
+    ```
+    mamba install -c robotology compilers cmake
+    ```
+
+6. Clone the `yarp-openmct` repository into `<yarp-openmct-root-folder>` folder
     ```
     git clone https://github.com/dic-iit/yarp-openmct.git <yarp-openmct-root-folder>
     ```
-5. Activate the `conda` environment `robotologyenv` created in step 1.
-    In the following steps, some of the installed Node.js packages have YARP as a dependency (YarpJS). It is critical that you haven't any **node.js** package installed through `conda` in the environment `robotologyenv` since you will have to run the `nvm` command.
-6. Install the `compilers` and `cmake` packages through `conda`
-    ```
-    mamba install compilers cmake
-    ```
+
 7. Install the **iCubTelemVizServer** server: go to the `<yarp-openmct-root-folder>/iCubTelemVizServer` folder, select **node v4.2.2** and install the server
     ```
     cd yarp-openmct/iCubTelemVizServer
     nvm use 4.2.2
     npm install
     ```
+
 8. Install the **Open MCT** based visualizer: go to `<yarp-openmct-root-folder>/openmctStaticServer`, select **node v14.17.0** and install the server
     ```
     cd yarp-openmct/openmctStaticServer
