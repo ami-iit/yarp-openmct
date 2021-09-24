@@ -121,7 +121,7 @@ The following instructions assume you are installing the software as a non-root 
 
 ### Notes
 - For checking the active Node.js/npm versions, run respectively `node -v` and `npm -v`.
-- The installation of Open MCT dependency completes with a warning on (refer to https://github.com/dic-iit/element_software-engineering/issues/47#issuecomment-855276088).
+- The installation of Open MCT dependency completes with a warning on some detected network vulnerability (refer to https://github.com/ami-iit/yarp-openmct/issues/35). This is not critical as we are running everything in a local private network, but further analysis is required.
 
 
 ## [Client Installation](#top)
@@ -129,7 +129,7 @@ The following instructions assume you are installing the software as a non-root 
 Install one of the browsers listed in the client dependencies.
 
 
-## [How to Run the Server](#top)
+## [How to Run the Telemetry Server](#top)
 
 The telemetry data server `iCubTelemVizServer` actually runs three servers:
 - A YarpJS based server listening to the YARP ports, asynchronously fetching sensor data as soon as it is available on the ports, synchronously generating the formatted telemetry samples and buffering them in the FIFO queue.
@@ -138,35 +138,82 @@ The telemetry data server `iCubTelemVizServer` actually runs three servers:
 
 All three servers will be run on the same machine through the same process:
 
-1. Run the YARP server from a terminal on a device connected to the robot network and where the server is installed
+We assume here that you have a working setup capable of running:
+- A Yarp server
+- The Yarp robot interface on the real robot head or 
+- the WholeBodyDynamics RPC server
+- the Walking Cordinator RPC server
+
+- Run the YARP server from a terminal on a device connected to the robot network and where the server is installed
     ```
     yarpserver --write
     ```
-2. Run the Yarp Robot Interface on iCub head or run **Gazebo** (`gazebo -slibgazebo_yarp_clock.so`) and drop the iCub model `iCubGazeboV2_5` in the simulation world.
-3. On a terminal on the same or any other machine connected to the network,  run `npm start` from `<yarp-openmct-root-folder>/iCubTelemVizServer` folder. You should get the following output on the temrinal:
+- Run the Yarp Robot Interface on iCub head or run **Gazebo** (`gazebo -slibgazebo_yarp_clock.so`) and drop the iCub model `iCubGazeboV2_5` in the simulation world.
+
+
+1. Open a terminal on the same or any other machine connected to the network.
+
+2. If you have used `conda` package manager to install the dependencies as described in Section #server-installation, activate the `conda` environment where you installed these dependencies, otherwise skip to next step.
     ```
+    conda activate robotologyenv
+    ```
+
+3. Run `npm start` from `<yarp-openmct-root-folder>/iCubTelemVizServer` folder. You should get on the temrinal standard output something like:
+    ```
+    > iCubTelemVizServer@1.0.0 start <user-home>/dev/yarp-openmct/iCubTelemVizServer
+    > . ${NVM_DIR}/nvm.sh; nvm use v4.2.2; node ${NODE_DEBUG_OPTION} iCubTelemVizServer.js
+    
+    Now using node v4.2.2 (npm v2.14.7)
     iCub Telemetry server launched!
-    [INFO] |yarp.os.Port| Port /yarpjs/inertial:i active at tcp://192.168.1.18:10002/
+    [INFO] |yarp.os.Port| Port /yarpjs/inertial:i active at tcp://192.168.1.100:10117/
+    [INFO] |yarp.os.impl.PortCoreInputUnit| Receiving input from /icubSim/inertial to /yarpjs/inertial:i using tcp
+    ...
+    [INFO] |yarp.os.Port| Port /yarpjs/sysCmdsGenerator/rpc active at tcp://192.168.1.100:10124/
+    OK
+    Opem-MCT static server process started.
     ICubTelemetry History hosted at http://localhost:8081/history
     ICubTelemetry Realtime hosted at ws://localhost:8081/realtime
-    listening on *:3000
+    listening on http://localhost:3000
+    [OPEN-MCT STATIC SERVER] stdout:
+    > openmctStaticServer@1.0.0 start <user-home>/dev/yarp-openmct/openmctStaticServer
+    > . ${NVM_DIR}/nvm.sh; nvm use v14.17.0; node server.js
+    
+    
+    [OPEN-MCT STATIC SERVER] stdout: Now using node v14.17.0 (npm v6.14.13)
+    
+    [OPEN-MCT STATIC SERVER] stdout: iCub Telemetry Visualizer (Open MCT based) hosted at http://localhost:8080
     ```
-5. On the same machine, run `npm start` from `<yarp-openmct-root-folder>/openmctStaticServer` folder. You should get the following output on the terminal:
-    ```
-    > openmctStaticServer@1.0.0 start <yarp-openmct-root-folder>/openmctStaticServer
-    > node server.js
 
-    iCub Telemetry Visualizer (Open MCT based) hosted at http://localhost:8080
-    ```
-    The Open MCT visualizer static server creates the main interface page and sends it to the Open MCT client.
-6. Read the device IP address using `ifconfig` (Linux,MacOS) or `ipconfig` (Windows). We shall refer to this address as <server-IP-address>.
+4. Read the machine IP address using `ifconfig` (Linux,MacOS) or `ipconfig` (Windows). We shall refer to this address as \<server-IP-address>.
 
-## [How to Run the Client](#top)
+## [How to Run the Visualizer Client](#top)
 
-Open a browser on any other device connected to the same network and go to `<server-IP-address>:8080`.
+Run a browser on any other machine connected to the same network and open the link `<server-IP-address>:8080`.
 
 <p align='center'>
 <img src="images/iCubTelemetryOpenMCTexample.png" width="80%">
 </p>
+
+## [How to Run the Control Console Client](#top)
+
+On the same browser on a new tab, open the link `<server-IP-address>:3000`.
+
+<p align='center'>
+<img src="images/iCubTelemetryOpenMCTexample.png" width="80%">
+</p>
+
+#### Note
+If you run the browser on the sam machine as the telemetry server, instead of manually entering the link address, look for the respective links in the terminal output of the server run command (`npm start`), hover over the links and hit \<CTRL\>+\<mouse left button\> (on MacOS, \<Meta\> instead of \<CTRL\>).
+```
+listening on http://localhost:3000
+[OPEN-MCT STATIC SERVER] stdout:
+> openmctStaticServer@1.0.0 start <user-home>/dev/yarp-openmct/openmctStaticServer
+> . ${NVM_DIR}/nvm.sh; nvm use v14.17.0; node server.js
+
+
+[OPEN-MCT STATIC SERVER] stdout: Now using node v14.17.0 (npm v6.14.13)
+
+[OPEN-MCT STATIC SERVER] stdout: iCub Telemetry Visualizer (Open MCT based) hosted at http://localhost:8080
+```
 
 <b id="f1">1</b>: The [Socket.IO](https://socket.io/docs/v4) connection wraps a [Websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) protocol. The client tries to establish a websocket connection whenever possible, and falls back to HTTP long polling otherwise. [:arrow_up:](#a1)
