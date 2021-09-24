@@ -53,7 +53,7 @@ The following instructions assume you are installing the software as a non-root 
 
 ⚠️ Run the installation steps 1 and 2 from a new terminal without any `conda` package manager environment enabled.
 
-1. Install [**NVM**](https://github.com/nvm-sh/nvm), a **Node.js** Version Manager by MIT, which safely handles the installation of multiple versions of Node.js and easy switching between versions. As mentioned in later steps, two different versions of Node.js versions are required for installing and running the visualization tool.
+1. Install [**NVM**](https://github.com/nvm-sh/nvm) (mandatory), a **Node.js** Version Manager by MIT, which safely handles the installation of multiple versions of Node.js and easy switching between versions. As mentioned in later steps, two different versions of Node.js versions are required for installing and running the visualization tool.
     Follow the NVM installation instruction steps in https://github.com/nvm-sh/nvm, recapped below:
     
     a. Run the command below which downloads and runs the one-line installer
@@ -188,6 +188,7 @@ We assume here that you have a working setup capable of running:
 
 ## [How to Run the Visualizer Client](#top)
 
+The Visualizer Client is a GUI based on the [Open MCT](https://github.com/nasa/openmct) framework, displaying a set of iCub Telemetry data elements which plot the data received from the telemetry server. 
 Run a browser on any other machine connected to the same network and open the link `<server-IP-address>:8080`.
 
 <p align='center'>
@@ -196,10 +197,17 @@ Run a browser on any other machine connected to the same network and open the li
 
 ## [How to Run the Control Console Client](#top)
 
+The Control Console provides an interface to:
+- The FT sensors calibrator from the **wholeBodyDynamics** RPC device in the `whole-body-estimators` repository, via the respective RPC port `/wholeBodyDynamics/rpc`
+- The walking coordinator (`WalkingModule`) RPC device, via the respective RPC port `/walking-coordinator/rpc`.
+
+The GUI displays a series of buttons which trigger the same commands usually sent through the RPC interface running on a terminal.
+The commands are implemented with the most common settable options.
+
 On the same browser on a new tab, open the link `<server-IP-address>:3000`.
 
 <p align='center'>
-<img src="images/iCubTelemetryOpenMCTexample.png" width="80%">
+<img src="images/controlConsoleExample.png" width="80%">
 </p>
 
 #### Note
