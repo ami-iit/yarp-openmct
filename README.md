@@ -12,8 +12,14 @@ The Yarp-OpenMCT tool is meant for visualizing and plotting telemetry data from 
 
 All telemetry nodes exposing sensor measurements shall appear under the folder "iCub Telemetry". They can then be combined in workspace layouts at the user convenience.
 
-The visualizer implementation is based on the [Open MCT](https://github.com/nasa/openmct) (Open Mission Control Technologies), open source, next-generation mission control framework for visualization of data on desktop and mobile devices. It is developed at NASA's Ames Research Center, and is being used by NASA for data analysis of spacecraft missions, as well as planning and operation of experimental rover systems.
+The visualizer implementation is based on the [Open MCT](https://github.com/nasa/openmct) (Open Mission Control Technologies), open source, next-generation mission control framework for the visualization of data on desktop and mobile devices. It is developed at NASA's Ames Research Center, and is being used by NASA for data analysis of spacecraft missions, as well as planning and operation of experimental rover systems.
 
+The Control Console provides an interface to:
+- The FT sensors calibrator from the **wholeBodyDynamics** RPC device in the `whole-body-estimators` repository, via the respective RPC port `/wholeBodyDynamics/rpc`
+- The walking coordinator (`WalkingModule`) RPC device, via the respective RPC port `/walking-coordinator/rpc`.
+
+The GUI displays a series of buttons which trigger the same commands usually sent through the RPC interface running on a terminal.
+The commands are implemented with the most common settable options.
 
 ## [Example](#top)
 
@@ -189,7 +195,8 @@ We assume here that you have a working setup capable of running:
 ## [How to Run the Visualizer Client](#top)
 
 The Visualizer Client is a GUI based on the [Open MCT](https://github.com/nasa/openmct) framework, displaying a set of iCub Telemetry data elements which plot the data received from the telemetry server. 
-Run a browser on any other machine connected to the same network and open the link `<server-IP-address>:8080`.
+
+Run a browser on any other machine connected to the same network and open the link `<server-IP-address>:8080`. If you run the browser on the same machine as the telemetry server, just open the link `localhost:8080`.
 
 <p align='center'>
 <img src="images/iCubTelemetryOpenMCTexample.png" width="80%">
@@ -197,21 +204,16 @@ Run a browser on any other machine connected to the same network and open the li
 
 ## [How to Run the Control Console Client](#top)
 
-The Control Console provides an interface to:
-- The FT sensors calibrator from the **wholeBodyDynamics** RPC device in the `whole-body-estimators` repository, via the respective RPC port `/wholeBodyDynamics/rpc`
-- The walking coordinator (`WalkingModule`) RPC device, via the respective RPC port `/walking-coordinator/rpc`.
+The Control Console provides a web interface to the FT sensors calibrator from the **wholeBodyDynamics** RPC device and the walking coordinator (`WalkingModule`) RPC device.
 
-The GUI displays a series of buttons which trigger the same commands usually sent through the RPC interface running on a terminal.
-The commands are implemented with the most common settable options.
-
-On the same browser on a new tab, open the link `<server-IP-address>:3000`.
+On the same browser or on any browser running on another machine connected to the same network open the link `<server-IP-address>:3000`. If your browser is running on the same machine as the telemetry server, just open the link `localhost:3000`.
 
 <p align='center'>
 <img src="images/controlConsoleExample.png" width="80%">
 </p>
 
 #### Note
-If you run the browser on the sam machine as the telemetry server, instead of manually entering the link address, look for the respective links in the terminal output of the server run command (`npm start`), hover over the links and hit \<CTRL\>+\<mouse left button\> (on MacOS, \<Meta\> instead of \<CTRL\>).
+If you run the browser on the same machine as the telemetry server, instead of manually entering the link address, look for the respective links in the terminal output of the server run command (`npm start`), hover over the links and hit \<CTRL\>+\<mouse left button\> (on MacOS, \<Meta\> instead of \<CTRL\>).
 ```
 listening on http://localhost:3000
 [OPEN-MCT STATIC SERVER] stdout:
