@@ -5,7 +5,7 @@ An Open MCT and Yarp based iCub telemetry visualizer.
 
 ## [Introduction](#top)
 
-The Yarp-OpenMCT tool is meant for visualizing and plotting telemetry data from iCub sensors, published over a Yarp network. It collects sensor data published on a predefined set of Yarp output ports opened by the Yarp Robot Interface and exposes that data on predefined telemetry nodes within the visualizer interface as vectors or scalar signals. The pipeline can be summarized as follows:
+The **Yarp-OpenMCT** tool is meant for visualizing and plotting telemetry data from iCub sensors, published over a Yarp network. It collects sensor data published on a predefined set of Yarp output ports opened by the Yarp Robot Interface and exposes that data on predefined telemetry nodes within the visualizer interface as vectors or scalar signals. The pipeline can be summarized as follows:
 - A telemetry data server reads the data from a Yarp port, then available within the server as realtime data.
 - The data is buffered in a FIFO queue of predefined depth, and in parallel streamed over a [Socket.IO](https://socket.io/docs/v4) connection to the registered visualizer client<sup id="a1">[1](#f1)</sup>.
 - The data is accessible via the respective telemetry node in the visualizer interface, in the left-hand tree under the "+Create" button. Any object visible in that tree is referred to as a "Domain Object" in the Open MCT glossary.
@@ -14,12 +14,12 @@ All telemetry nodes exposing sensor measurements shall appear under the folder "
 
 The visualizer implementation is based on the [Open MCT](https://github.com/nasa/openmct) (Open Mission Control Technologies), open source, next-generation mission control framework for the visualization of data on desktop and mobile devices. It is developed at NASA's Ames Research Center, and is being used by NASA for data analysis of spacecraft missions, as well as planning and operation of experimental rover systems.
 
-The Control Console provides an interface to:
+In addition, the **Yarp-OpenMCT** tool provides a Control Console implementing a web interface to two RPC Yarp devides:
 - The FT sensors calibrator from the **wholeBodyDynamics** RPC device in the `whole-body-estimators` repository, via the respective RPC port `/wholeBodyDynamics/rpc`
 - The walking coordinator (`WalkingModule`) RPC device, via the respective RPC port `/walking-coordinator/rpc`.
 
-The GUI displays a series of buttons which trigger the same commands usually sent through the RPC interface running on a terminal.
-The commands are implemented with the most common settable options.
+The Control Console GUI displays a series of buttons which trigger the same commands usually sent through the RPC interface running on a terminal.
+These commands are implemented with the most common options, which can be set through editable text input forms.
 
 ## [Example](#top)
 
@@ -137,23 +137,36 @@ Install one of the browsers listed in the client dependencies.
 
 ## [How to Run the Telemetry Server](#top)
 
+The scope of this how-to includes only the modules implementing the **Yarp-OpenMCT** tool. We assume here that you have a setup ready with the following modules running on the same local network, referred to as the robot network:
+- a **yarprobotinterface** running on the iCub head,
+- a Yarp Name Server.
+
+This requires installing the [robotology-superbuild](https://github.com/robotology/robotology-superbuild) and enabling the profile [iCub head profile](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#icub-head) (`ROBOTOLOGY_ENABLE_ICUB_HEAD`).
+
+If you need to calibrate the FT sensors or visualize the ground reaction forces on the feet, you should also run the **wholeBodyDynamics** RPC server device exposing the respective RPC port `/wholeBodyDynamics/rpc` and the estimators publishing the computed ground reaction forces on the ports `/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o` and `/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o`.
+```
+YARP_CLOCK=/clock yarprobotinterface --config launch-wholebodydynamics.xml
+```
+
+If you wish use the **walking coordinator** in a demo, you should run the  the `WalkingModule` RPC device, exposing the respective RPC port `/walking-coordinator/rpc`.
+```
+YARP_CLOCK=/clock WalkingModule
+```
+
+ROBOTOLOGY_ENABLE_DYNAMICS
+
+- The iCub left and right eye cameras pblishing the image data on the respective ports `/icub/camera/left` and `/icub/camera/right`.
+- A battery device publishing the battery state on the port `/icub/battery/data:o`.
+- Gazebo simulator with an iCub model (e.g. `iCubGazeboV2_5`) instead of the real robot if you are running a simulation.
+
+
+https://github.com/robotology/walking-controllers
+
 The telemetry data server `iCubTelemVizServer` actually runs three servers:
 - A YarpJS based server listening to the YARP ports, asynchronously fetching sensor data as soon as it is available on the ports, synchronously generating the formatted telemetry samples and buffering them in the FIFO queue.
 - A history server replying to the Open MCT client time range telemetry samples requests.
 - A realtime server replying to the Open MCT client latest samples requests.
 
-All three servers will be run on the same machine through the same process:
-
-We assume here that you have a working setup capable of running:
-- A Yarp server
-- The Yarp robot interface on the real robot head or 
-- the WholeBodyDynamics RPC server
-- the Walking Cordinator RPC server
-
-- Run the YARP server from a terminal on a device connected to the robot network and where the server is installed
-    ```
-    yarpserver --write
-    ```
 - Run the Yarp Robot Interface on iCub head or run **Gazebo** (`gazebo -slibgazebo_yarp_clock.so`) and drop the iCub model `iCubGazeboV2_5` in the simulation world.
 
 
