@@ -14,20 +14,12 @@ All telemetry nodes exposing sensor measurements shall appear under the folder "
 
 The visualizer implementation is based on the [Open MCT](https://github.com/nasa/openmct) (Open Mission Control Technologies), open source, next-generation mission control framework for the visualization of data on desktop and mobile devices. It is developed at NASA's Ames Research Center, and is being used by NASA for data analysis of spacecraft missions, as well as planning and operation of experimental rover systems.
 
-In addition, the **Yarp-OpenMCT** tool provides a Control Console implementing a web interface to two RPC Yarp devides:
-- The FT sensors calibrator from the **wholeBodyDynamics** RPC device in the `whole-body-estimators` repository, via the respective RPC port `/wholeBodyDynamics/rpc`
-- The walking coordinator (`WalkingModule`) RPC device, via the respective RPC port `/walking-coordinator/rpc`.
+In addition, the **Yarp-OpenMCT** tool provides a Control Console implementing a web interface to two RPC Yarp server devices:
+- The **wholeBodyDynamics** RPC server (`/wholeBodyDynamics/rpc` port) through which you can run the FT sensors calibrator,
+- The **WalkingModule** RPC server, through which you can run all walking coordinator actions, like setting the robot initial configuration, setting the destination position, turn, start and stop walking.
 
 The Control Console GUI displays a series of buttons which trigger the same commands usually sent through the RPC interface running on a terminal.
 These commands are implemented with the most common options, which can be set through editable text input forms.
-
-## [Example](#top)
-
-For instance, in the context of a simulation on Gazebo, the iCub head IMU measurements read on the port `/icubSim/inertial` are sent over a local network to the visualization tool client and exposed as a telemetry node, referred to as a "Domain Object" in the Open MCT nomenclature. The telemetry node wraps all the 12 measurement components:
-- The orientation estimation Roll, Pitch and Yaw.
-- The accelerometer measuremtents x, y, z components.
-- The gyroscope measuremtents x, y, z components.
-- The magnetometer measuremtents x, y, z components.
 
 ## [Dependencies](#top)
 
@@ -214,6 +206,13 @@ Run a browser on any other machine connected to the same network and open the li
 <p align='center'>
 <img src="images/iCubTelemetryOpenMCTexample.png" width="80%">
 </p>
+
+In the above example, the iCub head IMU measurements read on the port `/icub/inertial` and sent to the visualization tool client are exposed as the telemetry node "IMU Measurements". The telemetry node wraps all the 12 measurement components:
+- The orientation estimation Roll, Pitch and Yaw.
+- The accelerometer measuremtents x, y, z components.
+- The gyroscope measuremtents x, y, z components.
+- The magnetometer measuremtents x, y, z components.
+The measurement components can be exclusively selected for plotting as shown in the picture.
 
 ## [How to Run the Control Console Client](#top)
 
