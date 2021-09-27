@@ -49,6 +49,16 @@ Client dependencies:
 
 The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) installed in your platform. The installation and run have been tested on MacOS Catalina 10.15.7 and Vanilla Ubuntu 20.04.
 
+### YARP Robot Interface, WholeBodyDynamics and WalkingModule RPC Servers
+
+The scope of this how-to includes only the modules implementing the **Yarp-OpenMCT** tool. We assume here that you have a setup ready with the following modules running on the same local network, referred to as the robot network:
+- a **yarprobotinterface** running on the iCub head,
+- a Yarp Name Server.
+
+This requires installing the [robotology-superbuild](https://github.com/robotology/robotology-superbuild) and enabling the profile [iCub head profile](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#icub-head) (`ROBOTOLOGY_ENABLE_ICUB_HEAD`).
+
+### Install NVM, Node.js and npm
+
 ⚠️ Run the installation steps 1 and 2 from a new terminal without any `conda` package manager environment enabled.
 
 1. Install [**NVM**](https://github.com/nvm-sh/nvm) (mandatory), a **Node.js** Version Manager by MIT, which safely handles the installation of multiple versions of Node.js and easy switching between versions. As mentioned in later steps, two different versions of Node.js versions are required for installing and running the visualization tool.
@@ -77,6 +87,8 @@ The following instructions assume you are installing the software as a non-root 
     nvm ls                                  // lists available and active nodejs and npm versions
     ```
 
+### Install YARP, CMake and the C++ Compilers
+
 ⚠️ It is recommended to install the **YARP, CMake** and **C/C++ compiler toolchain** binaries using the [Conda package manager](https://anaconda.org/) and installing the respective packages from the [Robotology Conda channel](https://anaconda.org/robotology), as described in the following steps.
 
 3. If you are not already using the `conda` package manager, install the `conda` mambaforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-mambaforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
@@ -97,6 +109,8 @@ The following instructions assume you are installing the software as a non-root 
     ```
     mamba install -c robotology compilers cmake
     ```
+
+### Install the Repository
 
 6. Clone the `yarp-openmct` repository into `<yarp-openmct-root-folder>` folder
     ```
@@ -129,17 +143,29 @@ Install one of the browsers listed in the client dependencies.
 
 ## [How to Run the Telemetry Server](#top)
 
-The scope of this how-to includes only the modules implementing the **Yarp-OpenMCT** tool. We assume here that you have a setup ready with the following modules running on the same local network, referred to as the robot network:
-- a **yarprobotinterface** running on the iCub head,
-- a Yarp Name Server.
+### Run a YARP Robot interface or Connect to a Running Robot Network
 
-This requires installing the [robotology-superbuild](https://github.com/robotology/robotology-superbuild) and enabling the profile [iCub head profile](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#icub-head) (`ROBOTOLOGY_ENABLE_ICUB_HEAD`).
+If no robot setup is running, run the YARP name server on the robot local network and the YARP robot interface on the iCub head following the steps described in \<link-to-robot-startup-on-iCub-head\>.html.
 
-### Run the robot interface, WholeBodyDynamics and WalkingModule RPC servers if necessary
+Instead, for running a simulation on Gazebo on a machine with all the simulation framework installed:
 
-If you wish to visualize iCub telemetry data from a robot setup already running on its local network (Yarp server, yarprobotinterface and wholeBodyDynamics server) under a given namespace \<yarpRobotNamespace\> (e.g. `/icub`), or from a Gazebo simulation providing similar robot data and RPC server ports, follow the steps below:
+1. Set the YARP_ROBOT_NAME environment variable according to the chosen Gazebo model
+```
+export YARP_ROBOT_NAME="iCubGazeboV2_5"
+```
+2. Set the YARP namespace and run the YARP server
+```
+yarp namespace /myNameSpace
+yarpserver --write
+```
+3. Run Gazebo and drag and drop the iCub model (`icubGazeboSim` or `iCubGazeboV2_5`):
+```
+gazebo -slibgazebo_yarp_clock.so
+```
 
-1. Set the YARP_ROBOT_NAME environment variable according to the target model \<robotModel\> (real robot model or simulation model `icubGazeboSim` or `iCubGazeboV2_5`):
+If you wish to visualize iCub telemetry data from a robot setup already running on its local network under a given namespace \<yarpRobotNamespace\> (e.g. `/icub`, `/myNameSpace`), follow the steps below:
+
+1. Set the YARP_ROBOT_NAME environment variable according to the target model \<robotModel\> (real robot model `iCubGenova04`, `iCubGenova09` model or simulation model `icubGazeboSim` or `iCubGazeboV2_5`):
 ```
 export YARP_ROBOT_NAME="\<robotModel\>"
 ```
@@ -148,41 +174,30 @@ export YARP_ROBOT_NAME="\<robotModel\>"
 yarp namespace <yarpRobotNamespace>
 yarp detect --write
 ```
-3. For using the FT sensors calibrator and/or the walking coordinator, make sure the respective servers are up and running, and the respective RPC ports (`/wholeBodyDynamics/rpc`, `/walking-coordinator/rpc`) are available.
-4. For visualizing the battery state, check the device is up and running and the streaming battery data on the port `icub/battery`.
 
-If you need to start a setup from scratch
-4. Run the YARP server from a terminal on a device connected to the robot network and where the server is installed
-    ```
-    yarpserver --write
-    ```
-2. Run the Yarp Robot Interface on iCub head or run **Gazebo** (`gazebo -slibgazebo_yarp_clock.so`) and drop the iCub model `iCubGazeboV2_5` in the simulation world.
+### Activate Additional Services if Applicable
 
-If you need to calibrate the FT sensors or visualize the ground reaction forces on the feet, you should also run the **wholeBodyDynamics** RPC server device exposing the respective RPC port `/wholeBodyDynamics/rpc` and the estimators publishing the computed ground reaction forces on the ports `/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o` and `/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o`.
+1. **FT sensors calibration:** If you need to calibrate the FT sensors, make sure the **wholeBodyDynamics** RPC server is up and running and the RPC port `/wholeBodyDynamics/rpc` is available, otherwise, run it
 ```
 YARP_CLOCK=/clock yarprobotinterface --config launch-wholebodydynamics.xml
 ```
+2. **Ground Reaction Forces:** If you wish to visualize the ground reaction forces on the feet, make sure the **wholeBodyDynamics** RPC server is up and running and the RPC ports `/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o` and `/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o` are available.
 
-If you wish use the **walking coordinator** in a demo, you should run the  the `WalkingModule` RPC device, exposing the respective RPC port `/walking-coordinator/rpc`.
+3. **Walking Coordinator**: If you wish use the walking coordinator, you should run the  the `WalkingModule` RPC server, exposing the respective RPC port `/walking-coordinator/rpc`.
 ```
 YARP_CLOCK=/clock WalkingModule
 ```
 
-ROBOTOLOGY_ENABLE_DYNAMICS
+4. **iCub Cameras:** Run the iCub left and right eye camera frame grabber devices and make sure they are publishing the image data on the respective ports `/icub/camera/left` and `/icub/camera/right`.
 
-- The iCub left and right eye cameras pblishing the image data on the respective ports `/icub/camera/left` and `/icub/camera/right`.
-- A battery device publishing the battery state on the port `/icub/battery/data:o`.
-- Gazebo simulator with an iCub model (e.g. `iCubGazeboV2_5`) instead of the real robot if you are running a simulation.
+5. **Battery State:** Make sure the battery device is publishing the battery state on the port `/icub/battery/data:o`. If you're running a simulation on Gazebo, you need to run the fake battery device instead, as described in the next section.
 
+#### Running the Fake Battery Device in Simulation
+We assume you have installed the fake battery device as explained in Section #installrthe-repository. Run the fake battery device
+```
+YARP_CLOCK=/clock yarprobotinterface --config battery/icub_battery.xml
+```
 
-https://github.com/robotology/walking-controllers
-
-The telemetry data server `iCubTelemVizServer` actually runs three servers:
-- A YarpJS based server listening to the YARP ports, asynchronously fetching sensor data as soon as it is available on the ports, synchronously generating the formatted telemetry samples and buffering them in the FIFO queue.
-- A history server replying to the Open MCT client time range telemetry samples requests.
-- A realtime server replying to the Open MCT client latest samples requests.
-
-- Run the Yarp Robot Interface on iCub head or run **Gazebo** (`gazebo -slibgazebo_yarp_clock.so`) and drop the iCub model `iCubGazeboV2_5` in the simulation world.
 
 ### Run the Telemetry Server
 
