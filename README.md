@@ -33,7 +33,7 @@ Server dependencies:
 - [CMake](http://www.cmake.org/download/)
 - A proper C/C++ compiler toolchain for the given platform
     - Windows:
-        - [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) or a recent version of Visual C++ will do ([the free Community](https://www.visualstudio.com/products/visual-studio-community-vs) version works well)
+        - [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) or a recent version of Visual C++ (e.g. [the free Community](https://www.visualstudio.com/products/visual-studio-community-vs))
     - Unix/Posix:
         - Clang or GCC
 
@@ -47,15 +47,29 @@ Client dependencies:
 
 ## [Server Installation](#top)
 
-The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) installed in your platform. The installation and run have been tested on MacOS Catalina 10.15.7 and Vanilla Ubuntu 20.04.
+The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) installed in your platform. The tool installation and execution have been tested on MacOS Catalina 10.15.7 and Vanilla Ubuntu 20.04.
 
-### YARP Robot Interface, WholeBodyDynamics and WalkingModule RPC Servers
+### Prerequisites For Connecting to a Local Robot Network
 
-The scope of this how-to includes only the modules implementing the **Yarp-OpenMCT** tool. We assume here that you have a setup ready with the following modules running on the same local network, referred to as the robot network:
-- a **yarprobotinterface** running on the iCub head,
-- a Yarp Name Server.
+The scope of this installation guide addresses only the modules required for running the **Yarp-OpenMCT** tool. You won't need additional modules if you are connecting your machine to a local robot network which has the following modules already installed and running:
+- a `yarprobotinterface` on the iCub head,
+- a Yarp Name Server on the robot network,
+- the `wholeBodyDynamics` device from `whole-body-estimators` repository, for running the FT sensors calibration,
+- the `WalkingModule` module from the `walking-controllers` repository, for running the walking controller,
+- the `icubBattery` or the `fakeBattery` device and wrapper for the battery status.
+- the camera driver and wrapper for the iCub cameras.
 
-This requires installing the [robotology-superbuild](https://github.com/robotology/robotology-superbuild) and enabling the profile [iCub head profile](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#icub-head) (`ROBOTOLOGY_ENABLE_ICUB_HEAD`).
+The bring up of such setup requires installing the [robotology-superbuild](https://github.com/robotology/robotology-superbuild) and enabling the profiles...
+- [ROBOTOLOGY_ENABLE_CORE](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#core), for `yarprobotinterface`, YARP and its devices,
+- [ROBOTOLOGY_ENABLE_ICUB_HEAD](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#icub-head), for the iCub firmware drivers and additional YARP devices,
+- [ROBOTOLOGY_ENABLE_DYNAMICS](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#dynamics), for the `whole-body-estimators` and `walking-controllers`.
+
+...and is out of scope of this installation guide.
+
+### Prerequisites for Running a Simulation
+
+
+
 
 ### Install NVM, Node.js and npm
 
