@@ -135,6 +135,29 @@ The scope of this how-to includes only the modules implementing the **Yarp-OpenM
 
 This requires installing the [robotology-superbuild](https://github.com/robotology/robotology-superbuild) and enabling the profile [iCub head profile](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#icub-head) (`ROBOTOLOGY_ENABLE_ICUB_HEAD`).
 
+### Run the robot interface, WholeBodyDynamics and WalkingModule RPC servers if necessary
+
+If you wish to visualize iCub telemetry data from a robot setup already running on its local network (Yarp server, yarprobotinterface and wholeBodyDynamics server) under a given namespace \<yarpRobotNamespace\> (e.g. `/icub`), or from a Gazebo simulation providing similar robot data and RPC server ports, follow the steps below:
+
+1. Set the YARP_ROBOT_NAME environment variable according to the target model \<robotModel\> (real robot model or simulation model `icubGazeboSim` or `iCubGazeboV2_5`):
+```
+export YARP_ROBOT_NAME="\<robotModel\>"
+```
+2. Set the Yarp namespace, detect the Yarp name server and save its address:
+```
+yarp namespace <yarpRobotNamespace>
+yarp detect --write
+```
+3. For using the FT sensors calibrator and/or the walking coordinator, make sure the respective servers are up and running, and the respective RPC ports (`/wholeBodyDynamics/rpc`, `/walking-coordinator/rpc`) are available.
+4. For visualizing the battery state, check the device is up and running and the streaming battery data on the port `icub/battery`.
+
+If you need to start a setup from scratch
+4. Run the YARP server from a terminal on a device connected to the robot network and where the server is installed
+    ```
+    yarpserver --write
+    ```
+2. Run the Yarp Robot Interface on iCub head or run **Gazebo** (`gazebo -slibgazebo_yarp_clock.so`) and drop the iCub model `iCubGazeboV2_5` in the simulation world.
+
 If you need to calibrate the FT sensors or visualize the ground reaction forces on the feet, you should also run the **wholeBodyDynamics** RPC server device exposing the respective RPC port `/wholeBodyDynamics/rpc` and the estimators publishing the computed ground reaction forces on the ports `/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o` and `/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o`.
 ```
 YARP_CLOCK=/clock yarprobotinterface --config launch-wholebodydynamics.xml
@@ -161,6 +184,7 @@ The telemetry data server `iCubTelemVizServer` actually runs three servers:
 
 - Run the Yarp Robot Interface on iCub head or run **Gazebo** (`gazebo -slibgazebo_yarp_clock.so`) and drop the iCub model `iCubGazeboV2_5` in the simulation world.
 
+### Run the Telemetry Server
 
 1. Open a terminal on the same or any other machine connected to the network.
 
@@ -207,11 +231,12 @@ Run a browser on any other machine connected to the same network and open the li
 <img src="images/iCubTelemetryOpenMCTexample.png" width="80%">
 </p>
 
-In the above example, the iCub head IMU measurements read on the port `/icub/inertial` and sent to the visualization tool client are exposed as the telemetry node "IMU Measurements". The telemetry node wraps all the 12 measurement components:
+In the above example, the iCub head IMU measurements read on the port `/icub/inertial` and sent to the visualization tool client are exposed as the telemetry node "IMU sensor measurements". The telemetry node wraps all the 12 measurement components:
 - The orientation estimation Roll, Pitch and Yaw.
 - The accelerometer measuremtents x, y, z components.
 - The gyroscope measuremtents x, y, z components.
 - The magnetometer measuremtents x, y, z components.
+
 The measurement components can be exclusively selected for plotting as shown in the picture.
 
 ## [How to Run the Control Console Client](#top)
