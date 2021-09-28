@@ -23,7 +23,7 @@ These commands are implemented with the most common options, which can be set th
 
 ## [Dependencies](#top)
 
-Server dependencies:
+### Server dependencies
 - [NVM](https://github.com/nvm-sh/nvm): Node Version Manager.
 - [Node.js](https://nodejs.org/en/): Asynchronous event-driven JavaScript runtime, designed to build scalable network applications.
 - [npm](https://www.npmjs.com/): Node package manager.
@@ -41,15 +41,19 @@ Server dependencies:
 - Additional dependencies [Open MCT](https://github.com/nasa/openmct) (Open source visualization framework by NASA) and [YarpJS](https://github.com/robotology/yarp.js) (Yarp Javascript bindings) are automatially installed by the Node.js `npm` package manager when installing the repository main modules (steps 7 and 8).
 - [YARP](https://github.com/robotology/yarp), [CMake](http://www.cmake.org/download/) and C/C++ compiler toolchain are transitory dependencies which shouldn't be mentioned a priori here, but since they are not handled by the [YarpJS](https://github.com/robotology/yarp.js) installation process (via the package manager `npm`), they need to be manually installed.
 
-Client dependencies:
+### Client dependencies
 - Browser: [Google Chrome](https://www.google.com/chrome), [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products), Apple Safari, etc.
 
+### Simulation Dependencies
+- [Gazebo](https://gazebosim.org): the simulator (tested Gazebo 11).
+- [YARP](https://github.com/robotology/yarp): Middleware for handling the communication with the robot.
+- [icub-models](https://github.com/robotology/icub-models): provide the iCub models.
+- [GazeboYARPPlugins](https://github.com/robotology/gazebo-yarp-plugins.git): Plugins interfacing the iCub simulation model with YARP device wrappers.
 
-## [Server Installation](#top)
 
 The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) installed in your platform. The tool installation and execution have been tested on MacOS Catalina 10.15.7 and Vanilla Ubuntu 20.04.
 
-### Prerequisites For Connecting to a Local Robot Network
+## Installation Prerequisites For Connecting to a Local Robot Network
 
 The scope of this installation guide addresses only the modules required for running the **Yarp-OpenMCT** tool. You won't need additional modules if you are connecting your machine to a local robot network which has the following modules already installed and running:
 - a `yarprobotinterface` on the iCub head,
@@ -66,10 +70,26 @@ The bring up of such setup requires installing the [robotology-superbuild](https
 
 ...and is out of scope of this installation guide.
 
-### Prerequisites for Running a Simulation
+### Installation Prerequisites for Running a Simulation
 
+For running a simulation on Gazebo with `iCubGazeboV2_5` or `icubGazeboSim` model, you need first to install the modules listed in Section #simulation-dependencies, as follows:
+1. Install **Gazebo** through your platform package manager or following https://gazebosim.org/tutorials?cat=install.
+2. We recommend to install the remaining modules (YARP, icub-models, GazeboYARPPlugins) binaries using the [Conda package manager](https://anaconda.org/) and installing the respective packages from the [Robotology Conda channel](https://anaconda.org/robotology) as described in the following steps.
+3. If you are not already using the `conda` package manager, install the `conda` mambaforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-mambaforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
+    Create a new environment and activate it:
+    ```
+    conda create -n robotologyenv
+    conda activate robotologyenv
+    ```
+    To read more about installing robotology package binaries refer to https://github.com/robotology/robotology-superbuild/blob/master/doc/conda-forge.md#binary-installation.
+4. Install the YARP, icub-models, GazeboYARPPlugins modules
+    ```
+    mamba install -c conda-forge -c robotology yarp gazebo-yarp-plugins icub-models
+    ```
 
+The server installation described in the following section can be done in any machine residing in the same local network as the machine running the simulation. This is relevant in case you wish to run the simulation in some dedicated powerful server machine, and run the visualizer server in your own machine with lower CPU and memory profile. 
 
+## [Server Installation](#top)
 
 ### Install NVM, Node.js and npm
 
@@ -108,10 +128,12 @@ The bring up of such setup requires installing the [robotology-superbuild](https
 3. If you are not already using the `conda` package manager, install the `conda` mambaforge distribution following https://github.com/robotology/robotology-superbuild/blob/master/doc/install-mambaforge.md#linux. Remember to restart your shell session or run `source ~/.bashrc` (`~/.bash_profile` on MacOS) for the `conda init` command to take effect.
     - Create a new environment and activate it:
         ```
-        conda create -n robotologyenv
-        conda activate robotologyenv
+        conda create -n icubtelemenv
+        conda activate icubtelemenv
         ```
-    All the following steps shall be run within the activated `conda` **robotologyenv** environment. It is critical that you haven't any Node.js package installed through `conda` (**nodejs**) in that same environment since you will be using the Node.js package from NVM.
+    To read more about installing robotology package binaries refer to https://github.com/robotology/robotology-superbuild/blob/master/doc/conda-forge.md#binary-installation.
+    
+    All the following steps shall be run within the activated `conda` **icubtelemenv** environment. It is critical that you haven't any Node.js package installed through `conda` (**nodejs**) in that same environment since you will be using the Node.js package from NVM.
 
 4. Install **YARP** from the [Robotology Conda channel](https://anaconda.org/robotology)
     ```
@@ -180,42 +202,44 @@ Install one of the browsers listed in the client dependencies.
 
 ### Run a YARP Robot interface or Connect to a Running Robot Network
 
-If no robot setup is running, run the YARP name server on the robot local network and the YARP robot interface on the iCub head following the steps described in \<link-to-robot-startup-on-iCub-head\>.html.
+For running a simulation on the machine where you installed the simulator and dependencies:
 
-Instead, for running a simulation on Gazebo on a machine with all the simulation framework installed:
-
-1. Set the YARP_ROBOT_NAME environment variable according to the chosen Gazebo model (`icubGazeboSim` or `iCubGazeboV2_5`):
-```
-export YARP_ROBOT_NAME="iCubGazeboV2_5"
-```
+1. Activate the `robotologyenv` environment
+   ```
+   conda activate robotologyenv
+   ```
+2. Set the YARP_ROBOT_NAME environment variable according to the chosen Gazebo model (`icubGazeboSim` or `iCubGazeboV2_5`):
+   ```
+   export YARP_ROBOT_NAME="iCubGazeboV2_5"
+   ```
 2. Set the YARP namespace and run the YARP server
-```
-yarp namespace /myNameSpace
-yarpserver --write
-```
+   ```
+   yarp namespace /myNameSpace
+   yarpserver --write
+   ```
 3. Run Gazebo and drag and drop the iCub model (`icubGazeboSim` or `iCubGazeboV2_5`):
-```
-gazebo -slibgazebo_yarp_clock.so
-```
+   ```
+   gazebo -slibgazebo_yarp_clock.so
+   ```
 
 If you wish to visualize iCub telemetry data from a robot setup already running on its local network under a given namespace \<yarpRobotNamespace\> (e.g. `/icub`, `/myNameSpace`), follow the steps below:
 
 1. Set the YARP_ROBOT_NAME environment variable according to the target model \<robotModel\> (real robot model `iCubGenova04`, `iCubGenova09` model or simulation model `icubGazeboSim` or `iCubGazeboV2_5`):
-```
-export YARP_ROBOT_NAME="<robotModel>"
-```
+   ```
+   export YARP_ROBOT_NAME="<robotModel>"
+   ```
 2. Set the Yarp namespace, detect the Yarp name server and save its address:
-```
-yarp namespace <yarpRobotNamespace>
-yarp detect --write
-```
+   ```
+   yarp namespace <yarpRobotNamespace>
+   yarp detect --write
+   ```
 
 ### Activate Additional Services if Applicable
 
 1. If you need to calibrate the FT sensors and/or visualize the ground reaction forces on the feet, make sure the **wholeBodyDynamics** RPC server is up and running, otherwise, run it
-```
-YARP_CLOCK=/clock yarprobotinterface --config launch-wholebodydynamics.xml
-```
+   ```
+   YARP_CLOCK=/clock yarprobotinterface --config launch-wholebodydynamics.xml
+   ```
     - **FT sensors calibration:** make sure the RPC port `/wholeBodyDynamics/rpc` is available.
     - **Ground Reaction Forces:** make sure the RPC ports `/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o` and `/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o` are available.
 
@@ -241,7 +265,7 @@ YARP_CLOCK=/clock yarprobotinterface --config battery/icub_battery.xml
 
 2. If you have used `conda` package manager to install the dependencies as described in Section #server-installation, activate the `conda` environment where you installed these dependencies, otherwise skip to next step.
     ```
-    conda activate robotologyenv
+    conda activate icubtelemenv
     ```
 
 3. Run `npm start` from `<yarp-openmct-root-folder>/iCubTelemVizServer` folder. You should get on the temrinal standard output something like:
