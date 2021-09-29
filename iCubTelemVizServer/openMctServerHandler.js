@@ -8,35 +8,6 @@ function OpenMctServerHandler(outputCallback) {
     this.childProcess = require('child_process');
     this.processHandle = null;
     this.outputCallback = outputCallback;
-    this.nvmEnv = {};
-}
-
-OpenMctServerHandler.prototype.getNvmEnvFromNodejsVersion = function (nodejsVersion) {
-    if (typeof nodejsVersion != 'string') {
-        this.outputCallback('NVM version must be a string.');
-    }
-
-    // Build the string of shell commands
-    const homeDir = process.env.HOME;
-    const cmdString =
-        '. ' + path.join(process.env.NVM_DIR, 'nvm.sh') + ' 1> /dev/null ' +     // Load the NVM function script
-        '&& nvm use ' + nodejsVersion + ' 1> /dev/null ' +                          // Set the NVM version
-        '&& echo {\\"PATH\\":\\"$PATH\\", \\"NVM_INC\\":\\"$NVM_INC\\", \\"NVM_CD_FLAGS\\":\\"$NVM_CD_FLAGS\\", \\"NVM_BIN\\":\\"$NVM_BIN\\"}'; // Return the updated NVM path (env. variables)
-    try {
-        const stdout = this.childProcess.execSync(cmdString, {shell: 'bash', timeout: 3000});
-        this.nvmEnv = JSON.parse(stdout.toString());
-        this.nodejsVersion = nodejsVersion;
-        return {
-            status: 'OK',
-            message: 'NVM environment variables selecting ' + this.nodejsVersion + 'would be' + this.nvmEnv.stringify() + '\n'
-        };
-    } catch (error) {
-        this.nodejsVersion = 'default';
-        return {
-            status: 'ERROR',
-            message: 'command "nvm use version" failed in spawned shell!'
-        };
-    }
 }
 
 OpenMctServerHandler.prototype.start = function () {
