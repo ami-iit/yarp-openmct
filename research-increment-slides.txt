@@ -1,0 +1,19 @@
+# Open-MCT Based iCub Telemetry Data Visualization Tool
+
+(10 slides)
+
+## 1 - INTRODUCTION
+
+## 2 - OUTLINE
+
+1. Console-Robot-Visualization Workflow
+2. Exploring existing visualization tools: why Open-MCT?
+3. Open-MCT framework Overview: features and current limitations
+4. Control Console Overview: a Remote RPC web interface
+5. Architecture overview and protocols
+    - Connecting YARP data output ports to the visualizer web client
+    - Connecting the YARP RPC ports to the control console web client
+6. Installation, parametrization and launching
+7. Robust handling of resources, clients and fail recovery
+
+## 10 - DEPLOYMENT AND NEXT STEPS
