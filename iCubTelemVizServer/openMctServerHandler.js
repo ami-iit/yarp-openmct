@@ -6,7 +6,7 @@ const path = require('path');
 function OpenMctServerHandler(outputCallback) {
     // Create a child process spawn for later setting the NVM version and running the server
     this.childProcess = require('child_process');
-    this.processHandle = null;
+    this.processPID = undefined;
     this.outputCallback = outputCallback;
 }
 
@@ -21,8 +21,8 @@ OpenMctServerHandler.prototype.start = function () {
     const embeddedThis = this;
 
     // Start the process
-    const execPath = path.join(process.cwd(), '..', 'openmctStaticServer');
-    let npmStart = this.childProcess.spawn('npm', ['start'], {shell: 'bash', cwd: execPath});
+    const wPath = path.join(process.cwd(), '..', 'openmctStaticServer');
+    const npmStart = this.childProcess.spawn('sh', ['runModule.sh'], {shell: 'bash', cwd: wPath, stdio: ['pipe','pipe','pipe','ipc']});
 
     // Set the output callbacks
     npmStart.stdout.on('data', function (data) {
@@ -34,18 +34,22 @@ OpenMctServerHandler.prototype.start = function () {
     npmStart.on('error', function (error) {
         embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] error: ' + error.message);
     });
+    npmStart.on('message', function (m) {
+        embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] ipc: ' + JSON.stringify(m));
+        embeddedThis.processPID = m.pid;
+    });
     npmStart.on('close', function (code) {
-        embeddedThis.processHandle = null;
+        embeddedThis.processPID = undefined;
         embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] close: ' + code);
     });
 
-    this.processHandle = npmStart;
     return {status: 'OK', message: 'Opem-MCT static server process started.'};
 }
 
-OpenMctServerHandler.prototype.stop = function () {
-    if (this.processHandle) {
-        this.processHandle.kill();
+OpenMctServerHandler.prototype.stop = function (signal) {
+    if (this.isOn()) {
+        process.kill(this.processPID,signal);
+        console.log('Killing PID %d with signal %s',this.processPID,signal);
         return {status: 'WRPLY', message: 'Process OpenMCT Server stopping...'};
     } else {
         return {status: 'WARNING', message: 'No process OpenMCT Server running...'};
@@ -53,7 +57,7 @@ OpenMctServerHandler.prototype.stop = function () {
 }
 
 OpenMctServerHandler.prototype.isOn = function () {
-    return (this.processHandle != null);
+    return (this.processPID !== undefined);
 }
 
 function spawnSynchInOpenMCTserverPath(childProcess, shellCommand, cmdArgs) {

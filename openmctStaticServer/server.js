@@ -14,6 +14,8 @@ app.use('/', staticServer);
 
 var port = process.env.PORT || 8080
 
+process.send({"pid": process.pid}); // Send the process PID back to the parent
+
 vizServer = app.listen(port, function () {
     console.log('iCub Telemetry Visualizer (Open MCT based) hosted at http://localhost:' + port);
 });

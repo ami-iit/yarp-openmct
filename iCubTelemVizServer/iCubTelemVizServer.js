@@ -173,4 +173,5 @@ console.log(ret.message);
 
 function handleTermination(signal) {
     console.log('Received '+signal+' ...');
+    openMctServerHandler.stop(signal);
 }

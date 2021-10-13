@@ -7,7 +7,7 @@
     </scripts>
     <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.17.0/bin/node" />
     <envs>
-      <env name="NODE_DEBUG_OPTION" value="--debug" />
+      <env name="NODE_DEBUG_OPTION" value="--inspect" />
     </envs>
     <method v="2" />
   </configuration>
