@@ -1,4 +1,5 @@
 build*
+npm-debug.log
 iCubTelemVizServer/node_modules/*
 iCubTelemVizServer/npm-debug.log*
 openmctStaticServer/node_modules/*

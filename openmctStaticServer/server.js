@@ -1,5 +1,5 @@
 /**
- * Basic implementation of a history and realtime server.
+ * Basic implementation of a static server.
  */
 
 var StaticServer = require('./static-server');
@@ -25,7 +25,7 @@ vizServer = app.listen(port, function () {
 });
 
 // Track the connections
-WebsocketTracker = require('../iCubTelemVizServer/websocket-tracker');
+WebsocketTracker = require('../common/websocket-tracker');
 const vizServerTracker = new WebsocketTracker(vizServer);
 
 // Handle a clean process termination

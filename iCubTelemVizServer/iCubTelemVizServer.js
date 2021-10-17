@@ -165,7 +165,7 @@ const consoleServer = http.listen(3000, function(){
 });
 
 // Create and start the OpenMCT server
-var OpenMctServerHandler = require('./openMctServerHandler');
+var OpenMctServerHandler = require('./openMctServerHandlerParent');
 var openMctServerHandler = new OpenMctServerHandler(console.log);
 var ret = openMctServerHandler.start();
 console.log(ret.status);

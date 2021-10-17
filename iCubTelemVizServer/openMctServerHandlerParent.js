@@ -2,27 +2,38 @@
 
 // Import utilities for working with file and directory paths.
 const path = require('path');
+// Create a child process spawn for later setting the NVM version and running the server
+const childProcess = require('child_process');
+// Import comon properties for OpenMctServerHandlerParent and OpenMctServerHandlerChild
+var OpenMctServerHandlerBase = require('../common/openMctServerHandlerBase');
 
-function OpenMctServerHandler(outputCallback) {
-    // Create a child process spawn for later setting the NVM version and running the server
-    this.childProcess = require('child_process');
-    this.processPID = undefined;
-    this.outputCallback = outputCallback;
+function OpenMctServerHandlerParent(outputCallback) {
+    // Old Javascript inheritance: Apply the "parent" class OpenMctServerHandlerBase
+    // constructor to "this"
+    OpenMctServerHandlerBase.call(this,outputCallback);
 }
 
-OpenMctServerHandler.prototype.start = function () {
+// Old Javascript inheritance: inherit all of OpenMctServerHandlerBase'methods
+OpenMctServerHandlerParent.prototype = new OpenMctServerHandlerBase();
+OpenMctServerHandlerParent.prototype.constructor = OpenMctServerHandlerParent;
+
+OpenMctServerHandlerParent.prototype.start = function () {
     // Check if the server is already running
     if (this.isOn()) {
         return {status: 'WARNING', message: 'OpenMCT server already running.'};
     }
 
-    // Inside the callbacks, for 'this' to be the 'OpenMctServerHandler' object instead of the
+    // Inside the callbacks, for 'this' to be the 'OpenMctServerHandlerParent' object instead of the
     // callback caller, we need to back it up.
     const embeddedThis = this;
 
     // Start the process
     const wPath = path.join(process.cwd(), '..', 'openmctStaticServer');
-    const npmStart = this.childProcess.spawn('sh', ['runModule.sh'], {shell: 'bash', cwd: wPath, stdio: ['pipe','pipe','pipe','ipc']});
+    const npmStart = childProcess.spawn('sh', ['runModule.sh'], {
+        shell: 'bash',
+        cwd: wPath,
+        stdio: ['pipe', 'pipe', 'pipe', 'ipc']
+    });
 
     // Set the output callbacks
     npmStart.stdout.on('data', function (data) {
@@ -46,7 +57,7 @@ OpenMctServerHandler.prototype.start = function () {
     return {status: 'OK', message: 'Opem-MCT static server process started.'};
 }
 
-OpenMctServerHandler.prototype.stop = function (signal) {
+OpenMctServerHandlerParent.prototype.stop = function (signal) {
     if (this.isOn()) {
         process.kill(this.processPID,signal);
         console.log('Killing PID %d with signal %s',this.processPID,signal);
@@ -56,24 +67,10 @@ OpenMctServerHandler.prototype.stop = function (signal) {
     }
 }
 
-OpenMctServerHandler.prototype.isOn = function () {
+OpenMctServerHandlerParent.prototype.isOn = function () {
     return (this.processPID !== undefined);
 }
 
-function spawnSynchInOpenMCTserverPath(childProcess, shellCommand, cmdArgs) {
-    // Run a shell command from a child process in 'openmctStaticServer' folder working path.
-    let ret = childProcess.spawnSync(shellCommand, cmdArgs, {shell: 'bash', cwd: process.cwd(), timeout: 3000});
-    if (ret.signal) {
-        return {success: false, cmdRet: {status: ret.status, message: ['exited with signal ' + ret.signal]}};
-    } else if (ret.error !== undefined) {
-        return {success: false, cmdRet: {status: ret.status, message: ['error: ' + ret.error.message]}};
-    } else if (ret.stderr.length > 0) {
-        return {success: false, cmdRet: {status: ret.status, message: ['stderr: ' + ret.stderr]}};
-    } else {
-        return {success: true, cmdRet: {status: ret.status, message: ['stdout: ' + ret.stdout]}};
-    }
-}
-
 module.exports = function (outputCallback) {
-    return new OpenMctServerHandler(outputCallback);
+    return new OpenMctServerHandlerParent(outputCallback);
 }
