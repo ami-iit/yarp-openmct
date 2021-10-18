@@ -4,26 +4,26 @@
 const path = require('path');
 // Create a child process spawn for later setting the NVM version and running the server
 const childProcess = require('child_process');
-// Import comon properties for OpenMctServerHandlerParent and OpenMctServerHandlerChild
+// Import comon properties for OpenMctServerHandlerParentProc and OpenMctServerHandlerChildProc
 var OpenMctServerHandlerBase = require('../common/openMctServerHandlerBase');
 
-function OpenMctServerHandlerParent(outputCallback) {
+function OpenMctServerHandlerParentProc(outputCallback) {
     // Old Javascript inheritance: Apply the "parent" class OpenMctServerHandlerBase
     // constructor to "this"
     OpenMctServerHandlerBase.call(this,outputCallback);
 }
 
 // Old Javascript inheritance: inherit all of OpenMctServerHandlerBase'methods
-OpenMctServerHandlerParent.prototype = new OpenMctServerHandlerBase();
-OpenMctServerHandlerParent.prototype.constructor = OpenMctServerHandlerParent;
+OpenMctServerHandlerParentProc.prototype = new OpenMctServerHandlerBase();
+OpenMctServerHandlerParentProc.prototype.constructor = OpenMctServerHandlerParentProc;
 
-OpenMctServerHandlerParent.prototype.start = function () {
+OpenMctServerHandlerParentProc.prototype.start = function () {
     // Check if the server is already running
     if (this.isOn()) {
         return {status: 'WARNING', message: 'OpenMCT server already running.'};
     }
 
-    // Inside the callbacks, for 'this' to be the 'OpenMctServerHandlerParent' object instead of the
+    // Inside the callbacks, for 'this' to be the 'OpenMctServerHandlerParentProc' object instead of the
     // callback caller, we need to back it up.
     const embeddedThis = this;
 
@@ -57,7 +57,7 @@ OpenMctServerHandlerParent.prototype.start = function () {
     return {status: 'OK', message: 'Opem-MCT static server process started.'};
 }
 
-OpenMctServerHandlerParent.prototype.stop = function (signal) {
+OpenMctServerHandlerParentProc.prototype.stop = function (signal) {
     if (this.isOn()) {
         process.kill(this.processPID,signal);
         console.log('Killing PID %d with signal %s',this.processPID,signal);
@@ -67,10 +67,10 @@ OpenMctServerHandlerParent.prototype.stop = function (signal) {
     }
 }
 
-OpenMctServerHandlerParent.prototype.isOn = function () {
+OpenMctServerHandlerParentProc.prototype.isOn = function () {
     return (this.processPID !== undefined);
 }
 
 module.exports = function (outputCallback) {
-    return new OpenMctServerHandlerParent(outputCallback);
+    return new OpenMctServerHandlerParentProc(outputCallback);
 }
