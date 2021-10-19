@@ -2,22 +2,19 @@
  * Basic implementation of a static server.
  */
 
-var StaticServer = require('./static-server');
+// Send the process PID back to the parent through the IPC channel
+const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
+const procHandler = new OpenMctServerHandlerChildProc(console.log);
+procHandler.messageParentProcess({"pid": process.pid});
 
-var expressWs = require('express-ws');
-var app = require('express')();
+const StaticServer = require('./static-server');
+const expressWs = require('express-ws');
+const app = require('express')();
 expressWs(app);
 
-var staticServer = new StaticServer();
-
+const staticServer = new StaticServer();
 app.use('/', staticServer);
-
-var port = process.env.PORT || 8080
-
-// Send the process PID back to the parent through the IPC channel
-if (process.connected) {
-    process.send({"pid": process.pid});
-}
+const port = process.env.PORT || 8080
 
 // Start the server
 vizServer = app.listen(port, function () {

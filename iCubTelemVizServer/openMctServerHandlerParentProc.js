@@ -49,9 +49,9 @@ OpenMctServerHandlerParentProc.prototype.start = function () {
         embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] ipc: ' + JSON.stringify(m));
         embeddedThis.processPID = m.pid;
     });
-    npmStart.on('close', function (code) {
+    npmStart.on('close', function (code,signal) {
         embeddedThis.processPID = undefined;
-        embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] close: ' + code);
+        embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] close: ' + code + ', signal: ' + signal);
     });
 
     return {status: 'OK', message: 'Opem-MCT static server process started.'};
