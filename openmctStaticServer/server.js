@@ -33,10 +33,20 @@ function handleTermination(signal) {
     vizServer.close(() => {
         console.log('Open-MCT Visualizer Server closed. No further requests accepted. Refreshing the visualizer web page will fail.);
         process.exitCode = 128+SignalName2codeMap[signal];
+        // Remove the 2nd SIGINT inhibitor listener
+        process.listeners('SIGINT').forEach((value) => {console.log('listener: %s',value.toString())});
+        process.removeListener('SIGINT', inhibit2ndSIGINT);
+        process.listeners('SIGINT').forEach((value) => {console.log('listener: %s',value.toString())});
     });
     vizServerTracker.closeAll();
+    setTimeout(function () {process.removeListener('SIGINT', inhibit2ndSIGINT);},5000);
 }
+
+// IDLE termination handler for inhibiting an eventual 2nd SIGINT (probably from the parent process)
+// while we wait for the processing completion of the first SIGINT.
+function inhibit2ndSIGINT() {}
 
 process.prependOnceListener('SIGQUIT', () => {handleTermination('SIGQUIT');});
 process.prependOnceListener('SIGTERM', () => {handleTermination('SIGTERM');});
 process.prependOnceListener('SIGINT', () => {handleTermination('SIGINT');});
+process.prependListener('SIGINT', inhibit2ndSIGINT);
