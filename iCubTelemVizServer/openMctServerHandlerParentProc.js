@@ -6,6 +6,8 @@ const path = require('path');
 const childProcess = require('child_process');
 // Import comon properties for OpenMctServerHandlerParentProc and OpenMctServerHandlerChildProc
 var OpenMctServerHandlerBase = require('../common/openMctServerHandlerBase');
+// Format the output like printf
+const util = require('util');
 
 function OpenMctServerHandlerParentProc(outputCallback) {
     // Old Javascript inheritance: Apply the "parent" class OpenMctServerHandlerBase
@@ -60,8 +62,7 @@ OpenMctServerHandlerParentProc.prototype.start = function () {
 OpenMctServerHandlerParentProc.prototype.stop = function (signal) {
     if (this.isOn()) {
         process.kill(this.processPID,signal);
-        console.log('Killing PID %d with signal %s',this.processPID,signal);
-        return {status: 'WRPLY', message: 'Process OpenMCT Server stopping...'};
+        return {status: 'WRPLY', message: util.format('Process (PID %d) OpenMCT Server stopping (signal %s) ...',this.processPID,signal)};
     } else {
         return {status: 'WARNING', message: 'No process OpenMCT Server running...'};
     }

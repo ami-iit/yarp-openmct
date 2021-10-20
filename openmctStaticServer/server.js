@@ -26,11 +26,14 @@ WebsocketTracker = require('../common/websocket-tracker');
 const vizServerTracker = new WebsocketTracker(vizServer);
 
 // Handle a clean process termination
+SignalName2codeMap = require('../common/utils').SignalName2codeMap;
+
 function handleTermination(signal) {
     console.log('Received '+signal+' ...');
     vizServer.close(() => {
-        console.log('Open-MCT Visualizer Server closed. No further requests accepted. Refreshing the visualizer web page will fail.');
-    })
+        console.log('Open-MCT Visualizer Server closed. No further requests accepted. Refreshing the visualizer web page will fail.);
+        process.exitCode = 128+SignalName2codeMap[signal];
+    });
     vizServerTracker.closeAll();
 }
 
