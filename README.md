@@ -48,6 +48,8 @@ These commands are implemented with the most common options, which can be set th
 - [Gazebo](https://gazebosim.org): for simulating the iCub model dynamics with ground contacts (tested Gazebo 11).
 - [icub-models](https://github.com/robotology/icub-models): provide the iCub models.
 - [GazeboYARPPlugins](https://github.com/robotology/gazebo-yarp-plugins.git): Plugins interfacing the iCub simulation model with YARP device wrappers.
+- [whole-body-estimators](https://github.com/robotology/whole-body-estimators): for estimating the ground contact wrenches and testing the force-torque sensors calibration interface with the control console.
+- [walking-controllers](https://github.com/robotology/walking-controllers): suite of modules for achieving bipedal locomotion of the humanoid robot iCub.
 
 ### Note on Connecting to a Local Robot Network
 
@@ -61,7 +63,11 @@ As a reference, the bring up of such setup (out of scope of this installation gu
 
 ## [Server Installation](#top)
 
-The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) installed in your platform. The tool installation and execution have been tested on MacOS Catalina 10.15.7 and Vanilla Ubuntu 20.04.
+### Supported Platforms
+
+The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) installed in your platform. The tool installation and execution have been tested on **MacOS Catalina 10.15.7** and **Vanilla Ubuntu 20.04**.
+
+:warning: The tool installation has not been tested on Windows. On top of that, the installation of dependencies **YARP, CMake** and **C/C++ compiler toolchain** binaries rely on the use of the `conda` package manager, which is still not fully supported on Windows PowerShell (https://github.com/robotology/robotology-superbuild/issues/890), and was not tested on [Git Bash](https://gitforwindows.org/) nor Windows Subsystem for Linux ([WSL](https://docs.microsoft.com/en-us/windows/wsl/install),[Ubuntu on WSL](https://ubuntu.com/wsl)).
 
 ### Install NVM, Node.js and npm
 
@@ -143,10 +149,10 @@ The following instructions assume you are installing the software as a non-root 
 
 For testing the visualization tool along with its control console, you can run a simulation on Gazebo with `iCubGazeboV2_5` or `icubGazeboSim` model. For that you need first to install the modules listed in Section #simulation-dependencies, as follows:
 1. Install **Gazebo** through your platform package manager or following https://gazebosim.org/tutorials?cat=install.
-1. We recommend to install the remaining modules (icub-models, GazeboYARPPlugins) binaries from the [Robotology Conda channel](https://anaconda.org/robotology) under the environment `icubtelemenv` used in previous steps.
-1. Install the icub-models and GazeboYARPPlugins modules
+1. We recommend to install the remaining modules (icub-models, GazeboYARPPlugins, whole-body-estimators, walking-controllers) binaries from the [Robotology Conda channel](https://anaconda.org/robotology) under the environment `icubtelemenv` used in previous steps.
+1. Install the icub-models, GazeboYARPPlugins, whole-body-estimators and walking-controllers modules
     ```
-    mamba install -c conda-forge -c robotology gazebo-yarp-plugins icub-models
+    mamba install -c conda-forge -c robotology gazebo-yarp-plugins icub-models whole-body-estimators walking-controllers
     ```
 
 If you wish to check the battery state visualization handling on the telemetry visualization tool, you need to install the fake battery device which publishes a fake battery state (voltage, current, temperature, charge level, ...) on the `/icubSim/battery/data:o` port.
