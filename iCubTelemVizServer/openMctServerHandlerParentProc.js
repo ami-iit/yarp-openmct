@@ -8,11 +8,22 @@ const childProcess = require('child_process');
 var OpenMctServerHandlerBase = require('../common/openMctServerHandlerBase');
 // Format the output like printf
 const util = require('util');
+// Handle errors
+var assert = require('assert');
+// Signal Event values
+const SignalName2codeMap = require('../common/utils').SignalName2codeMap;
 
-function OpenMctServerHandlerParentProc(outputCallback) {
+function OpenMctServerHandlerParentProc(outputCallback,errorCallback) {
     // Old Javascript inheritance: Apply the "parent" class OpenMctServerHandlerBase
     // constructor to "this"
-    OpenMctServerHandlerBase.call(this,outputCallback);
+    OpenMctServerHandlerBase.call(this,outputCallback,errorCallback);
+    // Callback to be set by OpenMctServerHandlerParentProc.stop() function call
+    this.onCloseSuccess = (messageString) => {
+        this.outputCallback('Untriggered closure: ' + messageString);
+    };
+    this.onCloseFailure = (errorObject) => {
+        this.errorCallback('Untriggered closure: ' + errorObject.toString());
+    };
 }
 
 // Old Javascript inheritance: inherit all of OpenMctServerHandlerBase'methods
@@ -53,17 +64,47 @@ OpenMctServerHandlerParentProc.prototype.start = function () {
     });
     npmStart.on('close', function (code,signal) {
         embeddedThis.processPID = undefined;
-        embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] close: ' + code + ', signal: ' + signal);
+        // Call local or synchronisation callback
+        try {
+            switch ([code, signal].toString()) {
+                case [0, null].toString():
+                case [128 + SignalName2codeMap['SIGQUIT'], null].toString():
+                case [128 + SignalName2codeMap['SIGTERM'], null].toString():
+                case [128 + SignalName2codeMap['SIGINT'], null].toString():
+                    embeddedThis.onCloseSuccess('normalExit: [OPEN-MCT STATIC SERVER] on close: ' + code + ', signal: ' + signal);
+                    break;
+                case [null, null].toString():
+                    throw 'unexpectedExitCondition';
+                case [code,null].toString():
+                    throw 'uncaughtOrInternalError';
+                case [null,signal].toString():
+                    throw 'uncaughtSignalExit';
+                default:
+                    throw 'unexpectedExitCondition';
+            }
+        } catch (errName) {
+            let err = new Error('[OPEN-MCT STATIC SERVER] on close: ' + code + ', signal: ' + signal, {cause: [code, signal]});
+            err.name = errName;
+            embeddedThis.onCloseFailure(err);
+        }
     });
 
     return {status: 'OK', message: 'Opem-MCT static server process started.'};
 }
 
-OpenMctServerHandlerParentProc.prototype.stop = function (signal) {
+OpenMctServerHandlerParentProc.prototype.stop = function (signal,onCloseSuccess,onCloseFailure) {
+    // Handle programming error. Can happen only during dev/debug, so just throw a fatal error.
+    assert(
+        typeof onCloseSuccess == "function" && typeof onCloseFailure == "function",
+        'Input callback is not a function!'
+    );
     if (this.isOn()) {
+        this.onCloseSuccess = onCloseSuccess;
+        this.onCloseFailure = onCloseFailure;
         process.kill(this.processPID,signal);
         return {status: 'WRPLY', message: util.format('Process (PID %d) OpenMCT Server stopping (signal %s) ...',this.processPID,signal)};
     } else {
+        onCloseSuccess('');
         return {status: 'WARNING', message: 'No process OpenMCT Server running...'};
     }
 }
@@ -72,6 +113,4 @@ OpenMctServerHandlerParentProc.prototype.isOn = function () {
     return (this.processPID !== undefined);
 }
 
-module.exports = function (outputCallback) {
-    return new OpenMctServerHandlerParentProc(outputCallback);
-}
+module.exports = OpenMctServerHandlerParentProc;

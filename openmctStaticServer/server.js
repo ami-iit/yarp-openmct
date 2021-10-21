@@ -4,7 +4,7 @@
 
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
-const procHandler = new OpenMctServerHandlerChildProc(console.log);
+const procHandler = new OpenMctServerHandlerChildProc(console.log,console.error);
 procHandler.messageParentProcess({"pid": process.pid});
 
 const StaticServer = require('./static-server');
@@ -31,7 +31,7 @@ SignalName2codeMap = require('../common/utils').SignalName2codeMap;
 function handleTermination(signal) {
     console.log('Received '+signal+' ...');
     vizServer.close(() => {
-        console.log('Open-MCT Visualizer Server closed. No further requests accepted. Refreshing the visualizer web page will fail.);
+        console.log('Open-MCT Visualizer Server closed. No further requests accepted. Refreshing the visualizer web page will fail.');
         process.exitCode = 128+SignalName2codeMap[signal];
         process.removeListener('SIGINT', inhibit2ndSIGINT); // Remove the idle listener
         clearTimeout(handleTermination.prototype.sigintTimer);    // Cancel the timeout that would remove the idle listener

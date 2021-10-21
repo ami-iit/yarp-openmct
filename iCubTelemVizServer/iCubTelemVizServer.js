@@ -159,20 +159,39 @@ const telemServer = app.listen(portTelemetryRespOrigin, function () {
     console.log('ICubTelemetry Realtime hosted at ws://localhost:' + portTelemetryRespOrigin + '/realtime');
 });
 
-// start the server!
+// Start the control console server
 const consoleServer = http.listen(3000, function(){
   console.log('listening on http://localhost:3000');
 });
 
+// Track the connections
+WebsocketTracker = require('../common/websocket-tracker');
+const telemServerTracker = new WebsocketTracker(telemServer);
+const consoleServerTracker = new WebsocketTracker(consoleServer);
+
 // Create and start the OpenMCT server
 var OpenMctServerHandler = require('./openMctServerHandlerParentProc');
-var openMctServerHandler = new OpenMctServerHandler(console.log);
+var openMctServerHandler = new OpenMctServerHandler(console.log,console.error);
 var ret = openMctServerHandler.start();
-console.log(ret.status);
-console.log(ret.message);
+console.log(ret);
 
 function handleTermination(signal) {
     console.log('Received '+signal+' ...');
-    ret = openMctServerHandler.stop(signal);
-    console.log(ret);
+
+    /*
+     * === Closure subset A ===
+     * A.1 - Stop the child Node.js process running the OpenMCT static server.
+     */
+    const closeChildProcessPromise = new Promise(function(resolve,reject) {
+        ret = openMctServerHandler.stop(signal,resolve,reject);
+        console.log(ret);
+    });
+    Promise.all([closeChildProcessPromise]).then(
+        function(values) {
+            values.forEach((v) => console.log(v));
+        },
+        function(error) {
+            console.error(error.toString());
+        }
+    )
 }

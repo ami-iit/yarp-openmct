@@ -1,5 +1,6 @@
-function OpenMctServerHandlerBase(outputCallback) {
+function OpenMctServerHandlerBase(outputCallback,errorCallback) {
     this.outputCallback = outputCallback;
+    this.errorCallback = errorCallback;
     this.processPID = undefined;
 }
 
