@@ -18,7 +18,7 @@ function RealtimeServer(device) {
 
         // Listener
         function notifySubscribers(point) {
-            if (subscribed[point.id]) {
+            if (subscribed[point.id] && ws.readyState === ws.OPEN) {
                 ws.send(JSON.stringify(point));
             }
         }
