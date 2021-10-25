@@ -181,12 +181,34 @@ function handleTermination(signal) {
     /*
      * === Closure subset A ===
      * A.1 - Stop the child Node.js process running the OpenMCT static server.
+     * A.2 - Stop the Telemetry HTTP server telemServer from accepting new connections.
+     * A.3 - Stop the Control Console HTTP server consoleServer from accepting new connections.
      */
     const closeChildProcessPromise = new Promise(function(resolve,reject) {
         ret = openMctServerHandler.stop(signal,resolve,reject);
         console.log(ret);
     });
-    Promise.all([closeChildProcessPromise]).then(
+    const closeTelemServerPromise = new Promise(function(resolve,reject) {
+        telemServer.close((error) => {
+            if (error === undefined) {
+                resolve('iCub Telemetry Server closed: all sockets closed.');
+            } else {
+                reject(error);
+            }
+        });
+        console.log('iCub Telemetry Server closing: no further connection requests accepted.');
+    });
+    const closeConsoleServerPromise = new Promise(function(resolve,reject) {
+        consoleServer.close((error) => {
+            if (error === undefined) {
+                resolve('Control Console Server closed: all sockets closed.');
+            } else {
+                reject(error);
+            }
+        });
+        console.log('Control Console Server closing: no further incoming requests accepted.');
+    });
+    Promise.all([closeChildProcessPromise,closeTelemServerPromise,closeConsoleServerPromise]).then(
         function(values) {
             values.forEach((v) => console.log(v));
         },

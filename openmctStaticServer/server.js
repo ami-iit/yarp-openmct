@@ -31,11 +31,12 @@ SignalName2codeMap = require('../common/utils').SignalName2codeMap;
 function handleTermination(signal) {
     console.log('Received '+signal+' ...');
     vizServer.close(() => {
-        console.log('Open-MCT Visualizer Server closed. No further requests accepted. Refreshing the visualizer web page will fail.');
+        console.log('Open-MCT Visualizer Server closed: all sockets closed.');
         process.exitCode = 128+SignalName2codeMap[signal];
         process.removeListener('SIGINT', inhibit2ndSIGINT); // Remove the idle listener
         clearTimeout(handleTermination.prototype.sigintTimer);    // Cancel the timeout that would remove the idle listener
     });
+    console.log('Open-MCT Visualizer Server closing: no further incoming requests accepted. Refreshing the visualizer web page will fail.');
     vizServerTracker.closeAll();
     // Run a timer for scheduling the removal of the idle listener in case the server closure gets stuck
     handleTermination.prototype.sigintTimer = setTimeout(function () {process.removeListener('SIGINT', inhibit2ndSIGINT);},5000);
