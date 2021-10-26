@@ -215,5 +215,5 @@ function handleTermination(signal) {
         function(error) {
             console.error(error.toString());
         }
-    )
+    );
 }

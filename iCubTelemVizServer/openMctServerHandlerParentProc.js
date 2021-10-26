@@ -11,7 +11,7 @@ const util = require('util');
 // Handle errors
 var assert = require('assert');
 // Signal Event values
-const SignalName2codeMap = require('../common/utils').SignalName2codeMap;
+const signalName2exitCodeMap = require('../common/utils').signalName2exitCodeMap;
 
 function OpenMctServerHandlerParentProc(outputCallback,errorCallback) {
     // Old Javascript inheritance: Apply the "parent" class OpenMctServerHandlerBase
@@ -68,9 +68,9 @@ OpenMctServerHandlerParentProc.prototype.start = function () {
         try {
             switch ([code, signal].toString()) {
                 case [0, null].toString():
-                case [128 + SignalName2codeMap['SIGQUIT'], null].toString():
-                case [128 + SignalName2codeMap['SIGTERM'], null].toString():
-                case [128 + SignalName2codeMap['SIGINT'], null].toString():
+                case [signalName2exitCodeMap('SIGQUIT'), null].toString():
+                case [signalName2exitCodeMap('SIGTERM'), null].toString():
+                case [signalName2exitCodeMap('SIGINT'), null].toString():
                     embeddedThis.onCloseSuccess('normalExit: [OPEN-MCT STATIC SERVER] on close: ' + code + ', signal: ' + signal);
                     break;
                 case [null, null].toString():

@@ -26,13 +26,13 @@ WebsocketTracker = require('../common/websocket-tracker');
 const vizServerTracker = new WebsocketTracker(vizServer);
 
 // Handle a clean process termination
-SignalName2codeMap = require('../common/utils').SignalName2codeMap;
+signalName2exitCodeMap = require('../common/utils').signalName2exitCodeMap;
 
 function handleTermination(signal) {
     console.log('Received '+signal+' ...');
     vizServer.close(() => {
         console.log('Open-MCT Visualizer Server closed: all sockets closed.');
-        process.exitCode = 128+SignalName2codeMap[signal];
+        process.exitCode = signalName2exitCodeMap(signal);
         process.removeListener('SIGINT', inhibit2ndSIGINT); // Remove the idle listener
         clearTimeout(handleTermination.prototype.sigintTimer);    // Cancel the timeout that would remove the idle listener
     });
