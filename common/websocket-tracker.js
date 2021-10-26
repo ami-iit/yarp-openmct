@@ -17,6 +17,12 @@ WebsocketTracker.prototype.closeAll = function() {
     });
 }
 
+WebsocketTracker.prototype.pauseAll = function() {
+    this.sockets.forEach((value,key) => {
+        key.pause();
+    });
+}
+
 module.exports = function (server) {
     return new WebsocketTracker(server);
 }

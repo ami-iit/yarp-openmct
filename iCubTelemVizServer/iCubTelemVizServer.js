@@ -4,9 +4,9 @@
 // When the signal comes from the terminal, the generated event doesn't have a 'signal' parameter,
 // so it appears undefined in the callback body. We worked around this issue by explicitly setting
 // the 'signal' parameter case by case.
-process.once('SIGQUIT', () => {handleTermination('SIGQUIT');});
-process.once('SIGTERM', () => {handleTermination('SIGTERM');});
-process.once('SIGINT', () => {handleTermination('SIGINT');});
+process.once('SIGQUIT', () => {terminationHandler.run('SIGQUIT');});
+process.once('SIGTERM', () => {terminationHandler.run('SIGTERM');});
+process.once('SIGINT', () => {terminationHandler.run('SIGINT');});
 
 // require and setup basic http functionalities
 var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || 8080
@@ -175,9 +175,29 @@ var openMctServerHandler = new OpenMctServerHandler(console.log,console.error);
 var ret = openMctServerHandler.start();
 console.log(ret);
 
-function handleTermination(signal) {
-    console.log('Received '+signal+' ...');
+// Handler for a gracious termination
+var terminationHandler = new TerminationHandler(
+  openMctServerHandler,
+  telemServer,telemServerTracker,
+  consoleServer,consoleServerTracker);
 
+function TerminationHandler(
+  openMctServerHandler,
+  telemServer,telemServerTracker,
+  consoleServer,consoleServerTracker) {
+    this.openMctServerHandler = openMctServerHandler;
+    this.telemServer = telemServer;
+    this.telemServerTracker = telemServerTracker;
+    this.consoleServer = consoleServer;
+    this.consoleServerTracker = consoleServerTracker;
+}
+
+TerminationHandler.prototype.run = function(signal) {
+    console.log('Received '+signal+' ...');
+    this.runSubsetA(signal);
+}
+
+TerminationHandler.prototype.runSubsetA = function (signal) {
     /*
      * === Closure subset A ===
      * A.1 - Stop the child Node.js process running the OpenMCT static server.
@@ -185,11 +205,11 @@ function handleTermination(signal) {
      * A.3 - Stop the Control Console HTTP server consoleServer from accepting new connections.
      */
     const closeChildProcessPromise = new Promise(function(resolve,reject) {
-        ret = openMctServerHandler.stop(signal,resolve,reject);
+        ret = this.openMctServerHandler.stop(signal,resolve,reject);
         console.log(ret);
-    });
+    }.bind(this));
     const closeTelemServerPromise = new Promise(function(resolve,reject) {
-        telemServer.close((error) => {
+        this.telemServer.close((error) => {
             if (error === undefined) {
                 resolve('iCub Telemetry Server closed: all sockets closed.');
             } else {
@@ -197,9 +217,9 @@ function handleTermination(signal) {
             }
         });
         console.log('iCub Telemetry Server closing: no further connection requests accepted.');
-    });
+    }.bind(this));
     const closeConsoleServerPromise = new Promise(function(resolve,reject) {
-        consoleServer.close((error) => {
+        this.consoleServer.close((error) => {
             if (error === undefined) {
                 resolve('Control Console Server closed: all sockets closed.');
             } else {
@@ -207,13 +227,20 @@ function handleTermination(signal) {
             }
         });
         console.log('Control Console Server closing: no further incoming requests accepted.');
-    });
-    Promise.all([closeChildProcessPromise,closeTelemServerPromise,closeConsoleServerPromise]).then(
-        function(values) {
-            values.forEach((v) => console.log(v));
-        },
-        function(error) {
-            console.error(error.toString());
-        }
+    }.bind(this));
+    closeChildProcessPromise.then(
+        function(value) {
+            console.log(value);
+            this.runSubsetB();
+        }.bind(this),
+        function(error) { console.error(error.toString()); }
     );
+}
+
+TerminationHandler.prototype.runSubsetB = function() {
+    /*
+     * === Closure subset B ===
+     * B.1 - Stop listening to client requests ("subscribe"/"unsubscribe" events) on the existing connections.
+     */
+     this.telemServerTracker.pauseAll();
 }
