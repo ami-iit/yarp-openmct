@@ -13,7 +13,7 @@ function TerminationHandler(
 
 TerminationHandler.prototype.run = function(signal) {
     console.log('Received '+signal+' ...');
-    this.runSubsetA(signal);
+    this.runSubsetA(signal).closeChildProcess.then(this.runSubsetB).catch(console.error);
 }
 
 TerminationHandler.prototype.runSubsetA = function (signal) {
@@ -47,21 +47,22 @@ TerminationHandler.prototype.runSubsetA = function (signal) {
         });
         console.log('Control Console Server closing: no further incoming requests accepted.');
     }.bind(this));
-    closeChildProcessPromise.then(
-        function(value) {
-            console.log(value);
-            this.runSubsetB();
-        }.bind(this),
-        function(error) { console.error(error.toString()); }
-    );
+
+    // Return the promises
+    return {
+        closeChildProcess: closeChildProcessPromise,
+        closeServers: Promise.all([closeTelemServerPromise,closeConsoleServerPromise])
+    };
 }
 
-TerminationHandler.prototype.runSubsetB = function() {
+TerminationHandler.prototype.runSubsetB = function(resValue) {
     /*
      * === Closure subset B ===
      * B.1 - Stop listening to client requests ("subscribe"/"unsubscribe" events) on the existing connections.
      */
-     this.telemServerTracker.pauseAll();
+     console.log(resValue);              // consume resolve value from previous promise
+     this.telemServerTracker.pauseAll(); // Stop listening to client requests
+     return Promise.resolve('Stop listening to "subscribe"/"unsubscribe" client requests');
 }
 
 module.exports = TerminationHandler;

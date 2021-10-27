@@ -96,7 +96,7 @@ OpenMctServerHandlerParentProc.prototype.stop = function (signal,onCloseSuccess,
     // Handle programming error. Can happen only during dev/debug, so just throw a fatal error.
     assert(
         typeof onCloseSuccess == "function" && typeof onCloseFailure == "function",
-        'Input callback is not a function!'
+        new TypeError('Input callback is not a function!')
     );
     if (this.isOn()) {
         this.onCloseSuccess = onCloseSuccess;
