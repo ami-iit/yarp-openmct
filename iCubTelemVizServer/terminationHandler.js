@@ -13,7 +13,7 @@ function TerminationHandler(
 
 TerminationHandler.prototype.run = function(signal) {
     console.log('Received '+signal+' ...');
-    this.runSubsetA(signal).closeChildProcess.then(this.runSubsetB).catch(console.error);
+    this.runSubsetA(signal).closeChildProcess.then(this.runSubsetB.bind(this)).catch(console.error);
 }
 
 TerminationHandler.prototype.runSubsetA = function (signal) {
