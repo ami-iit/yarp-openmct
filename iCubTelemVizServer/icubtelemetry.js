@@ -13,6 +13,10 @@
 
 */
 
+// Handle errors
+var assert = require('assert');
+const TEN_MS_REPEAT_INTERVAL = 10;
+
 function ICubTelemetry() {
     this.state = {
         "sens.imu": {
@@ -39,6 +43,10 @@ function ICubTelemetry() {
         }
     };
 
+    this.forwardYarpDataToNotifier = Object.keys(this.state).map((key) => {return (id,data) => {}});
+    this.connectNetworkSource = (id) => {};
+    this.disconnectNetworkSource = (id) => {};
+
     this.maxDepthSamples = 1000;
     this.history = {};
     this.listeners = [];
@@ -46,15 +54,52 @@ function ICubTelemetry() {
         this.history[k] = [];
     }, this);
 
-    const TEN_MS_REPEAT_INTERVAL = 10;
-    setInterval(function () {
+    this.notifierTask = function () {
         var timestamp = Date.now();
         Object.keys(this.state).forEach(function (id) {
             this.generateTelemetry(timestamp,this.state[id],id);
         }, this);
-    }.bind(this), TEN_MS_REPEAT_INTERVAL);
+    }.bind(this);
 
     console.log("iCub Telemetry server launched!");
+}
+
+ICubTelemetry.prototype.defineNetworkConnector = function (connectCallback,disconnectCallback) {
+  assert(
+      typeof connectCallback == "function" && typeof disconnectCallback == "function" &&
+      connectCallback.length == 1 && disconnectCallback.length == 1,
+      new TypeError('Input callback is not a function or has wrong number of arguments!')
+  );
+  this.connectNetworkSource = connectCallback;
+  this.disconnectNetworkSource = disconnectCallback;
+}
+
+ICubTelemetry.prototype.connectTelemSrcToNotifier = function (id) {
+  this.forwardYarpDataToNotifier[id] = this.updateState.bind(this);
+  this.connectNetworkSource(id);
+  return (() => {this.disconnectTelemSrcFromNotifier(id)}.bind(this));
+}
+
+ICubTelemetry.prototype.disconnectTelemSrcFromNotifier = function (id) {
+  this.disconnectNetworkSource(id);
+  this.forwardYarpDataToNotifier[id] = (id,data) => {};
+}
+
+ICubTelemetry.prototype.startNotifier = function () {
+  if (this.notifierTimer === undefined) {
+    this.notifierTimer = setInterval(this.notifierTask,TEN_MS_REPEAT_INTERVAL);
+  } else {
+    console.warn('Notifier task timer already started!');
+  }
+}
+
+ICubTelemetry.prototype.stopNotifier = function () {
+  if (this.notifierTimer !== undefined) {
+    clearInterval(this.notifierTimer);
+    this.notifierTimer = undefined;
+  } else {
+    console.warn('Notifier task timer not running!');
+  }
 }
 
 ICubTelemetry.prototype.flattenHelper = function (nestedObj,parentKey) {

@@ -74,24 +74,38 @@ var portInConfig = {
     "sens.batteryStatus": {"yarpName":'/icubSim/battery/data:o', "localName":'/yarpjs/battery/data:i',"portType":'bottle'}
 };
 
-// Open the ports, register read callback functions, connect the ports
+// Open the ports, register read callback functions, connect the ports and start the notifier task
+icubtelemetry.defineNetworkConnector(
+  (id) => yarp.Network.connect(portInConfig[id]["yarpName"],portInConfig[id]["localName"]),
+  (id) => yarp.Network.disconnect(portInConfig[id]["yarpName"],portInConfig[id]["localName"])
+);
+
+const TerminationHandler = require('./terminationHandler.js');
+
 Object.keys(portInConfig).forEach(function (id) {
     var portIn = yarp.portHandler.open(portInConfig[id]["localName"],portInConfig[id]["portType"]);
+
+    // Redefine the Yarp port listener
     switch (portInConfig[id]["portType"]) {
         case 'bottle':
             portIn.onRead(function (bottle){
-                icubtelemetry.updateState(id,bottle.toArray());
+                icubtelemetry.forwardYarpDataToNotifier[id](id,bottle.toArray());
             });
             break;
         case 'image':
             portIn.onRead(function (image){
-                icubtelemetry.updateState(id,getDataURIscheme(image.getCompressionType(),image.toBinary()));
+                icubtelemetry.forwardYarpDataToNotifier[id](id,getDataURIscheme(image.getCompressionType(),image.toBinary()));
             });
             break;
         default:
     }
-    yarp.Network.connect(portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
+
+    // Connect the Yarp port listener to 'icubtelemetry' handler and to the robot interface.
+    // Prepare the disconnection for the server termination.
+    TerminationHandler.prototype.unlistenToYarpPorts.push(icubtelemetry.connectTelemSrcToNotifier(id));
 });
+
+icubtelemetry.startNotifier();
 
 // Create RPC server for executing system commands
 portRPCserver4sysCmds = yarp.portHandler.open('/yarpjs/sysCmdsGenerator/rpc','rpc');
@@ -176,8 +190,9 @@ var ret = openMctServerHandler.start();
 console.log(ret);
 
 // Handler for a gracious termination
-const TerminationHandler = require('./terminationHandler.js');
 var terminationHandler = new TerminationHandler(
   openMctServerHandler,
   telemServer,telemServerTracker,
-  consoleServer,consoleServerTracker);
+  consoleServer,consoleServerTracker,
+  icubtelemetry
+);
