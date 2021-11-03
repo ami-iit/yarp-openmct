@@ -15,8 +15,13 @@ function TerminationHandler(
 
 TerminationHandler.prototype.run = function(signal) {
     console.log('Received '+signal+' ...');
-    this.runSubsetA(signal).closeChildProcess.then(
-      this.runSubsetB.bind(this)).catch(console.error);
+    let subsetApromise = this.runSubsetA(signal);
+    let subsetCpromise = subsetApromise.closeChildProcess.then(
+      this.runSubsetB.bind(this)).then(
+        this.runSubsetC.bind(this));
+    Promise.all([subsetCpromise,subsetApromise.closeServers]).then(
+        function(values) { values.forEach((v) => console.log(v)); }
+      ).catch(console.error);
 }
 
 TerminationHandler.prototype.runSubsetA = function (signal) {
@@ -64,7 +69,7 @@ TerminationHandler.prototype.runSubsetB = function(resValue) {
      * B.1 - Stop listening to client requests ("subscribe"/"unsubscribe" events) on the existing connections.
      * B.2 - Close the YARP ports connections associated to the telemetry entries in `portInConfig` and instantiated by the main Node.js process.
      * B.3 - Stop reading the respective YARP ports (similar to turning off the port listeners).
-     * B.4 - Complete the unfinished processing or responses to the pending requests.
+     * B.4 - Stop sending "real-time telemetry data" messages (notifications) to subscribers.
      */
      console.log(resValue);              // consume resolve value from previous promise (synch operation)
      this.telemServerTracker.pauseAll(); // Stop listening to client requests (synch operation)
@@ -74,6 +79,17 @@ TerminationHandler.prototype.runSubsetB = function(resValue) {
      this.icubtelemetry.stopNotifier();
      return Promise.resolve('Data transmission ended.');
 }
+
+TerminationHandler.prototype.runSubsetC = function(resValue) {
+  /*
+   * === Closure subset C ===
+   * Here we assume all data transmission is completed.
+   * C.1 - Close all websockets.
+   */
+  console.log(resValue);
+  this.telemServerTracker.closeAll();
+  this.consoleServerTracker.closeAll();
+  return Promise.resolve('Closing all Telemetry Server and Control Console sockets!');
 }
 
 TerminationHandler.prototype.unlistenToYarpPorts = [];
