@@ -74,7 +74,7 @@ TerminationHandler.prototype.runSubsetB = function(resValue) {
      console.log(resValue);              // consume resolve value from previous promise (synch operation)
      this.telemServerTracker.pauseAll(); // Stop listening to client requests (synch operation)
      console.log('iCub Telemetry Server closing: no further "subscribe"/"unsubscribe" requests accepted.');
-     this.unlistenToYarpPorts.forEach((disconnect) => { disconnect(); }); // Disconnect all telemetry entries (asynch operation)
+     this.unlistenToNetworkPorts.forEach((disconnect) => { disconnect(); }); // Disconnect all telemetry entries (asynch operation)
      console.log('iCub Telemetry Server closing: disconnected network ports.');
      this.icubtelemetry.stopNotifier();
      return Promise.resolve('Data transmission ended.');
@@ -92,6 +92,6 @@ TerminationHandler.prototype.runSubsetC = function(resValue) {
   return Promise.resolve('Closing all Telemetry Server and Control Console sockets!');
 }
 
-TerminationHandler.prototype.unlistenToYarpPorts = [];
+TerminationHandler.prototype.unlistenToNetworkPorts = [];
 
 module.exports = TerminationHandler;

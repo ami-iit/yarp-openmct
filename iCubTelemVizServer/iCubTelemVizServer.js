@@ -102,7 +102,7 @@ Object.keys(portInConfig).forEach(function (id) {
 
     // Connect the Yarp port listener to 'icubtelemetry' handler and to the robot interface.
     // Prepare the disconnection for the server termination.
-    TerminationHandler.prototype.unlistenToYarpPorts.push(icubtelemetry.connectTelemSrcToNotifier(id));
+    TerminationHandler.prototype.unlistenToNetworkPorts.push(icubtelemetry.connectTelemSrcToNotifier(id));
 });
 
 icubtelemetry.startNotifier();
