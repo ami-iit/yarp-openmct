@@ -22,7 +22,8 @@ TerminationHandler.prototype.run = function(signal) {
     Promise.all([subsetCpromise,subsetApromise.closeServers]).then(
         function(values) {
           values.forEach((v) => console.log(v));
-          process.exit();
+          // console.log(process._getActiveHandles());
+          console.log(process._getActiveRequests());
         }
       ).catch(console.error);
 }
@@ -79,6 +80,8 @@ TerminationHandler.prototype.runSubsetB = function(resValue) {
      console.log('iCub Telemetry Server closing: no further "subscribe"/"unsubscribe" requests accepted.');
      this.unlistenToNetworkPorts.forEach((disconnect) => { disconnect(); }); // Disconnect all telemetry entries (asynch operation)
      console.log('iCub Telemetry Server closing: disconnected network ports.');
+     this.closeNetworkPorts.forEach((closePort) => { closePort(); }); // Close all network ports (asynch operation)
+     console.log('iCub Telemetry Server closing: closed network ports.');
      this.icubtelemetry.stopNotifier();
      return Promise.resolve('Data transmission ended.');
 }
@@ -96,5 +99,7 @@ TerminationHandler.prototype.runSubsetC = function(resValue) {
 }
 
 TerminationHandler.prototype.unlistenToNetworkPorts = [];
+
+TerminationHandler.prototype.closeNetworkPorts = [];
 
 module.exports = TerminationHandler;

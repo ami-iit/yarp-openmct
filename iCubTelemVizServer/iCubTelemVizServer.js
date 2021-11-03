@@ -84,6 +84,7 @@ const TerminationHandler = require('./terminationHandler.js');
 
 Object.keys(portInConfig).forEach(function (id) {
     var portIn = yarp.portHandler.open(portInConfig[id]["localName"],portInConfig[id]["portType"]);
+    TerminationHandler.prototype.closeNetworkPorts.push(() => {yarp.portHandler.close(portInConfig[id]["localName"])});
 
     // Redefine the Yarp port listener
     switch (portInConfig[id]["portType"]) {
@@ -109,6 +110,7 @@ icubtelemetry.startNotifier();
 
 // Create RPC server for executing system commands
 portRPCserver4sysCmds = yarp.portHandler.open('/yarpjs/sysCmdsGenerator/rpc','rpc');
+TerminationHandler.prototype.closeNetworkPorts.push(() => {yarp.portHandler.close('/yarpjs/sysCmdsGenerator/rpc')});
 
 portRPCserver4sysCmds.onRead(function (cmdNparams) {
     var cmdArray = cmdNparams.toArray();
