@@ -20,7 +20,10 @@ TerminationHandler.prototype.run = function(signal) {
       this.runSubsetB.bind(this)).then(
         this.runSubsetC.bind(this));
     Promise.all([subsetCpromise,subsetApromise.closeServers]).then(
-        function(values) { values.forEach((v) => console.log(v)); }
+        function(values) {
+          values.forEach((v) => console.log(v));
+          process.exit();
+        }
       ).catch(console.error);
 }
 
