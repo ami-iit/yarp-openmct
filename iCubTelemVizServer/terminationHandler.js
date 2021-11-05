@@ -11,6 +11,9 @@ function TerminationHandler(
     this.consoleServer = consoleServer;
     this.consoleServerTracker = consoleServerTracker;
     this.icubtelemetry = icubtelemetry;
+
+    // Init listeners backup list
+    this.listenersBackup = {};
 }
 
 TerminationHandler.prototype.run = function(signal) {
@@ -22,8 +25,8 @@ TerminationHandler.prototype.run = function(signal) {
     Promise.all([subsetCpromise,subsetApromise.closeServers]).then(
         function(values) {
           values.forEach((v) => console.log(v));
-          process.exit();
-        }
+            this.restoreSignalListeners(signal);
+        }.bind(this)
       ).catch(console.error);
 }
 
@@ -96,5 +99,32 @@ TerminationHandler.prototype.runSubsetC = function(resValue) {
 }
 
 TerminationHandler.prototype.unlistenToNetworkPorts = [];
+
+TerminationHandler.prototype.backupAndReplaceSignalListeners = function (signal) {
+    // backup the listeners registered for that 'signal'
+    this.listenersBackup[signal] = process.listeners(signal);
+
+    // Unregister them
+    process.removeAllListeners(signal);
+
+    // Add our own termination signals listeners.
+    // When the signal comes from the terminal, the generated event doesn't have a 'signal' parameter,
+    // so it appears undefined in the callback body. We worked around this issue by explicitly setting
+    // the 'signal' parameter case by case.
+    process.once(signal, () => {this.run(signal);}.bind(this));
+}
+
+TerminationHandler.prototype.restoreSignalListeners = function (signal) {
+    // Restore the backed-up listeners
+    this.listenersBackup[signal].forEach((listener) => {
+        process.on(signal,listener);
+    });
+
+    // (WORKAROUND) Add in last position a listener for forcing the process to exit
+    process.once(signal,() => {process.exit();});
+
+    // Emit again the captured signal
+    process.emit(signal);
+}
 
 module.exports = TerminationHandler;

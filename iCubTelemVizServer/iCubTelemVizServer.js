@@ -1,13 +1,5 @@
 // Server http (non secure)
 
-// Process the termination signals callbacks.
-// When the signal comes from the terminal, the generated event doesn't have a 'signal' parameter,
-// so it appears undefined in the callback body. We worked around this issue by explicitly setting
-// the 'signal' parameter case by case.
-process.once('SIGQUIT', () => {terminationHandler.run('SIGQUIT');});
-process.once('SIGTERM', () => {terminationHandler.run('SIGTERM');});
-process.once('SIGINT', () => {terminationHandler.run('SIGINT');});
-
 // require and setup basic http functionalities
 var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || 8080
 var portTelemetryRespOrigin = process.env.PORT_TLM_RSP_ORIGIN || 8081
@@ -196,3 +188,11 @@ var terminationHandler = new TerminationHandler(
   consoleServer,consoleServerTracker,
   icubtelemetry
 );
+
+// Add our own termination signals listeners.
+// When the signal comes from the terminal, the generated event doesn't have a 'signal' parameter,
+// so it appears undefined in the callback body. We worked around this issue by explicitly setting
+// the 'signal' parameter case by case.
+terminationHandler.backupAndReplaceSignalListeners('SIGQUIT');
+terminationHandler.backupAndReplaceSignalListeners('SIGTERM');
+terminationHandler.backupAndReplaceSignalListeners('SIGINT');
