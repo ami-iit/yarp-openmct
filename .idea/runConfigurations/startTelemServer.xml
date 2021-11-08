@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="iCubTelemServerStart" type="js.build_tools.npm" singleton="false">
-    <package-json value="$PROJECT_DIR$/package.json" />
+  <configuration default="false" name="startTelemServer" type="js.build_tools.npm" singleton="false">
+    <package-json value="$PROJECT_DIR$/iCubTelemVizServer/package.json" />
     <command value="run" />
     <scripts>
       <script value="start" />

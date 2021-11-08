@@ -1,14 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="visualizerServerStart" type="js.build_tools.npm">
-    <package-json value="$PROJECT_DIR$/package.json" />
+  <configuration default="false" name="startOpenmctViz" type="js.build_tools.npm" singleton="false">
+    <package-json value="$PROJECT_DIR$/openmctStaticServer/package.json" />
     <command value="run" />
     <scripts>
       <script value="start" />
     </scripts>
     <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.17.0/bin/node" />
-    <envs>
-      <env name="NODE_DEBUG_OPTION" value="--inspect" />
-    </envs>
+    <envs />
     <method v="2" />
   </configuration>
 </component>

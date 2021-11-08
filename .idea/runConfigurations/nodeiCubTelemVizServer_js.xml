@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="nodeiCubTelemVizServer.js" type="NodeJSConfigurationType" singleton="false" path-to-js-file="iCubTelemVizServer.js" working-dir="$PROJECT_DIR$/iCubTelemVizServer">
+    <method v="2" />
+  </configuration>
+</component>
