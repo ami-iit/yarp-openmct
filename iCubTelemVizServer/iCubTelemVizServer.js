@@ -61,8 +61,8 @@ var portInConfig = {
     "sens.leftLegState": {"yarpName":'/icubSim/left_leg/stateExt:o', "localName":'/yarpjs/left_leg/stateExt:o',"portType":'bottle'},
     "sens.camLeftEye": {"yarpName":'/icubSim/camLeftEye', "localName":'/yarpjs/camLeftEye:i',"portType":'image'},
     "sens.camRightEye": {"yarpName":'/icubSim/camRightEye', "localName":'/yarpjs/camRightEye:i',"portType":'image'},
-    "sens.leftLegEEwrench": {"yarpName":'/wholeBodyDynamics/left_leg/cartesianEndEffectorWrench:o', "localName":'/yarpjs/left_leg/cartesianEndEffectorWrench:i',"portType":'bottle'},
-    "sens.rightLegEEwrench": {"yarpName":'/wholeBodyDynamics/right_leg/cartesianEndEffectorWrench:o', "localName":'/yarpjs/right_leg/cartesianEndEffectorWrench:i',"portType":'bottle'},
+    "sens.leftFootEEwrench": {"yarpName":'/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o', "localName":'/yarpjs/left_foot/cartesianEndEffectorWrench:i',"portType":'bottle'},
+    "sens.rightFootEEwrench": {"yarpName":'/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o', "localName":'/yarpjs/right_foot/cartesianEndEffectorWrench:i',"portType":'bottle'},
     "sens.batteryStatus": {"yarpName":'/icubSim/battery/data:o', "localName":'/yarpjs/battery/data:i',"portType":'bottle'}
 };
 

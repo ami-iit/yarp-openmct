@@ -265,8 +265,8 @@
       ]
     },
     {
-      "name": "Left Leg End Effector Wrench",
-      "key": "sens.leftLegEEwrench",
+      "name": "Left Foot End Effector Wrench",
+      "key": "sens.leftFootEEwrench",
       "values": [
         {
           "key": "value.force.x",
@@ -334,8 +334,8 @@
       ]
     },
     {
-      "name": "Right Leg End Effector Wrench",
-      "key": "sens.rightLegEEwrench",
+      "name": "Right Foot End Effector Wrench",
+      "key": "sens.rightFootEEwrench",
       "values": [
         {
           "key": "value.force.x",

@@ -30,11 +30,11 @@ function ICubTelemetry() {
         },
         "sens.camLeftEye": 0,
         "sens.camRightEye": 0,
-        "sens.leftLegEEwrench": {
+        "sens.leftFootEEwrench": {
             "force": {"x": 0, "y": 0, "z": 0},
             "torque": {"x": 0, "y": 0, "z": 0}
         },
-        "sens.rightLegEEwrench": {
+        "sens.rightFootEEwrench": {
             "force": {"x": 0, "y": 0, "z": 0},
             "torque": {"x": 0, "y": 0, "z": 0}
         },
@@ -142,8 +142,8 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
             this.state[id].jointPos.l_ankle_pitch = sensorSample[0][4];
             this.state[id].jointPos.l_ankle_roll = sensorSample[0][5];
             break;
-        case "sens.leftLegEEwrench":
-        case "sens.rightLegEEwrench":
+        case "sens.leftFootEEwrench":
+        case "sens.rightFootEEwrench":
             this.state[id].force.x = sensorSample[0];
             this.state[id].force.y = sensorSample[1];
             this.state[id].force.z = sensorSample[2];
@@ -171,8 +171,8 @@ ICubTelemetry.prototype.generateTelemetry = function (timestamp,value,id) {
     switch(id) {
         case "sens.imu":
         case "sens.leftLegState":
-        case "sens.leftLegEEwrench":
-        case "sens.rightLegEEwrench":
+        case "sens.leftFootEEwrench":
+        case "sens.rightFootEEwrench":
         case "sens.batteryStatus":
             var telemetrySample = this.flatten({timestamp: timestamp, value: value, id: id});
             break;
