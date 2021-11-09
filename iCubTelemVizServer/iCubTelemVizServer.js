@@ -157,14 +157,14 @@ portRPCserver4sysCmds.onRead(function (cmdNparams) {
 });
 
 // Start history and realtime servers
-const telemServer = app.listen(portTelemetryRespOrigin, function () {
-    console.log('ICubTelemetry History hosted at http://' + config.telemVizServer.host + ':' + portTelemetryRespOrigin + '/history');
-    console.log('ICubTelemetry Realtime hosted at ws://' + config.telemVizServer.host + ':' + portTelemetryRespOrigin + '/realtime');
+const telemServer = app.listen(portTelemetryRespOrigin, config.telemVizServer.host, function () {
+    console.log('ICubTelemetry History Server listening on http://' + telemServer.address().address + ':' + telemServer.address().port + '/history');
+    console.log('ICubTelemetry Realtime Server listening on ws://' + telemServer.address().address + ':' + telemServer.address().port + '/realtime');
 });
 
 // Start the control console server
-const consoleServer = http.listen(3000, function(){
-  console.log('listening on http://localhost:3000');
+const consoleServer = http.listen(3000, config.consoleServer.host, function(){
+  console.log('Control Console Server listening on http://' + consoleServer.address().address + ':' + consoleServer.address().port);
 });
 
 // Track the connections

@@ -2,6 +2,9 @@
  * Basic implementation of a static server.
  */
 
+// Import main configuration
+config = require('../config/processedDefault');
+
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
 const procHandler = new OpenMctServerHandlerChildProc(console.log,console.error);
@@ -14,11 +17,11 @@ expressWs(app);
 
 const staticServer = new StaticServer();
 app.use('/', staticServer);
-const port = process.env.PORT || 8080
+const port = process.env.PORT || config.openmctStaticServer.port;
 
 // Start the server
-vizServer = app.listen(port, function () {
-    console.log('iCub Telemetry Visualizer (Open MCT based) hosted at http://localhost:' + port);
+vizServer = app.listen(port, config.openmctStaticServer.host, function () {
+    console.log('Visualizer Console Server (Open MCT based) listening on http://' + vizServer.address().address + ':' + vizServer.address().port);
 });
 
 // Track the connections
