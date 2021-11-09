@@ -1,13 +1,18 @@
-// Server http (non secure)
+/**
+ * Server http (non secure)
+ */
+
+// Import main configuration
+var config = require('../config/processedDefault');
 
 // require and setup basic http functionalities
-var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || 8080
-var portTelemetryRespOrigin = process.env.PORT_TLM_RSP_ORIGIN || 8081
+var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || config.openmctStaticServer.port;
+var portTelemetryRespOrigin = process.env.PORT_TLM_RSP_ORIGIN || config.telemVizServer.port;
 var express = require('express');
 var app = express();
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:"+portTelemetryReqOrigin); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Origin", "http://" + config.openmctStaticServer.host + ":" + portTelemetryReqOrigin); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -56,15 +61,7 @@ app.use('/history', historyServer);
 // Open the Yarp ports and feed the data to the 'icubtelemetry' object
 
 // Define the ports
-var portInConfig = {
-    "sens.imu": {"yarpName":'/icubSim/inertial', "localName":'/yarpjs/inertial:i',"portType":'bottle'},
-    "sens.leftLegState": {"yarpName":'/icubSim/left_leg/stateExt:o', "localName":'/yarpjs/left_leg/stateExt:o',"portType":'bottle'},
-    "sens.camLeftEye": {"yarpName":'/icubSim/camLeftEye', "localName":'/yarpjs/camLeftEye:i',"portType":'image'},
-    "sens.camRightEye": {"yarpName":'/icubSim/camRightEye', "localName":'/yarpjs/camRightEye:i',"portType":'image'},
-    "sens.leftFootEEwrench": {"yarpName":'/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o', "localName":'/yarpjs/left_foot/cartesianEndEffectorWrench:i',"portType":'bottle'},
-    "sens.rightFootEEwrench": {"yarpName":'/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o', "localName":'/yarpjs/right_foot/cartesianEndEffectorWrench:i',"portType":'bottle'},
-    "sens.batteryStatus": {"yarpName":'/icubSim/battery/data:o', "localName":'/yarpjs/battery/data:i',"portType":'bottle'}
-};
+var portInConfig = config.portInConfig;
 
 // Open the ports, register read callback functions, connect the ports and start the notifier task
 icubtelemetry.defineNetworkConnector(
@@ -161,8 +158,8 @@ portRPCserver4sysCmds.onRead(function (cmdNparams) {
 
 // Start history and realtime servers
 const telemServer = app.listen(portTelemetryRespOrigin, function () {
-    console.log('ICubTelemetry History hosted at http://localhost:' + portTelemetryRespOrigin + '/history');
-    console.log('ICubTelemetry Realtime hosted at ws://localhost:' + portTelemetryRespOrigin + '/realtime');
+    console.log('ICubTelemetry History hosted at http://' + config.telemVizServer.host + ':' + portTelemetryRespOrigin + '/history');
+    console.log('ICubTelemetry Realtime hosted at ws://' + config.telemVizServer.host + ':' + portTelemetryRespOrigin + '/realtime');
 });
 
 // Start the control console server

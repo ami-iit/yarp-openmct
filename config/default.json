@@ -1,0 +1,52 @@
+{
+    "robotYarpPortPrefix": "/icubSim",
+    "telemVizServer": {
+        "host": "localhost",
+        "port": 8081
+    },
+    "consoleServer": {
+        "host": "localhost",
+        "port": 3000
+    },
+    "openmctStaticServer": {
+        "host": "localhost",
+        "port": 8080
+    },
+    "portInConfig": {
+        "sens.imu": {
+            "yarpName": "${this.robotYarpPortPrefix}/inertial",
+            "localName": "/yarpjs/inertial:i",
+            "portType": "bottle"
+        },
+        "sens.leftLegState": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_leg/stateExt:o",
+            "localName": "/yarpjs/left_leg/stateExt:o",
+            "portType": "bottle"
+        },
+        "sens.camLeftEye": {
+            "yarpName": "${this.robotYarpPortPrefix}/camLeftEye",
+            "localName": "/yarpjs/camLeftEye:i",
+            "portType": "image"
+        },
+        "sens.camRightEye": {
+            "yarpName": "${this.robotYarpPortPrefix}/camRightEye",
+            "localName": "/yarpjs/camRightEye:i",
+            "portType": "image"
+        },
+        "sens.leftFootEEwrench": {
+            "yarpName": "/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o",
+            "localName": "/yarpjs/left_foot/cartesianEndEffectorWrench:i",
+            "portType": "bottle"
+        },
+        "sens.rightFootEEwrench": {
+            "yarpName": "/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o",
+            "localName": "/yarpjs/right_foot/cartesianEndEffectorWrench:i",
+            "portType": "bottle"
+        },
+        "sens.batteryStatus": {
+            "yarpName": "${this.robotYarpPortPrefix}/battery/data:o",
+            "localName": "/yarpjs/battery/data:i",
+            "portType": "bottle"
+        }
+    }
+}
