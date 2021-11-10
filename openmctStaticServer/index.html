@@ -7,6 +7,7 @@
     <script src="dictionary-plugin.js"></script>
     <script src="historical-telemetry-plugin.js"></script>
     <script src="realtime-telemetry-plugin.js"></script>
+    <script src="config/processedDefault.json"></script>
     <link rel="stylesheet" href="node_modules/openmct/dist/espressoTheme.css">
 </head>
 <body>
@@ -18,9 +19,11 @@
         openmct.time.clock('local', {start: -ONE_MINUTE, end: 0});
         openmct.time.timeSystem('utc');
 
+        let telemServerHost = processedConfig.telemVizServer.host;
+        let telemServerPort = processedConfig.telemVizServer.port;
         openmct.install(DictionaryPlugin());
-        openmct.install(HistoricalTelemetryPlugin());
-        openmct.install(RealtimeTelemetryPlugin());
+        openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
+        openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort));
 
         openmct.start();
     </script>

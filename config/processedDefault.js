@@ -27,8 +27,8 @@ let processedConfig = traverse(config);
  * - "this" is the root object "config",
  * - "key1.key2...keyN" is the path to the nested field defining the variable.
  *
- * @param nestedObject
- * @returns nestedOject
+ * @param {object} nestedObject
+ * @returns {object} evaluatedNestedOject
  */
 function traverse (nestedObject) {
     Object.keys(nestedObject).forEach((k) => {

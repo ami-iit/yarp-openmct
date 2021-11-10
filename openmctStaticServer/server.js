@@ -4,6 +4,7 @@
 
 // Import main configuration
 config = require('../config/processedDefault');
+jsonExportScript = (require('../common/utils')).jsonExportScript;
 
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
@@ -16,10 +17,16 @@ const app = require('express')();
 expressWs(app);
 
 const staticServer = new StaticServer();
+// Process default server configuration requests
+app.get('/config/processedDefault.json', function(req, res){
+    console.log('processedDefault.json requested!');
+    res.send(jsonExportScript(config,'processedConfig'));
+});
+// Route static server
 app.use('/', staticServer);
-const port = process.env.PORT || config.openmctStaticServer.port;
 
 // Start the server
+const port = process.env.PORT || config.openmctStaticServer.port;
 vizServer = app.listen(port, config.openmctStaticServer.host, function () {
     console.log('Visualizer Console Server (Open MCT based) listening on http://' + vizServer.address().address + ':' + vizServer.address().port);
 });

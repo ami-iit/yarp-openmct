@@ -163,7 +163,7 @@ const telemServer = app.listen(portTelemetryRespOrigin, config.telemVizServer.ho
 });
 
 // Start the control console server
-const consoleServer = http.listen(3000, config.consoleServer.host, function(){
+const consoleServer = http.listen(config.consoleServer.port, config.consoleServer.host, function(){
   console.log('Control Console Server listening on http://' + consoleServer.address().address + ':' + consoleServer.address().port);
 });
 

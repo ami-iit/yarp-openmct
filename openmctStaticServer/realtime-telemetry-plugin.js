@@ -1,9 +1,9 @@
 /**
  * Basic Realtime telemetry plugin using websockets.
  */
-function RealtimeTelemetryPlugin() {
+function RealtimeTelemetryPlugin(telemServerHost,telemServerPort) {
     return function (openmct) {
-        var socket = new WebSocket('ws://localhost:8081' + '/realtime/');
+        var socket = new WebSocket('ws://' + telemServerHost + ':' + telemServerPort + '/realtime/');
         var listener = {};
 
         socket.onmessage = function (event) {
