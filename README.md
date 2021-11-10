@@ -277,7 +277,7 @@ Depending on which robot data you wish to visualize or operation you wish to run
     ```
     conda activate icubtelemenv
     ```
-3. Open the default comfiguration file `<yarp-openmct-root-folder>/config/default.json`. This JSON formatted file holds the ports configuration, the ports prefix and the servers configuration.
+3. Open the default configuration file `<yarp-openmct-root-folder>/config/default.json`. This JSON formatted file holds the ports configuration, the ports prefix and the servers configuration.
    <details>
    <summary>[Servers Default Configuration Parameters]</summary>
    
