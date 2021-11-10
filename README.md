@@ -269,46 +269,87 @@ Depending on which robot data you wish to visualize or operation you wish to run
 
 ### Run the Telemetry Server
 
+#### Configure
+
 1. Open a terminal on the same or any other machine connected to the network.
 
 2. If you have used `conda` package manager to install the dependencies as described in Section #server-installation, activate the `conda` environment where you installed these dependencies, otherwise skip to next step.
     ```
     conda activate icubtelemenv
     ```
+3. Open the default comfiguration file `<yarp-openmct-root-folder>/config/default.json`. This JSON formatted file holds the ports configuration, the ports prefix and the servers configuration.
+   <details>
+   <summary>[Servers Default Configuration Parameters]</summary>
+   
+   - The ports configuration `portInConfig` define, for each port, the properties **Yarp name**, **local name** and **port 
+     type** ("bottle", "image").
+   - The ports prefix `robotYarpPortPrefix` (`/icub`, `/icubSim`) is by default defined as a field at the root level of the configuration JSON object and its value is used on the Yarp port names. The `default.json` file has a JSON format but its format was "extended" (via the "pre" processing done in [processedDefault.js](https://github.com/ami-iit/yarp-openmct/blob/8c6a6f5ec7e4b42ee7bad3013de15ad2de1d2c4c/config/processedDefault.js)) to support the use of variables in the JSON literals:
+     ```json
+     {
+         "robotYarpPortPrefix": "/icubSim",
+         ...
+         "portInConfig": {
+             "sens.imu": {
+                 "yarpName": "${this.robotYarpPortPrefix}/inertial",
+                 ...
+             },
+             ...
+         }
+     }
+     ```
+    - `telemVizServer`, `consoleServer` and `openmctStaticServer` set respectively the telemetry data server, the control console server and the OpenMCT static server configuration, providing the port number and host name/address.
+    - `[telemVizServer|consoleServer|openmctStaticServer].port`: The default ports are the most commonly used ones.
+    - `[telemVizServer|consoleServer|openmctStaticServer].host`: If you set it to `localhost`, the server will be reachable only to clients running on the same machine. Actually `localhost` points to `127.0.0.1`, the special internal IP address of the loopback virtual adapter. If you set it to the the machine real IP address, the server can be reached by other machines on the same network.
+    
+    </details>
 
-3. Run `npm start` from `<yarp-openmct-root-folder>/iCubTelemVizServer` folder. You should get on the temrinal standard output something like:
-    ```
-    > iCubTelemVizServer@1.0.0 start <user-home>/dev/yarp-openmct/iCubTelemVizServer
-    > . ${NVM_DIR}/nvm.sh; nvm use v4.2.2; node ${NODE_DEBUG_OPTION} iCubTelemVizServer.js
-    
-    Now using node v4.2.2 (npm v2.14.7)
-    iCub Telemetry server launched!
-    [INFO] |yarp.os.Port| Port /yarpjs/inertial:i active at tcp://192.168.1.100:10117/
-    [INFO] |yarp.os.impl.PortCoreInputUnit| Receiving input from /icubSim/inertial to /yarpjs/inertial:i using tcp
-    ...
-    [INFO] |yarp.os.Port| Port /yarpjs/sysCmdsGenerator/rpc active at tcp://192.168.1.100:10124/
-    OK
-    Opem-MCT static server process started.
-    ICubTelemetry History hosted at http://localhost:8081/history
-    ICubTelemetry Realtime hosted at ws://localhost:8081/realtime
-    listening on http://localhost:3000
-    [OPEN-MCT STATIC SERVER] stdout:
-    > openmctStaticServer@1.0.0 start <user-home>/dev/yarp-openmct/openmctStaticServer
-    > . ${NVM_DIR}/nvm.sh; nvm use v14.17.0; node server.js
-    
-    
-    [OPEN-MCT STATIC SERVER] stdout: Now using node v14.17.0 (npm v6.14.13)
-    
-    [OPEN-MCT STATIC SERVER] stdout: iCub Telemetry Visualizer (Open MCT based) hosted at http://localhost:8080
-    ```
+#### Launch the server application
 
-4. Read the machine IP address using `ifconfig` (Linux,MacOS) or `ipconfig` (Windows). We shall refer to this address as \<server-IP-address>.
+4. Run `npm start` from folder `<yarp-openmct-root-folder>/iCubTelemVizServer`. You should get on the terminal standard output something like:
+   <details>
+   <summary>[Console output]</summary>
+   
+   ```
+   > iCubTelemVizServer@1.0.0 start <user-home>/dev/yarp-openmct/iCubTelemVizServer
+   > . ${NVM_DIR}/nvm.sh; nvm use v4.2.2; node ${NODE_DEBUG_OPTION} iCubTelemVizServer.js
+   
+   Now using node v4.2.2 (npm v2.14.7)
+   iCub Telemetry server launched!
+   [INFO] |yarp.os.Port| Port /yarpjs/inertial:i active at tcp://192.168.1.19:10117/
+   [INFO] |yarp.os.impl.PortCoreInputUnit| Receiving input from /icubSim/inertial to /yarpjs/inertial:i using tcp
+   [INFO] |yarp.os.Port| Port /yarpjs/left_leg/stateExt:o active at tcp://192.168.1.19:10118/
+   [INFO] |yarp.os.impl.PortCoreInputUnit| Receiving input from /icubSim/left_leg/stateExt:o to /yarpjs/left_leg/stateExt:o using tcp
+   [INFO] |yarp.os.Port| Port /yarpjs/camLeftEye:i active at tcp://192.168.1.19:10119/
+   [INFO] |yarp.os.Port| Port /yarpjs/camRightEye:i active at tcp://192.168.1.19:10120/
+   [INFO] |yarp.os.Port| Port /yarpjs/left_foot/cartesianEndEffectorWrench:i active at tcp://192.168.1.19:10121/
+   [INFO] |yarp.os.impl.PortCoreInputUnit| Receiving input from /wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o to    /yarpjs/left_foot/cartesianEndEffectorWrench:i using tcp
+   [INFO] |yarp.os.Port| Port /yarpjs/right_foot/cartesianEndEffectorWrench:i active at tcp://192.168.1.19:10122/
+   [INFO] |yarp.os.impl.PortCoreInputUnit| Receiving input from /wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o to    /yarpjs/right_foot/cartesianEndEffectorWrench:i using tcp
+   [INFO] |yarp.os.Port| Port /yarpjs/battery/data:i active at tcp://192.168.1.19:10123/
+   [INFO] |yarp.os.Port| Port /yarpjs/sysCmdsGenerator/rpc active at tcp://192.168.1.19:10124/
+   { status: 'OK',
+     message: 'Opem-MCT static server process started.' }
+   Control Console Server listening on http://127.0.0.1:3000
+   ICubTelemetry History Server listening on http://127.0.0.1:8081/history
+   ICubTelemetry Realtime Server listening on ws://127.0.0.1:8081/realtime
+   [OPEN-MCT STATIC SERVER] stdout: Now using node v14.17.0 (npm v6.14.13)
+   
+   [OPEN-MCT STATIC SERVER] ipc: {"pid":70020}
+   [OPEN-MCT STATIC SERVER] stdout: Visualizer Console Server (Open MCT based) listening on http://127.0.0.1:8080
+   ```
+   
+   </details>
+5. The last line of the terminal output should be:
+   ```
+   [OPEN-MCT STATIC SERVER] stdout: Visualizer Console Server (Open MCT based) listening on http://127.0.0.1:8080
+   ```
+   ...displaying the visualizer console server URL (Uniform Resource Locator), i.e. `http://<IP-address>:<socket-number>`. In this example we had set its address to `localhost`. In general, we shall refer to the server URL as `<server-URL>`.
 
 ## [How to Run the Visualizer Client](#top)
 
 The Visualizer Client is a GUI based on the [Open MCT](https://github.com/nasa/openmct) framework, displaying a set of iCub Telemetry data elements which plot the data received from the telemetry server. 
 
-Run a browser on any other machine connected to the same network and open the link `<server-IP-address>:8080`. If you run the browser on the same machine as the telemetry server, just open the link `localhost:8080`.
+Run a browser on any other machine connected to the same network and open the link `<server-URL>`. If you run the browser on the same machine as the telemetry server (server address is `localhost`), just click directly on the address displayed on the terminal output.
 
 <p align='center'>
 <img src="images/iCubTelemetryOpenMCTexample.png" width="80%">
