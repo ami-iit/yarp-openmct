@@ -67,12 +67,13 @@ var portInConfig = config.portInConfig;
 // Use topics to create persistent connections.
 icubtelemetry.defineNetworkConnector(
   (id) => {
-      yarp.Network.connect(portInConfig[id]["yarpName"],"topic://" + portInConfig[id]["yarpName"]);
-      yarp.Network.connect("topic://" + portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
+      yarp.Network.connect(portInConfig[id]["yarpName"],"topic:/" + portInConfig[id]["yarpName"]);
+      yarp.Network.connect("topic:/" + portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
   },
   (id) => {
-      yarp.Network.disconnect(portInConfig[id]["yarpName"],"topic://" + portInConfig[id]["yarpName"]);
-      yarp.Network.disconnect("topic://" + portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
+      yarp.Network.disconnect(portInConfig[id]["yarpName"],"topic:/" + portInConfig[id]["yarpName"]);
+      yarp.Network.disconnect("topic:/" + portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
+      yarp.Network.disconnect(portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
   }
 );
 
