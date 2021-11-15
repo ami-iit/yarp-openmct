@@ -63,10 +63,17 @@ app.use('/history', historyServer);
 // Define the ports
 var portInConfig = config.portInConfig;
 
-// Open the ports, register read callback functions, connect the ports and start the notifier task
+// Open the ports, register read callback functions, connect the ports and start the notifier task.
+// Use topics to create persistent connections.
 icubtelemetry.defineNetworkConnector(
-  (id) => yarp.Network.connect(portInConfig[id]["yarpName"],portInConfig[id]["localName"]),
-  (id) => yarp.Network.disconnect(portInConfig[id]["yarpName"],portInConfig[id]["localName"])
+  (id) => {
+      yarp.Network.connect(portInConfig[id]["yarpName"],"topic://" + portInConfig[id]["yarpName"]);
+      yarp.Network.connect("topic://" + portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
+  },
+  (id) => {
+      yarp.Network.disconnect(portInConfig[id]["yarpName"],"topic://" + portInConfig[id]["yarpName"]);
+      yarp.Network.disconnect("topic://" + portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
+  }
 );
 
 const TerminationHandler = require('./terminationHandler.js');
