@@ -1,16 +1,17 @@
 {
     "robotYarpPortPrefix": "/icubSim",
     "localYarpPortPrefix": "/yarpjs",
+    "commonHostIPaddress": "localhost",
     "telemVizServer": {
-        "host": "localhost",
+        "host": "${this.commonHostIPaddress}",
         "port": 8081
     },
     "consoleServer": {
-        "host": "localhost",
+        "host": "${this.commonHostIPaddress}",
         "port": 3000
     },
     "openmctStaticServer": {
-        "host": "localhost",
+        "host": "${this.commonHostIPaddress}",
         "port": 8080
     },
     "portInConfig": {
