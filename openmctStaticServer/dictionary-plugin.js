@@ -22,6 +22,11 @@ var objectProvider = {
                 var measurement = dictionary.measurements.filter(function (m) {
                     return m.key === identifier.key;
                 })[0];
+                measurement.values.forEach(function (value) {
+                    if (value.units !== undefined) {
+                        value.name += " (" + value.units + ")";
+                    }
+                });
                 return {
                     identifier: identifier,
                     name: measurement.name,
