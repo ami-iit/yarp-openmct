@@ -2,23 +2,44 @@
 <html>
 <head>
     <title>iCub Telemetry Visualizer (Open MCT based)</title>
-    <script src="node_modules/openmct/dist/openmct.js"></script>
+    <script src="openmctdist/openmct.js"></script>
     <script src="lib/http.js"></script>
     <script src="dictionary-plugin.js"></script>
     <script src="historical-telemetry-plugin.js"></script>
     <script src="realtime-telemetry-plugin.js"></script>
     <script src="config/processedDefault.json"></script>
-    <link rel="stylesheet" href="node_modules/openmct/dist/espressoTheme.css">
+    <link rel="stylesheet" href="openmctdist/espressoTheme.css">
 </head>
 <body>
     <script>
+        // Open MCT native plugins
         openmct.install(openmct.plugins.LocalStorage());
+        openmct.install(openmct.plugins.Espresso());
         openmct.install(openmct.plugins.MyItems());
+        openmct.install(openmct.plugins.PlanLayout());
+        openmct.install(openmct.plugins.Timeline());
+        openmct.install(openmct.plugins.Hyperlink());
         openmct.install(openmct.plugins.UTCTimeSystem());
         const ONE_MINUTE = 60 * 1000;
+        openmct.install(openmct.plugins.SummaryWidget());
+        openmct.install(openmct.plugins.Notebook());
+        openmct.install(openmct.plugins.LADTable());
+        openmct.install(openmct.plugins.Filters(['table', 'telemetry.plot.overlay']));
+        openmct.install(openmct.plugins.ObjectMigration());
+        openmct.install(openmct.plugins.ClearData(
+            ['table', 'telemetry.plot.overlay', 'telemetry.plot.stacked'],
+            {indicator: true}
+        ));
+        openmct.install(openmct.plugins.Clock({ enableClockIndicator: true }));
+
         openmct.time.clock('local', {start: -ONE_MINUTE, end: 0});
         openmct.time.timeSystem('utc');
 
+        // For development use only (signal, state and image generator)
+        openmct.install(openmct.plugins.Generator());
+        openmct.install(openmct.plugins.ExampleImagery());
+
+        // Local plugins
         let telemServerHost = processedConfig.telemVizServer.host;
         let telemServerPort = processedConfig.telemVizServer.port;
         openmct.install(DictionaryPlugin());
