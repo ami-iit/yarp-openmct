@@ -131,7 +131,7 @@
       "values": [
         {
           "key": "value.jointPos.l_hip_pitch",
-          "name": "Hip Pitch",
+          "name": "Pos: Hip Pitch",
           "units": "deg",
           "format": "float",
           "hints": {
@@ -140,7 +140,7 @@
         },
         {
           "key": "value.jointPos.l_hip_roll",
-          "name": "Hip Roll",
+          "name": "Pos: Hip Roll",
           "units": "deg",
           "format": "float",
           "hints": {
@@ -149,7 +149,7 @@
         },
         {
           "key": "value.jointPos.l_hip_yaw",
-          "name": "Hip Yaw",
+          "name": "Pos: Hip Yaw",
           "units": "deg",
           "format": "float",
           "hints": {
@@ -158,7 +158,7 @@
         },
         {
           "key": "value.jointPos.l_knee",
-          "name": "Knee",
+          "name": "Pos: Knee",
           "units": "deg",
           "format": "float",
           "hints": {
@@ -167,7 +167,7 @@
         },
         {
           "key": "value.jointPos.l_ankle_pitch",
-          "name": "Ankle Pitch",
+          "name": "Pos: Ankle Pitch",
           "units": "deg",
           "format": "float",
           "hints": {
@@ -176,7 +176,7 @@
         },
         {
           "key": "value.jointPos.l_ankle_roll",
-          "name": "Ankle Roll",
+          "name": "Pos: Ankle Roll",
           "units": "deg",
           "format": "float",
           "hints": {
