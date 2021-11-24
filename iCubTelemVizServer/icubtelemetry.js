@@ -15,7 +15,8 @@
 
 // Handle errors
 var assert = require('assert');
-const TEN_MS_REPEAT_INTERVAL = 10;
+const NOTIFIER_REPEAT_INTERVAL_MS = 10;
+const TELEMETRY_DATA_DEPTH_MS = 60 * 1000;
 
 function ICubTelemetry() {
     this.state = {
@@ -47,7 +48,7 @@ function ICubTelemetry() {
     this.connectNetworkSource = (id) => {};
     this.disconnectNetworkSource = (id) => {};
 
-    this.maxDepthSamples = 1000;
+    this.maxDepthSamples = (TELEMETRY_DATA_DEPTH_MS/NOTIFIER_REPEAT_INTERVAL_MS).toFixed(0);
     this.history = {};
     this.listeners = [];
     Object.keys(this.state).concat('ping').forEach(function (k) {
@@ -87,7 +88,7 @@ ICubTelemetry.prototype.disconnectTelemSrcFromNotifier = function (id) {
 
 ICubTelemetry.prototype.startNotifier = function () {
   if (this.notifierTimer === undefined) {
-    this.notifierTimer = setInterval(this.notifierTask,TEN_MS_REPEAT_INTERVAL);
+    this.notifierTimer = setInterval(this.notifierTask,NOTIFIER_REPEAT_INTERVAL_MS);
   } else {
     console.warn('Notifier task timer already started!');
   }

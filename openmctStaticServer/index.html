@@ -12,6 +12,13 @@
 </head>
 <body>
     <script>
+        const THIRTY_SECONDS = 30 * 1000;
+        const ONE_MINUTE = THIRTY_SECONDS * 2;
+        const FIVE_MINUTES = ONE_MINUTE * 5;
+        const FIFTEEN_MINUTES = FIVE_MINUTES * 3;
+        const THIRTY_MINUTES = FIFTEEN_MINUTES * 2;
+        const ONE_HOUR = THIRTY_MINUTES * 2;
+
         // Open MCT native plugins
         openmct.install(openmct.plugins.LocalStorage());
         openmct.install(openmct.plugins.Espresso());
@@ -20,7 +27,6 @@
         openmct.install(openmct.plugins.Timeline());
         openmct.install(openmct.plugins.Hyperlink());
         openmct.install(openmct.plugins.UTCTimeSystem());
-        const ONE_MINUTE = 60 * 1000;
         openmct.install(openmct.plugins.SummaryWidget());
         openmct.install(openmct.plugins.Notebook());
         openmct.install(openmct.plugins.LADTable());
@@ -30,6 +36,9 @@
             ['table', 'telemetry.plot.overlay', 'telemetry.plot.stacked'],
             {indicator: true}
         ));
+        openmct.install(openmct.plugins.AutoflowView({
+            type: "telemetry.fixed"
+        }));
         openmct.install(openmct.plugins.Clock({ enableClockIndicator: true }));
 
         openmct.time.clock('local', {start: -ONE_MINUTE, end: 0});
