@@ -67,7 +67,8 @@ As a reference, the bring up of such setup (out of scope of this installation gu
 
 The following instructions assume you are installing the software as a non-root user. Make sure that you have [Git](https://git-scm.com) installed in your platform. The tool installation and execution have been tested on **MacOS Catalina 10.15.7** and **Vanilla Ubuntu 20.04**.
 
-:warning: The tool installation has not been tested on Windows. On top of that, the installation of dependencies **YARP, CMake** and **C/C++ compiler toolchain** binaries rely on the use of the `conda` package manager, which is still not fully supported on Windows PowerShell (https://github.com/robotology/robotology-superbuild/issues/890), and was not tested on [Git Bash](https://gitforwindows.org/) nor Windows Subsystem for Linux ([WSL](https://docs.microsoft.com/en-us/windows/wsl/install),[Ubuntu on WSL](https://ubuntu.com/wsl)).
+:warning: The tool installation has not been tested on Windows. On top of that, the installation of dependencies **YARP, CMake** and **C/C++ compiler toolchain** binaries rely on the use of the `conda` package manager, which is still not fully supported on Windows PowerShell (https://github.com/robotology/robotology-superbuild/issues/890), and was not tested on [Git Bash](https://gitforwindows.org/).  
+The installation was tested on Windows Subsystem for Linux **V1** ([WSL](https://docs.microsoft.com/en-us/windows/wsl/install),[Ubuntu on WSL](https://ubuntu.com/wsl)), but the full support on this platform is not guaranteed. Use of WSL V2 is discouraged due to a [memory issue](https://github.com/microsoft/WSL/issues/4166).
 
 ### Install NVM, Node.js and npm
 
