@@ -78,7 +78,7 @@ ICubTelemetry.prototype.defineNetworkConnector = function (connectCallback,disco
 ICubTelemetry.prototype.connectTelemSrcToNotifier = function (id) {
   this.forwardYarpDataToNotifier[id] = this.updateState.bind(this);
   this.connectNetworkSource(id);
-  return (() => {this.disconnectTelemSrcFromNotifier(id)}.bind(this));
+  return (() => {this.disconnectTelemSrcFromNotifier(id)}).bind(this);
 }
 
 ICubTelemetry.prototype.disconnectTelemSrcFromNotifier = function (id) {

@@ -111,7 +111,7 @@ TerminationHandler.prototype.backupAndReplaceSignalListeners = function (signal)
     // When the signal comes from the terminal, the generated event doesn't have a 'signal' parameter,
     // so it appears undefined in the callback body. We worked around this issue by explicitly setting
     // the 'signal' parameter case by case.
-    process.once(signal, () => {this.run(signal);}.bind(this));
+    process.once(signal, (() => {this.run(signal);}).bind(this));
 }
 
 TerminationHandler.prototype.restoreSignalListeners = function (signal) {
