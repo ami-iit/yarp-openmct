@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="nodeOpenmctStaticServer.js" type="NodeJSConfigurationType" singleton="false" path-to-node="$USER_HOME$/.nvm/versions/node/v14.17.0/bin/node" path-to-js-file="server.js" working-dir="$PROJECT_DIR$/openmctStaticServer">
+  <configuration default="false" name="nodeOpenmctStaticServer.js" type="NodeJSConfigurationType" singleton="false" path-to-js-file="server.js" working-dir="$PROJECT_DIR$/openmctStaticServer">
     <method v="2" />
   </configuration>
 </component>
