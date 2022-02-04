@@ -2,7 +2,7 @@ const DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.telemetry';
 const ROOT_DOMAIN_OBJECT_KEY = 'icubtelemetry';
 
 function getDictionary() {
-    return http.get('/dictionary.json')
+    return http.get('/dictionaryIcubTelemetry.json')
         .then(function (result) {
             return result.data;
         });
