@@ -1,7 +1,5 @@
-const ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.icubtelemetry';
-const WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.walkingctrltelemetry';
-
 function getDictionary(identifier) {
+    let dictionaryRelPath;
     switch (identifier.namespace) {
         case ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
             dictionaryRelPath = '/dictionaryIcubTelemetry.json';
@@ -75,25 +73,31 @@ var compositionProvider = {
 
 function DictionaryPlugin() {
     return function install(openmct) {
+        openmct.types.addType(ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE, {
+            name: 'iCub Sensor Telemetry Entry',
+            description: 'Telemetry entry from one or multiple iCub sensors published on a single port.',
+            cssClass: 'icon-telemetry'
+        });
+
+        openmct.types.addType(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE, {
+            name: 'iCub Sensor Telemetry Entry',
+            description: 'Telemetry entry from one or multiple iCub sensors published on a single port.',
+            cssClass: 'icon-telemetry'
+        });
+
         openmct.objects.addRoot({
             namespace: ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
             key: 'icubtelemetry'
         });
 
-        openmct.types.addType('icubsensor.telemetry', {
-            name: 'iCub Sensor Telemetry Point',
-            description: 'Telemetry point from one or multiple iCub sensors published on a single port.',
-            cssClass: 'icon-telemetry'
-        });
-
-        openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider('icubsensor.telemetry'));
+        openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE));
 
         openmct.objects.addRoot({
             namespace: WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
             key: 'walkingctrltelemetry'
         });
 
-        openmct.objects.addProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider('icubsensor.telemetry'));
+        openmct.objects.addProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE));
 
         openmct.composition.addProvider(compositionProvider);
     };
