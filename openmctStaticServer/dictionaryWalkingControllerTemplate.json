@@ -4,11 +4,11 @@
   "telemetryEntries": [
     {
       "name": "Walking Controller Logger",
-      "key": "walkingcontroller.logger",
+      "key": "walkingController.logger",
       "values": [
         {
-          "key": "value.signalName.s1",
-          "name": "S1",
+          "key": "value.singalName.0",
+          "name": "S0",
           "units": "SIunits",
           "format": "float",
           "hints": {
