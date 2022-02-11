@@ -9,7 +9,7 @@
         {
           "key": "value.singalName.0",
           "name": "S0",
-          "units": "SIunits",
+          "units": "SI units",
           "format": "float",
           "hints": {
             "range": 1

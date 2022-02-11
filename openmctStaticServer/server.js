@@ -23,14 +23,9 @@ app.get('/config/processedDefault.json', function(req, res){
     console.log('processedDefault.json requested!');
     res.send(jsonExportScript(config,'processedConfig'));
 });
-// Process dictionary requests
-// app.get('/dictionaryIcubTelemetry.json', function(req, res){
-//     console.log('iCub Telemetry dictionary requested!');
-//     res.sendFile('dictionaryIcubTelemetry.json');
-// })
-app.get('/dictionayWalkingController.json', function(req, res){
+app.get('/dictionaryWalkingController.json', function(req, res){
     console.log('WalkingController dictionary requested!');
-    res.send(jsonExportScript(dictionayWalkingController,'dictionayWalkingController'));
+    res.send(dictionayWalkingController);
 })
 
 // Route static server

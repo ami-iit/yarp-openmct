@@ -5,7 +5,7 @@ function getDictionary(identifier) {
             dictionaryRelPath = '/dictionaryIcubTelemetry.json';
             break;
         case WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
-            dictionaryRelPath = '/dictionaryWalkingControllerTemplate.json';
+            dictionaryRelPath = '/dictionaryWalkingController.json';
             break;
         default:
             console.error('Unknown namespace!!');
