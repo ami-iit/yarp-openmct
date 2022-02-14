@@ -4,7 +4,7 @@
 
 // Import main configuration and dynamic dictionaries
 config = require('../config/processedDefault');
-dictionayWalkingController = require('./dictionayWalkingController');
+genDictFromWalkingCtrlPortDataStruct = require('./dictionayWalkingController');
 
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
@@ -25,7 +25,9 @@ app.get('/config/processedDefault.json', function(req, res){
 });
 app.get('/dictionaryWalkingController.json', function(req, res){
     console.log('WalkingController dictionary requested!');
-    res.send(dictionayWalkingController);
+    let walkingCtrlPortDataStruct = require('./walkingCtrlPortDataStruct.json');
+    let dictionaryWalkingController = genDictFromWalkingCtrlPortDataStruct(walkingCtrlPortDataStruct);
+    res.send(dictionaryWalkingController);
 })
 
 // Route static server
