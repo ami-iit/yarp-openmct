@@ -1,9 +1,10 @@
 "use strict";
 
 // Init the dictionary from a template
-let dictionary = require('./dictionaryWalkingControllerTemplate.json');
+let dictionaryTemplate = require('./dictionaryWalkingControllerTemplate.json');
 
 function genDictFromWalkingCtrlPortDataStruct(dataStruct) {
+    let dictionary = JSON.parse(JSON.stringify(dictionaryTemplate));
     var telemetryEntry = dictionary.telemetryEntries.filter(function (elem) {
         return elem.key === "walkingController.logger";
     })[0];
@@ -15,10 +16,11 @@ function genDictFromWalkingCtrlPortDataStruct(dataStruct) {
     Object.keys(dataStruct).map(function (key,index) {
         let splitKey = key.split('.');
         let componentIndex = splitKey.pop();
+        splitKey.shift(); // remove 'value' prefix
         telemetryEntry.values[index] = JSON.parse(JSON.stringify(valueTemplate));
         Object.assign(telemetryEntry.values[index],{
-            key: splitKey.join('.')+'['+componentIndex+']',
-            name: "S"+componentIndex,
+            key: key,
+            name: splitKey.join('.')+'['+componentIndex+']',
             hints: {"range": index+1}
         });
     });
