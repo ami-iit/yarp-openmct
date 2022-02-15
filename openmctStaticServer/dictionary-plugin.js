@@ -1,3 +1,18 @@
+// Prepare closure variables for function 'requestLatestTelemetrySample()'
+let telemServerAddress = {host:'',port:''};
+
+function requestLatestTelemetrySample(telemetryEntryKey) {
+    var url = 'http://' + telemServerAddress.host + ':' + telemServerAddress.port + '/history/' +
+        telemetryEntryKey +
+        '/latest';
+
+    return http.get(url)
+        .then(function (resp) {
+            return resp.data[0];
+        });
+}
+//requestLatestTelemetrySample.prototype.telemServerHost = {host:'',port:''};
+
 function getDictionary(identifier) {
     switch (identifier.namespace) {
         case ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
@@ -9,10 +24,12 @@ function getDictionary(identifier) {
             return http.get('/dictionaryWalkingControllerTemplate.json')
                 .then(function (result) {
                     let dictionaryTemplate = result.data;
-                    return http.get('./walkingCtrlPortDataStruct.json')
-                        .then(function (result) {
-                            let walkingCtrlPortDataStruct = result.data;
-                            return dictionaryWalkingController = genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,walkingCtrlPortDataStruct);
+                    return requestLatestTelemetrySample("walkingController.logger")
+                        .then(function (sample) {
+                            let walkingCtrlPortDataStruct = sample;
+                            delete walkingCtrlPortDataStruct.timestamp;   // discard last element (timestamp)
+                            delete walkingCtrlPortDataStruct.id; // discard first element (id)
+                            return genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,walkingCtrlPortDataStruct);
                         });
                 });
         default:
@@ -75,8 +92,11 @@ var compositionProvider = {
     }
 };
 
-function DictionaryPlugin() {
+function DictionaryPlugin(telemServerHost,telemServerPort) {
     return function install(openmct) {
+        telemServerAddress.host = telemServerHost;
+        telemServerAddress.port = telemServerPort;
+
         openmct.types.addType(ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE, {
             name: 'iCub Sensor Telemetry Entry',
             description: 'Telemetry entry from one or multiple iCub sensors published on a single port.',
