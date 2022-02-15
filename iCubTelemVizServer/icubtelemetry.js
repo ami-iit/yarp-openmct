@@ -45,8 +45,6 @@ function ICubTelemetry() {
         "walkingController.logger": {}
     };
 
-    this.walkingControllerDataDynamicTemplate = {};
-
     this.forwardYarpDataToNotifier = Object.keys(this.state).map((key) => {return (id,data) => {}});
     this.connectNetworkSource = (id) => {};
     this.disconnectNetworkSource = (id) => {};

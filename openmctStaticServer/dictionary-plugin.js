@@ -1,19 +1,23 @@
 function getDictionary(identifier) {
-    let dictionaryRelPath;
     switch (identifier.namespace) {
         case ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
-            dictionaryRelPath = '/dictionaryIcubTelemetry.json';
-            break;
+            return http.get('/dictionaryIcubTelemetry.json')
+                .then(function (result) {
+                    return result.data;
+                });
         case WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
-            dictionaryRelPath = '/dictionaryWalkingController.json';
-            break;
+            return http.get('/dictionaryWalkingControllerTemplate.json')
+                .then(function (result) {
+                    let dictionaryTemplate = result.data;
+                    return http.get('./walkingCtrlPortDataStruct.json')
+                        .then(function (result) {
+                            let walkingCtrlPortDataStruct = result.data;
+                            return dictionaryWalkingController = genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,walkingCtrlPortDataStruct);
+                        });
+                });
         default:
             console.error('Unknown namespace!!');
     }
-    return http.get(dictionaryRelPath)
-        .then(function (result) {
-            return result.data;
-        });
 }
 
 class ObjectProvider {
