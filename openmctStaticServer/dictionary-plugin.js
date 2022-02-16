@@ -11,7 +11,6 @@ function requestLatestTelemetrySample(telemetryEntryKey) {
             return resp.data[0];
         });
 }
-//requestLatestTelemetrySample.prototype.telemServerHost = {host:'',port:''};
 
 function getDictionary(identifier) {
     switch (identifier.namespace) {
