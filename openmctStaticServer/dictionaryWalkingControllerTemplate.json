@@ -1,0 +1,30 @@
+{
+  "name": "Walking Controller Internal Data Logging",
+  "key": "walkingctrltelemetry",
+  "telemetryEntries": [
+    {
+      "name": "Walking Controller Logger",
+      "key": "walkingcontroller.logger",
+      "values": [
+        {
+          "key": "value.signalName.s1",
+          "name": "S1",
+          "units": "SIunits",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
+    }
+  ]
+}

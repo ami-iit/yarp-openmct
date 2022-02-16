@@ -1,17 +1,30 @@
-const DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.telemetry';
-const ROOT_DOMAIN_OBJECT_KEY = 'icubtelemetry';
+const ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.icubtelemetry';
+const WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.walkingctrltelemetry';
 
-function getDictionary() {
-    return http.get('/dictionaryIcubTelemetry.json')
+function getDictionary(identifier) {
+    switch (identifier.namespace) {
+        case ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
+            dictionaryRelPath = '/dictionaryIcubTelemetry.json';
+            break;
+        case WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
+            dictionaryRelPath = '/dictionaryWalkingControllerTemplate.json';
+            break;
+        default:
+            console.error('Unknown namespace!!');
+    }
+    return http.get(dictionaryRelPath)
         .then(function (result) {
             return result.data;
         });
 }
 
-var objectProvider = {
-    get: function (identifier) {
-        return getDictionary().then(function (dictionary) {
-            if (identifier.key === ROOT_DOMAIN_OBJECT_KEY) {
+class ObjectProvider {
+    constructor(telemetryEntryType) {
+        this.telemetryEntryType = telemetryEntryType;
+    }
+    get(identifier) {
+        return getDictionary(identifier).then(function (dictionary) {
+            if (identifier.key === dictionary.key) {
                 return {
                     identifier: identifier,
                     name: dictionary.name,
@@ -19,39 +32,40 @@ var objectProvider = {
                     location: 'ROOT'
                 };
             } else {
-                var measurement = dictionary.measurements.filter(function (m) {
+                var telemetryEntry = dictionary.telemetryEntries.filter(function (m) {
                     return m.key === identifier.key;
                 })[0];
-                measurement.values.forEach(function (value) {
+                telemetryEntry.values.forEach(function (value) {
                     if (value.units !== undefined) {
                         value.name += " (" + value.units + ")";
                     }
                 });
                 return {
                     identifier: identifier,
-                    name: measurement.name,
-                    type: 'icubsensor.telemetry',
+                    name: telemetryEntry.name,
+                    type: this.telemetryEntryType,
                     telemetry: {
-                        values: measurement.values
+                        values: telemetryEntry.values
                     },
-                    location: DOMAIN_OBJECTS_NAMESPACE + ':' + ROOT_DOMAIN_OBJECT_KEY
+                    location: identifier.namespace + ':' + dictionary.key
                 };
             }
-        });
+        }.bind(this));
     }
-};
+}
 
 var compositionProvider = {
     appliesTo: function (domainObject) {
-        return domainObject.identifier.namespace === DOMAIN_OBJECTS_NAMESPACE &&
-               domainObject.type === 'folder';
+        return (domainObject.identifier.namespace === ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE
+            || domainObject.identifier.namespace === WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE)
+            && domainObject.type === 'folder';
     },
     load: function (domainObject) {
-        return getDictionary()
+        return getDictionary(domainObject.identifier)
             .then(function (dictionary) {
-                return dictionary.measurements.map(function (m) {
+                return dictionary.telemetryEntries.map(function (m) {
                     return {
-                        namespace: DOMAIN_OBJECTS_NAMESPACE,
+                        namespace: domainObject.identifier.namespace,
                         key: m.key
                     };
                 });
@@ -62,18 +76,25 @@ var compositionProvider = {
 function DictionaryPlugin() {
     return function install(openmct) {
         openmct.objects.addRoot({
-            namespace: DOMAIN_OBJECTS_NAMESPACE,
-            key: ROOT_DOMAIN_OBJECT_KEY
+            namespace: ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
+            key: 'icubtelemetry'
         });
-
-        openmct.objects.addProvider(DOMAIN_OBJECTS_NAMESPACE, objectProvider);
-
-        openmct.composition.addProvider(compositionProvider);
 
         openmct.types.addType('icubsensor.telemetry', {
             name: 'iCub Sensor Telemetry Point',
             description: 'Telemetry point from one or multiple iCub sensors published on a single port.',
             cssClass: 'icon-telemetry'
         });
+
+        openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider('icubsensor.telemetry'));
+
+        openmct.objects.addRoot({
+            namespace: WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
+            key: 'walkingctrltelemetry'
+        });
+
+        openmct.objects.addProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider('icubsensor.telemetry'));
+
+        openmct.composition.addProvider(compositionProvider);
     };
 };

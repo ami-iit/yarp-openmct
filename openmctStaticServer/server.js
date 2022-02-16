@@ -2,9 +2,9 @@
  * Basic implementation of a static server.
  */
 
-// Import main configuration
+// Import main configuration and dynamic dictionaries
 config = require('../config/processedDefault');
-jsonExportScript = (require('../common/utils')).jsonExportScript;
+dictionayWalkingController = require('./dictionayWalkingController');
 
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
@@ -13,6 +13,7 @@ procHandler.messageParentProcess({"pid": process.pid});
 
 const StaticServer = require('./static-server');
 const expressWs = require('express-ws');
+const {jsonExportScript} = require("../common/utils");
 const app = require('express')();
 expressWs(app);
 
@@ -22,6 +23,16 @@ app.get('/config/processedDefault.json', function(req, res){
     console.log('processedDefault.json requested!');
     res.send(jsonExportScript(config,'processedConfig'));
 });
+// Process dictionary requests
+// app.get('/dictionaryIcubTelemetry.json', function(req, res){
+//     console.log('iCub Telemetry dictionary requested!');
+//     res.sendFile('dictionaryIcubTelemetry.json');
+// })
+app.get('/dictionayWalkingController.json', function(req, res){
+    console.log('WalkingController dictionary requested!');
+    res.send(jsonExportScript(dictionayWalkingController,'dictionayWalkingController'));
+})
+
 // Route static server
 app.use('/', staticServer);
 

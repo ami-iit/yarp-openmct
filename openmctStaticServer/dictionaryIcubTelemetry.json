@@ -1,7 +1,7 @@
 {
   "name": "iCub Telemetry",
-  "key": "icubTelemetry",
-  "measurements": [
+  "key": "icubtelemetry",
+  "telemetryEntries": [
     {
       "name": "IMU sensor measurements",
       "key": "sens.imu",
