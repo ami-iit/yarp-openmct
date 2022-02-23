@@ -103,8 +103,8 @@ function DictionaryPlugin(telemServerHost,telemServerPort) {
         });
 
         openmct.types.addType(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE, {
-            name: 'iCub Sensor Telemetry Entry',
-            description: 'Telemetry entry from one or multiple iCub sensors published on a single port.',
+            name: 'Walking Controller Telemetry Entry',
+            description: 'Telemetry entry from the Walking Controller related data published on a single port (e.g. internal variables), structured as a vector collection map.',
             cssClass: 'icon-telemetry'
         });
 

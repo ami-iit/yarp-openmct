@@ -15,7 +15,7 @@ function genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,telemetrySample
     telemetryEntry.values = []; // reset values array
 
     // traverse 'telemetrySample' and fill telemetryEntry.values
-    Object.keys(telemetrySample).map(function (key,index) {
+    Object.keys(telemetrySample).forEach(function (key,index) {
         let splitKey = key.split('.');
         let componentIndex = splitKey.pop();
         splitKey.shift(); // remove 'value' prefix

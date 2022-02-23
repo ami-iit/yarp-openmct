@@ -1,5 +1,5 @@
 {
-  "name": "Walking Controller Internal Data Logging",
+  "name": "Walking Controller Telemetry",
   "key": "walkingctrltelemetry",
   "telemetryEntries": [
     {
@@ -8,7 +8,7 @@
       "values": [
         {
           "key": "value.singalName.0",
-          "name": "S0",
+          "name": "singalName[0]",
           "units": "SI units",
           "format": "float",
           "hints": {
