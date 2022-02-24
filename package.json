@@ -1,0 +1,20 @@
+{
+  "name": "yarp-openmct",
+  "version": "1.0.0",
+  "author": "Nuno Guedelha <nuno.guedelha@iit.it>",
+  "description": "iCub telemetry data visualizer based on Open MCT framework",
+  "license": "LGPL-3.0,ISC",
+  "dependencies": {
+    "iCubTelemVizServer": "./iCubTelemVizServer",
+    "openmctStaticServer": "./openmctStaticServer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dic-iit/yarp-openmct"
+  },
+  "main": "iCubTelemVizServer/iCubTelemVisServer.js",
+  "scripts": {
+    "start": "node ${NODE_DEBUG_OPTION} iCubTelemVizServer/iCubTelemVizServer.js"
+  },
+  "homepage": "https://github.com/dic-iit/yarp-openmct.git#README"
+}

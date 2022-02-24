@@ -1,22 +1,8 @@
 {
-  "name": "openmctStaticServer",
-  "version": "1.0.0",
-  "author": "Nuno Guedelha <nuno.guedelha@iit.it>",
-  "description": "Server for Open MCT based visualizer",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
     "openmct": "https://github.com/nasa/openmct.git#1.7.8",
     "ws": "^7.2.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dic-iit/yarp-openmct.git"
-  },
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "homepage": "https://github.com/dic-iit/yarp-openmct.git#README"
+  }
 }
