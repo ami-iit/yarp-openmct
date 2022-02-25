@@ -7,4 +7,7 @@ openmctStaticServer/npm-debug.log*
 .DS_Store
 **/.idea/*
 !.idea/runConfigurations
+*.mov
+*.mp4
+*.zip
 

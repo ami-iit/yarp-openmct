@@ -1,17 +1,48 @@
-const DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.telemetry';
-const ROOT_DOMAIN_OBJECT_KEY = 'icubtelemetry';
+// Prepare closure variables for function 'requestLatestTelemetrySample()'
+let telemServerAddress = {host:'',port:''};
 
-function getDictionary() {
-    return http.get('/dictionary.json')
-        .then(function (result) {
-            return result.data;
+function requestLatestTelemetrySample(telemetryEntryKey) {
+    var url = 'http://' + telemServerAddress.host + ':' + telemServerAddress.port + '/history/' +
+        telemetryEntryKey +
+        '/latest';
+
+    return http.get(url)
+        .then(function (resp) {
+            return resp.data[0];
         });
 }
 
-var objectProvider = {
-    get: function (identifier) {
-        return getDictionary().then(function (dictionary) {
-            if (identifier.key === ROOT_DOMAIN_OBJECT_KEY) {
+function getDictionary(identifier) {
+    switch (identifier.namespace) {
+        case ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
+            return http.get('/dictionaryIcubTelemetry.json')
+                .then(function (result) {
+                    return result.data;
+                });
+        case WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
+            return http.get('/dictionaryWalkingControllerTemplate.json')
+                .then(function (result) {
+                    let dictionaryTemplate = result.data;
+                    return requestLatestTelemetrySample("walkingController.logger")
+                        .then(function (sample) {
+                            let walkingCtrlPortDataStruct = sample;
+                            delete walkingCtrlPortDataStruct.timestamp;   // discard last element (timestamp)
+                            delete walkingCtrlPortDataStruct.id; // discard first element (id)
+                            return genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,walkingCtrlPortDataStruct);
+                        });
+                });
+        default:
+            console.error('Unknown namespace!!');
+    }
+}
+
+class ObjectProvider {
+    constructor(telemetryEntryType) {
+        this.telemetryEntryType = telemetryEntryType;
+    }
+    get(identifier) {
+        return getDictionary(identifier).then(function (dictionary) {
+            if (identifier.key === dictionary.key) {
                 return {
                     identifier: identifier,
                     name: dictionary.name,
@@ -19,39 +50,40 @@ var objectProvider = {
                     location: 'ROOT'
                 };
             } else {
-                var measurement = dictionary.measurements.filter(function (m) {
+                var telemetryEntry = dictionary.telemetryEntries.filter(function (m) {
                     return m.key === identifier.key;
                 })[0];
-                measurement.values.forEach(function (value) {
+                telemetryEntry.values.forEach(function (value) {
                     if (value.units !== undefined) {
                         value.name += " (" + value.units + ")";
                     }
                 });
                 return {
                     identifier: identifier,
-                    name: measurement.name,
-                    type: 'icubsensor.telemetry',
+                    name: telemetryEntry.name,
+                    type: this.telemetryEntryType,
                     telemetry: {
-                        values: measurement.values
+                        values: telemetryEntry.values
                     },
-                    location: DOMAIN_OBJECTS_NAMESPACE + ':' + ROOT_DOMAIN_OBJECT_KEY
+                    location: identifier.namespace + ':' + dictionary.key
                 };
             }
-        });
+        }.bind(this));
     }
-};
+}
 
 var compositionProvider = {
     appliesTo: function (domainObject) {
-        return domainObject.identifier.namespace === DOMAIN_OBJECTS_NAMESPACE &&
-               domainObject.type === 'folder';
+        return (domainObject.identifier.namespace === ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE
+            || domainObject.identifier.namespace === WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE)
+            && domainObject.type === 'folder';
     },
     load: function (domainObject) {
-        return getDictionary()
+        return getDictionary(domainObject.identifier)
             .then(function (dictionary) {
-                return dictionary.measurements.map(function (m) {
+                return dictionary.telemetryEntries.map(function (m) {
                     return {
-                        namespace: DOMAIN_OBJECTS_NAMESPACE,
+                        namespace: domainObject.identifier.namespace,
                         key: m.key
                     };
                 });
@@ -59,21 +91,37 @@ var compositionProvider = {
     }
 };
 
-function DictionaryPlugin() {
+function DictionaryPlugin(telemServerHost,telemServerPort) {
     return function install(openmct) {
-        openmct.objects.addRoot({
-            namespace: DOMAIN_OBJECTS_NAMESPACE,
-            key: ROOT_DOMAIN_OBJECT_KEY
-        });
+        telemServerAddress.host = telemServerHost;
+        telemServerAddress.port = telemServerPort;
 
-        openmct.objects.addProvider(DOMAIN_OBJECTS_NAMESPACE, objectProvider);
-
-        openmct.composition.addProvider(compositionProvider);
-
-        openmct.types.addType('icubsensor.telemetry', {
-            name: 'iCub Sensor Telemetry Point',
-            description: 'Telemetry point from one or multiple iCub sensors published on a single port.',
+        openmct.types.addType(ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE, {
+            name: 'iCub Sensor Telemetry Entry',
+            description: 'Telemetry entry from one or multiple iCub sensors published on a single port.',
             cssClass: 'icon-telemetry'
         });
+
+        openmct.types.addType(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE, {
+            name: 'Walking Controller Telemetry Entry',
+            description: 'Telemetry entry from the Walking Controller related data published on a single port (e.g. internal variables), structured as a vector collection map.',
+            cssClass: 'icon-telemetry'
+        });
+
+        openmct.objects.addRoot({
+            namespace: ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
+            key: 'icubtelemetry'
+        });
+
+        openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE));
+
+        openmct.objects.addRoot({
+            namespace: WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
+            key: 'walkingctrltelemetry'
+        });
+
+        openmct.objects.addProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE));
+
+        openmct.composition.addProvider(compositionProvider);
     };
 };

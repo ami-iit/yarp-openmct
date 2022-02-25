@@ -49,6 +49,11 @@
             "yarpName": "${this.robotYarpPortPrefix}/battery/data:o",
             "localName": "${this.localYarpPortPrefix}/battery/data:i",
             "portType": "bottle"
+        },
+        "walkingController.logger": {
+            "yarpName": "/walking-coordinator/logger/data:o",
+            "localName": "${this.localYarpPortPrefix}/walking-coordinator-logger/data:i",
+            "portType": "bottle"
         }
     }
 }

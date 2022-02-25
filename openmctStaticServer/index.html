@@ -4,6 +4,8 @@
     <title>iCub Telemetry Visualizer (Open MCT based)</title>
     <script src="openmctdist/openmct.js"></script>
     <script src="lib/http.js"></script>
+    <script src="namespacesNtypes.js"></script>
+    <script src="genDictFromWalkingCtrlPortDataStruct.js"></script>
     <script src="dictionary-plugin.js"></script>
     <script src="historical-telemetry-plugin.js"></script>
     <script src="realtime-telemetry-plugin.js"></script>
@@ -126,7 +128,7 @@
         // Local plugins
         let telemServerHost = processedConfig.telemVizServer.host;
         let telemServerPort = processedConfig.telemVizServer.port;
-        openmct.install(DictionaryPlugin());
+        openmct.install(DictionaryPlugin(telemServerHost,telemServerPort));
         openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
         openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort));
 

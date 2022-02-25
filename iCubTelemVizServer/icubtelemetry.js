@@ -41,7 +41,8 @@ function ICubTelemetry() {
         },
         "sens.batteryStatus": {
             "voltage": 0, "current": 0, "charge": 0, "temperature": 0, "status": 0
-        }
+        },
+        "walkingController.logger": {}
     };
 
     this.forwardYarpDataToNotifier = Object.keys(this.state).map((key) => {return (id,data) => {}});
@@ -159,9 +160,18 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
             this.state[id].temperature = sensorSample[3];
             this.state[id].status = sensorSample[4];
             break;
+        case "walkingController.logger":
+            this.parseVectorCollectionMap(id,sensorSample[0]);
+            break;
         default:
             this.state[id] = sensorSample;
     }
+}
+
+ICubTelemetry.prototype.parseVectorCollectionMap = function (id,signalMap) {
+    signalMap.forEach(function (signal) {
+        this.state[id][signal[0]] = signal[1];
+    },this);
 }
 
 /**
@@ -175,6 +185,7 @@ ICubTelemetry.prototype.generateTelemetry = function (timestamp,value,id) {
         case "sens.leftFootEEwrench":
         case "sens.rightFootEEwrench":
         case "sens.batteryStatus":
+        case "walkingController.logger":
             var telemetrySample = this.flatten({timestamp: timestamp, value: value, id: id});
             break;
         default:

@@ -2,9 +2,8 @@
  * Basic implementation of a static server.
  */
 
-// Import main configuration
+// Import main configuration and dynamic dictionaries
 config = require('../config/processedDefault');
-jsonExportScript = (require('../common/utils')).jsonExportScript;
 
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
@@ -13,6 +12,7 @@ procHandler.messageParentProcess({"pid": process.pid});
 
 const StaticServer = require('./static-server');
 const expressWs = require('express-ws');
+const {jsonExportScript} = require("../common/utils");
 const app = require('express')();
 expressWs(app);
 
@@ -22,6 +22,7 @@ app.get('/config/processedDefault.json', function(req, res){
     console.log('processedDefault.json requested!');
     res.send(jsonExportScript(config,'processedConfig'));
 });
+
 // Route static server
 app.use('/', staticServer);
 
