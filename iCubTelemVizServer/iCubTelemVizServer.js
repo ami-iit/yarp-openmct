@@ -26,8 +26,8 @@ var yarp = require('YarpJS');
 yarp.browserCommunicator(io);
 
 // setup static folders
-app.use(express.static(__dirname + '/node_modules'));
-app.use(express.static(__dirname + '/node_modules/YarpJS/js'));
+app.use(express.static(__dirname + '/../node_modules'));
+app.use(express.static(__dirname + '/../node_modules/YarpJS/js'));
 app.use(express.static(__dirname));
 
 // setup default page
