@@ -20,7 +20,7 @@
   },
   "main": "iCubTelemVizServer/iCubTelemVisServer.js",
   "scripts": {
-    "start": "node ${NODE_DEBUG_OPTION} iCubTelemVizServer/iCubTelemVizServer.js"
+    "start": "cd iCubTelemVizServer && node ${NODE_DEBUG_OPTION} iCubTelemVizServer.js"
   },
   "homepage": "https://github.com/dic-iit/yarp-openmct.git#README"
 }

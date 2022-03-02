@@ -92,7 +92,7 @@ The installation was tested on Windows Subsystem for Linux **V1** ([WSL](https:/
     nvm ls-remote
     ```
 
-2. Install **Node.js** and **npm** from the same terminal. Currently, the latest **Node.js** LTS version compatible with **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is the LTS: Argon release **Node.js v4.2.2** (refer to https://github.com/robotology/yarp.js/issues/19). Meanwhile, the latest **Node.js** LTS version compatible with **Open MCT** is latest LTS:Fermium version **Node.js v14.17.0**. For this reason we install both releases.
+2. Install **Node.js** and **npm** from the same terminal. Currently, the latest **tested** Node.js LTS version compatible with **YarpJS** and **Open MCT** is the LTS-Fermium release version **Node.js v14.17.0**.
     ```
     nvm install 14.17.0 --latest-npm        // installs latest LTS:Fermium version v14.17.0 and latest respective supported npm (v6.14.13)
     nvm alias default v14.17.0              // updates the default alias
@@ -314,7 +314,7 @@ Depending on which robot data you wish to visualize or operation you wish to run
 
 #### Launch the server application
 
-4. Run `npm start` from folder `<yarp-openmct-root-folder>/iCubTelemVizServer`. You should get on the terminal standard output something like:
+4. Run `npm start` from folder `<yarp-openmct-root-folder>. You should get on the terminal standard output something like:
    <details>
    <summary>[Console output]</summary>
    
