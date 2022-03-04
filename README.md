@@ -92,11 +92,10 @@ The installation was tested on Windows Subsystem for Linux **V1** ([WSL](https:/
     nvm ls-remote
     ```
 
-2. Install **Node.js** and **npm** from the same terminal. Currently, the latest **Node.js** LTS version compatible with **YarpJS** `master` commit [be28630](https://github.com/robotology/yarp.js/commit/be2863022713ded2fa48909404b43e98b09eeda2) is the LTS: Argon release **Node.js v4.2.2** (refer to https://github.com/robotology/yarp.js/issues/19). Meanwhile, the latest **Node.js** LTS version compatible with **Open MCT** is latest LTS:Fermium version **Node.js v14.17.0**. For this reason we install both releases.
+2. Install **Node.js** and **npm** from the same terminal. Currently, the latest **tested** Node.js LTS version compatible with **YarpJS** and **Open MCT** is the LTS-Fermium release version **Node.js v14.17.0**.
     ```
-    nvm install 4.2.2 --latest-npm          // installs the LTS:Argon version v4.2.2 and latest respective supported npm (v2.14.7)
     nvm install 14.17.0 --latest-npm        // installs latest LTS:Fermium version v14.17.0 and latest respective supported npm (v6.14.13)
-    nvm alias default v4.2.2                // updates the default alias
+    nvm alias default v14.17.0              // updates the default alias
     nvm ls                                  // lists available and active nodejs and npm versions
     ```
 
@@ -125,26 +124,35 @@ The installation was tested on Windows Subsystem for Linux **V1** ([WSL](https:/
     mamba install -c robotology compilers cmake
     ```
 
-### Install the Repository
+### Install the Repository: One line Installer
 
-6. Clone the `yarp-openmct` repository into `<yarp-openmct-root-folder>` folder
+For most users, the one line installation procedure is recommended, directly installing the remote repository URL via the **npm** package manager:
+
+6. In a location of your choice, run the **npm install** command directly from the repository remote URL 
     ```
-    git clone https://github.com/dic-iit/yarp-openmct.git <yarp-openmct-root-folder>
+    npm install https://github.com/dic-iit/yarp-openmct.git --global-style true
+    ```
+This command clones the repository with the protocol `git+http`, installs all the source files (without the `.git`, `.gitignore` nor other version control files) under the folder `./node_modules/yarp-openmct` and installs the dependencies following the manifest `./node_modules/yarp-openmct/package.json`.
+
+Always make sure you are selecting the proper **node.js** version (v14.17.0) before running an **npm** command.
+
+**Note**: The option `--global-style` causes **npm** to install the `yarp-openmct` package into your local `./node_modules` folder with the same layout it uses with the global `node_modules` folder (find it with `npm root -g`). Only `yarp-openmct`'s direct dependencies will show in `./node_modules`, while everything they depend on will be flattened in their own `node_modules` folders. This obviously will eliminate some deduping, but in counterpart it allows for instance the `cmake-js` compilation step of the dependency package `yarp.js` to consistently find all of its own dependencies.
+
+### Install the Repository: for Developers
+Alternatively, if you wish to contribute as a developer or switch between unreleased versions of the software (git branches or tags), you need the version controlled repository content. For that purpose:
+
+6. Clone the `yarp-openmct` repository in a location of your choice
+    ```
+    git clone https://github.com/dic-iit/yarp-openmct.git
     ```
 
-7. Install the **iCubTelemVizServer** server: go to the `<yarp-openmct-root-folder>/iCubTelemVizServer` folder, select **node v4.2.2** and install the server
+7. Install the visualizer: go to the repository folder (we shall refer to this folder as `<yarp-openmct-root-folder>`) and install the application via **npm**:
     ```
-    cd yarp-openmct/iCubTelemVizServer
-    nvm use 4.2.2
+    cd yarp-openmct
     npm install
     ```
 
-8. Install the **Open MCT** based visualizer: go to `<yarp-openmct-root-folder>/openmctStaticServer`, select **node v14.17.0** and install the server
-    ```
-    cd yarp-openmct/openmctStaticServer
-    nvm use 14.17.0
-    npm install
-    ```
+Always make sure you are selecting the proper **node.js** version (v14.17.0) before running an **npm** command.
 
 ### Additional Modules for Testing on Gazebo
 
@@ -306,7 +314,7 @@ Depending on which robot data you wish to visualize or operation you wish to run
 
 #### Launch the server application
 
-4. Run `npm start` from folder `<yarp-openmct-root-folder>/iCubTelemVizServer`. You should get on the terminal standard output something like:
+4. Run `npm start` from folder `<yarp-openmct-root-folder>. You should get on the terminal standard output something like:
    <details>
    <summary>[Console output]</summary>
    
