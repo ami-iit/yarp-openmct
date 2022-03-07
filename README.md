@@ -136,7 +136,7 @@ This command clones the repository with the protocol `git+http`, installs all th
 
 Always make sure you are selecting the proper **node.js** version (v14.17.0) before running an **npm** command.
 
-**Note**: The option `--global-style` causes **npm** to install the `yarp-openmct` package into your local `./node_modules` folder with the same layout it uses with the global `node_modules` folder (find it with `npm root -g`). Only `yarp-openmct`'s direct dependencies will show in `./node_modules`, while everything they depend on will be flattened in their own `node_modules` folders. This obviously will eliminate some deduping, but in counterpart it allows for instance the `cmake-js` compilation step of the dependency package `yarp.js` to consistently find all of its own dependencies.
+**Note**: The option `--global-style` causes the installation dependency tree to have more duplicates, but makes it easier for **npm** to find the direct and indirect package dependencies.
 
 ### Install the Repository: for Developers
 Alternatively, if you wish to contribute as a developer or switch between unreleased versions of the software (git branches or tags), you need the version controlled repository content. For that purpose:
@@ -314,7 +314,7 @@ Depending on which robot data you wish to visualize or operation you wish to run
 
 #### Launch the server application
 
-4. Run `npm start` from folder `<yarp-openmct-root-folder>. You should get on the terminal standard output something like:
+4. Run `npm start` from folder `<yarp-openmct-root-folder>`. You should get on the terminal standard output something like:
    <details>
    <summary>[Console output]</summary>
    
