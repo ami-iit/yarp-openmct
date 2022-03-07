@@ -15,8 +15,7 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort) {
 
         var provider = {
             supportsSubscribe: function (domainObject) {
-                return domainObject.type === ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE
-                    || domainObject.type === WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE;
+                return DOMAIN_OBJECTS_TYPES[domainObject.type].reportSchedule.includes(ReportSchedule.Realtime);
             },
             subscribe: function (domainObject, callback) {
                 listener[domainObject.identifier.key] = callback;

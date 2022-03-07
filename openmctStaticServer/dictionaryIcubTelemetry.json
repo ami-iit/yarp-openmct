@@ -5,6 +5,7 @@
     {
       "name": "IMU sensor measurements",
       "key": "sens.imu",
+      "type": "yarpopenmct.sensormeas",
       "values": [
         {
           "key": "value.ori.roll",
@@ -128,6 +129,7 @@
     {
       "name": "Left leg joint State measurements",
       "key": "sens.leftLegState",
+      "type": "yarpopenmct.sensormeas",
       "values": [
         {
           "key": "value.jointPos.l_hip_pitch",
@@ -197,6 +199,7 @@
     {
       "name": "Camera view Left eye",
       "key": "sens.camLeftEye",
+      "type": "yarpopenmct.sensormeas",
       "values": [
         {
           "key": "value",
@@ -220,6 +223,7 @@
     {
       "name": "Camera view Right eye",
       "key": "sens.camRightEye",
+      "type": "yarpopenmct.sensormeas",
       "values": [
         {
           "key": "value",
@@ -243,6 +247,7 @@
     {
       "name": "Network Performance (Ping)",
       "key": "ping",
+      "type": "yarpopenmct.sensormeas",
       "values": [
         {
           "key": "value",
@@ -267,6 +272,7 @@
     {
       "name": "Left Foot End Effector Wrench",
       "key": "sens.leftFootEEwrench",
+      "type": "yarpopenmct.sensormeas",
       "values": [
         {
           "key": "value.force.x",
@@ -336,6 +342,7 @@
     {
       "name": "Right Foot End Effector Wrench",
       "key": "sens.rightFootEEwrench",
+      "type": "yarpopenmct.sensormeas",
       "values": [
         {
           "key": "value.force.x",
@@ -405,6 +412,7 @@
     {
       "name": "Battery State",
       "key": "sens.batteryStatus",
+      "type": "yarpopenmct.sensormeas",
       "values": [
         {
           "key": "value.voltage",

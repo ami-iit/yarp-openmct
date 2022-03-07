@@ -6,8 +6,7 @@ function HistoricalTelemetryPlugin(telemServerHost,telemServerPort) {
     return function install (openmct) {
         var provider = {
             supportsRequest: function (domainObject) {
-                return domainObject.type === ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE
-                    || domainObject.type === WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE;
+                return DOMAIN_OBJECTS_TYPES[domainObject.type].reportSchedule.includes(ReportSchedule.Historical);
             },
             request: function (domainObject, options) {
                 var url = 'http://' + telemServerHost + ':' + telemServerPort + '/history/' +

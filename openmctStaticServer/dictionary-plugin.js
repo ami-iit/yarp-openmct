@@ -37,9 +37,6 @@ function getDictionary(identifier) {
 }
 
 class ObjectProvider {
-    constructor(telemetryEntryType) {
-        this.telemetryEntryType = telemetryEntryType;
-    }
     get(identifier) {
         return getDictionary(identifier).then(function (dictionary) {
             if (identifier.key === dictionary.key) {
@@ -61,7 +58,7 @@ class ObjectProvider {
                 return {
                     identifier: identifier,
                     name: telemetryEntry.name,
-                    type: this.telemetryEntryType,
+                    type: telemetryEntry.type,
                     telemetry: {
                         values: telemetryEntry.values
                     },
@@ -96,16 +93,12 @@ function DictionaryPlugin(telemServerHost,telemServerPort) {
         telemServerAddress.host = telemServerHost;
         telemServerAddress.port = telemServerPort;
 
-        openmct.types.addType(ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE, {
-            name: 'iCub Sensor Telemetry Entry',
-            description: 'Telemetry entry from one or multiple iCub sensors published on a single port.',
-            cssClass: 'icon-telemetry'
-        });
-
-        openmct.types.addType(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE, {
-            name: 'Walking Controller Telemetry Entry',
-            description: 'Telemetry entry from the Walking Controller related data published on a single port (e.g. internal variables), structured as a vector collection map.',
-            cssClass: 'icon-telemetry'
+        Object.keys(DOMAIN_OBJECTS_TYPES).forEach((type) => {
+            openmct.types.addType(type, Object.assign({},{
+                name: DOMAIN_OBJECTS_TYPES[type].name,
+                description: DOMAIN_OBJECTS_TYPES[type].description,
+                cssClass: DOMAIN_OBJECTS_TYPES[type].icon
+            }));
         });
 
         openmct.objects.addRoot({
@@ -113,14 +106,14 @@ function DictionaryPlugin(telemServerHost,telemServerPort) {
             key: 'icubtelemetry'
         });
 
-        openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_TYPE));
+        openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
 
         openmct.objects.addRoot({
             namespace: WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
             key: 'walkingctrltelemetry'
         });
 
-        openmct.objects.addProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_TYPE));
+        openmct.objects.addProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
 
         openmct.composition.addProvider(compositionProvider);
     };

@@ -5,6 +5,7 @@
     {
       "name": "Walking Controller Logger",
       "key": "walkingController.logger",
+      "type": "yarpopenmct.veccollectionmap",
       "values": [
         {
           "key": "value.singalName.0",
