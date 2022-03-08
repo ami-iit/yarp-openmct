@@ -199,7 +199,7 @@
     {
       "name": "Camera view Left eye",
       "key": "sens.camLeftEye",
-      "type": "yarpopenmct.sensormeas",
+      "type": "yarpopenmct.camimage",
       "values": [
         {
           "key": "value",
@@ -223,7 +223,7 @@
     {
       "name": "Camera view Right eye",
       "key": "sens.camRightEye",
-      "type": "yarpopenmct.sensormeas",
+      "type": "yarpopenmct.camimage",
       "values": [
         {
           "key": "value",
@@ -247,7 +247,7 @@
     {
       "name": "Network Performance (Ping)",
       "key": "ping",
-      "type": "yarpopenmct.sensormeas",
+      "type": "yarpopenmct.nwstatus",
       "values": [
         {
           "key": "value",
@@ -272,7 +272,7 @@
     {
       "name": "Left Foot End Effector Wrench",
       "key": "sens.leftFootEEwrench",
-      "type": "yarpopenmct.sensormeas",
+      "type": "yarpopenmct.wbdestimation",
       "values": [
         {
           "key": "value.force.x",
@@ -342,7 +342,7 @@
     {
       "name": "Right Foot End Effector Wrench",
       "key": "sens.rightFootEEwrench",
-      "type": "yarpopenmct.sensormeas",
+      "type": "yarpopenmct.wbdestimation",
       "values": [
         {
           "key": "value.force.x",
