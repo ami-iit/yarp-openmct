@@ -3,7 +3,7 @@
 <b id="top"></b>
 An Open MCT and Yarp based iCub telemetry visualizer.
 
-## [Introduction](#top)
+## Introduction[ :arrow_up:](#top)
 
 The **Yarp-OpenMCT** tool is meant for visualizing and plotting telemetry data from iCub sensors, published over a Yarp network. It collects sensor data published on a predefined set of Yarp output ports opened by the Yarp Robot Interface and exposes that data on predefined telemetry nodes within the visualizer interface as vectors or scalar signals. The pipeline can be summarized as follows:
 - A telemetry data server reads the data from a Yarp port, then available within the server as realtime data.
@@ -21,7 +21,7 @@ In addition, the **Yarp-OpenMCT** tool provides a Control Console implementing a
 The Control Console GUI displays a series of buttons which trigger the same commands usually sent through the RPC interface running on a terminal.
 These commands are implemented with the most common options, which can be set through editable text input forms.
 
-## [Dependencies](#top)
+## Dependencies[ :arrow_up:](#top)
 
 ### Server dependencies
 - [NVM](https://github.com/nvm-sh/nvm): Node Version Manager.
@@ -61,7 +61,7 @@ As a reference, the bring up of such setup (out of scope of this installation gu
 - [ROBOTOLOGY_ENABLE_DYNAMICS](https://github.com/robotology/robotology-superbuild/blob/master/doc/cmake-options.md#dynamics), for the `whole-body-estimators` and `walking-controllers`.
 
 
-## [Server Installation](#top)
+## Server Installation[ :arrow_up:](#top)
 
 ### Supported Platforms
 
@@ -188,12 +188,12 @@ If you wish to check the battery state visualization handling on the telemetry v
 - The installation of Open MCT dependency completes with a warning on some detected network vulnerability (refer to https://github.com/ami-iit/yarp-openmct/issues/35). This is not critical as we are running everything in a local private network, but further analysis is required.
 
 
-## [Client Installation](#top)
+## Client Installation[ :arrow_up:](#top)
 
 Install one of the browsers listed in the client dependencies.
 
 
-## [How to Run the Telemetry Visualization Tool](#top)
+## How to Run the Telemetry Visualization Tool[ :arrow_up:](#top)
 
 ### Prior Testing the Visualization Tool on Gazebo
 
@@ -354,9 +354,13 @@ Depending on which robot data you wish to visualize or operation you wish to run
    ```
    ...displaying the visualizer console server URL (Uniform Resource Locator), i.e. `http://<IP-address>:<socket-number>`. In this example we had set its address to `localhost`. In general, we shall refer to the server URL as `<server-URL>`.
 
-## [How to Run the Visualizer Client](#top)
+## How to Run the Visualizer Client[ :arrow_up:](#top)
 
 The Visualizer Client is a GUI based on the [Open MCT](https://github.com/nasa/openmct) framework, displaying a set of iCub Telemetry data elements which plot the data received from the telemetry server. 
+
+#### [Configure](https://github.com/robotology/robotology-superbuild/blob/master/doc/configure-the-visualizer-client.md#editing-domain-object-types)
+
+#### Launch the Client Application
 
 Run a browser on any other machine connected to the same network and open the link `<server-URL>`. If you run the browser on the same machine as the telemetry server (server address is `localhost`), just click directly on the address displayed on the terminal output.
 
@@ -372,7 +376,7 @@ In the above example, the iCub head IMU measurements read on the port `/icubSim/
 
 The measurement components can be exclusively selected for plotting as shown in the picture.
 
-## [How to Run the Control Console Client](#top)
+## How to Run the Control Console Client[ :arrow_up:](#top)
 
 The Control Console provides a web interface to the FT sensors calibrator from the **wholeBodyDynamics** RPC device and the walking coordinator (`WalkingModule`) RPC device.
 
