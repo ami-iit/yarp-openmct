@@ -2,18 +2,17 @@
 
 We describe here the user interface for configuring the visualizer client, typically for:
 - modifying the appearence of the telemetry entries under the telemetry folders in the left pane of the visualizer browser client,
-- provide an abstraction for grouping and interpreting data.
-- ...
+- providing an abstraction for grouping and interpreting data.
 
 <p align='center'>
-<img src="images/domainObjectsTreeExample.png" width="80%">
+<img src="../images/domainObjectsTreeExample.png" width="80%">
 </p>
 
 ## Define new Domain Object Types or Edite Existing Ones
 
 The Domain Objects appearing on the far left pane of the visualizer (`IMU sensor measurements`, `Left leg joint state measurements`, etc) can have associated types which can provide an abstraction for grouping, visualizing and interpreting purposes. Further documentation can be found in [Open-MCT API and tutorial](https://github.com/nasa/openmct/blob/master/API.md#object-attributes:), but we recap here the essentials.
 
-Such types are objects defined in [`openmctStaticServer/domainObjTypes.js`](https://github.com/ami-iit/yarp-openmct/blob/556832d79679cd21c8cfd165e75eff413bd1a626/openmctStaticServer/domainObjTypes.js).
+Such types are objects defined in [`../openmctStaticServer/domainObjTypes.js`](../openmctStaticServer/domainObjTypes.js).
 
 The **type** object attributes are:
 - A `string` key identifying the type, and used when specifying the Domain Object types in the dicionary `json` files. It is recommended prefixing your types with a namespace to avoid conflicts with other plugins (e.g. `yarpopenmct.sensormeas`, `yarpopenmct.camimage`, etc).
@@ -31,6 +30,7 @@ The currently defined types are depicted below and can be edited by the user:
 https://github.com/ami-iit/yarp-openmct/blob/556832d79679cd21c8cfd165e75eff413bd1a626/openmctStaticServer/domainObjTypes.js#L1-L32
 
 The final appearance of the respective Domain Objects are as follows:
+
 <img width="295" alt="image" src="https://user-images.githubusercontent.com/6848872/157219781-d77765a9-4483-4cd8-bd1a-4b02cb1a48e1.png">
 
 

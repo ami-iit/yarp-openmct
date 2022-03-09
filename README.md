@@ -292,7 +292,7 @@ Depending on which robot data you wish to visualize or operation you wish to run
    
    - The ports configuration `portInConfig` define, for each port, the properties **Yarp name**, **local name** and **port 
      type** ("bottle", "image").
-   - The ports prefix `robotYarpPortPrefix` (`/icub`, `/icubSim`) is by default defined as a field at the root level of the configuration JSON object and its value is used on the Yarp port names. The `default.json` file has a JSON format but its format was "extended" (via the "pre" processing done in [processedDefault.js](https://github.com/ami-iit/yarp-openmct/blob/8c6a6f5ec7e4b42ee7bad3013de15ad2de1d2c4c/config/processedDefault.js)) to support the use of variables in the JSON literals:
+   - The ports prefix `robotYarpPortPrefix` (`/icub`, `/icubSim`) is by default defined as a field at the root level of the configuration JSON object and its value is used on the Yarp port names. The `default.json` file has a JSON format but its format was "extended" (via the "pre" processing done in [`config/processedDefault.js`](config/processedDefault.js)) to support the use of variables in the JSON literals:
      ```json
      {
          "robotYarpPortPrefix": "/icubSim",
@@ -358,7 +358,7 @@ Depending on which robot data you wish to visualize or operation you wish to run
 
 The Visualizer Client is a GUI based on the [Open MCT](https://github.com/nasa/openmct) framework, displaying a set of iCub Telemetry data elements which plot the data received from the telemetry server. 
 
-#### [Configure](https://github.com/robotology/robotology-superbuild/blob/master/doc/configure-the-visualizer-client.md#editing-domain-object-types)
+#### [Configure](doc/configure-the-visualizer-client.md#editing-domain-object-types)
 
 #### Launch the Client Application
 
