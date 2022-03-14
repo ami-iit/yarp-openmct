@@ -1,6 +1,11 @@
 /**
  * Basic Realtime telemetry plugin using websockets.
  */
+
+var yarpsocket = io();
+yarp.init(yarpsocket);
+var echoPort = yarp.PortHandler.openPort('/yarpjs/cameraEcho:o','image');
+
 function RealtimeTelemetryPlugin(telemServerHost,telemServerPort) {
     return function (openmct) {
         var socket = new WebSocket('ws://' + telemServerHost + ':' + telemServerPort + '/realtime/');
@@ -8,6 +13,7 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort) {
 
         socket.onmessage = function (event) {
             point = JSON.parse(event.data);
+            echoPort.write(JSON.stringify(point));
             if (listener[point.id]) {
                 listener[point.id](point);
             }
