@@ -3,18 +3,32 @@
  */
 
 // Import main configuration
-var config = require('../config/processedDefault');
+let config = require('../config/processedDefault');
+
+// Send the process PID back to the parent through the IPC channel
+const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
+const procHandler = new OpenMctServerHandlerChildProc(console.log,console.error);
+procHandler.messageParentProcess({"pid": process.pid});
 
 // require and setup basic http functionalities
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+// Setup 'express-ws' in order to add WebSocket routes
+const expressWs = require('express-ws');
+expressWs(app);
+
+// Process default server configuration requests
+app.get('/config/processedDefault.json', function(req, res){
+    console.log('processedDefault.json requested!');
+    res.send(jsonExportScript(config,'processedConfig'));
+});
 
 // require yarp.js and setup the communication
-//with the browser using websockets
+// with the browser using websockets
 var yarp = require('YarpJS');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 yarp.browserCommunicator(io);
 
 // setup static folders
@@ -33,10 +47,7 @@ var pingHandler = new PingHandler();
 
 // Handle Data URI Scheme
 var getDataURIscheme = require('../iCubTelemVizServer/getDataURIscheme');
-
-// Setup 'express-ws' in order to add WebSocket routes
-var expressWs = require('express-ws');
-expressWs(app);
+const {jsonExportScript} = require("../common/utils");
 
 // Create RPC server for executing system commands
 portRPCserver4sysCmds = yarp.portHandler.open('/yarpjs/sysCmdsGenerator/rpc','rpc');
