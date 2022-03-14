@@ -1,1 +1,1 @@
-node serverTest.js &
+node server.js &

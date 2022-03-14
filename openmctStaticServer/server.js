@@ -1,30 +1,48 @@
 /**
- * Basic implementation of a static server.
+ * Static Server http (non secure)
  */
 
-// Import main configuration and dynamic dictionaries
-config = require('../config/processedDefault');
+// Import main configuration
+let config = require('../config/processedDefault');
 
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
 const procHandler = new OpenMctServerHandlerChildProc(console.log,console.error);
 procHandler.messageParentProcess({"pid": process.pid});
 
-const StaticServer = require('./static-server');
+// require and setup basic http functionalities
+const express = require('express');
+const app = express();
+
+// Setup 'express-ws' in order to add WebSocket routes
 const expressWs = require('express-ws');
-const {jsonExportScript} = require("../common/utils");
-const app = require('express')();
 expressWs(app);
 
-const staticServer = new StaticServer();
 // Process default server configuration requests
+const {jsonExportScript} = require("../common/utils");
 app.get('/config/processedDefault.json', function(req, res){
     console.log('processedDefault.json requested!');
     res.send(jsonExportScript(config,'processedConfig'));
 });
 
-// Route static server
-app.use('/', staticServer);
+// require yarp.js and setup the communication
+// with the browser using websockets
+var yarp = require('YarpJS');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+yarp.browserCommunicator(io);
+
+// setup default page
+app.get('/', function(req, res){
+    res.sendFile('index.html',{ root : __dirname});
+});
+
+// setup static folders
+app.use('/config', express.static(__dirname + '/../config'));
+app.use('/openmctdist', express.static(__dirname + '/../node_modules/openmct/dist'));
+app.use(express.static(__dirname + '/../node_modules'));
+app.use(express.static(__dirname + '/../node_modules/YarpJS/js'));
+app.use(express.static(__dirname));
 
 // Start the server
 const port = process.env.PORT || config.openmctStaticServer.port;
