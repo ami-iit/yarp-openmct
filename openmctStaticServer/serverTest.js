@@ -31,15 +31,15 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 yarp.browserCommunicator(io);
 
+// setup default page
+app.get('/', function(req, res){
+    res.sendFile('indexTest.html',{ root: __dirname});
+});
+
 // setup static folders
 app.use(express.static(__dirname + '/../node_modules'));
 app.use(express.static(__dirname + '/../node_modules/YarpJS/js'));
 app.use(express.static(__dirname));
-
-// setup default page
-app.get('/', function(req, res){
-  res.sendFile('indexTest.html',{ root : __dirname});
-});
 
 // Create the ping handler
 var PingHandler = require('../iCubTelemVizServer/pingHandler');
