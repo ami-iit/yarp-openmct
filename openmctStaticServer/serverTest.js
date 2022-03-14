@@ -32,20 +32,20 @@ app.use(express.static(__dirname));
 
 // setup default page
 app.get('/', function(req, res){
-  res.sendFile('index.html',{ root : __dirname});
+  res.sendFile('indexTest.html',{ root : __dirname});
 });
 
 // Basic implementation of a history and realtime server.
-var ICubTelemetry = require('./icubtelemetry');
-var RealtimeServer = require('./realtime-server');
-var HistoryServer = require('./history-server');
+var ICubTelemetry = require('../iCubTelemVizServer/icubtelemetry');
+var RealtimeServer = require('../iCubTelemVizServer/realtime-server');
+var HistoryServer = require('../iCubTelemVizServer/history-server');
 
 // Create the ping handler
-var PingHandler = require('./pingHandler');
+var PingHandler = require('../iCubTelemVizServer/pingHandler');
 var pingHandler = new PingHandler();
 
 // Handle Data URI Scheme
-var getDataURIscheme = require('./getDataURIscheme');
+var getDataURIscheme = require('../iCubTelemVizServer/getDataURIscheme');
 
 // Setup 'express-ws' in order to add WebSocket routes
 var expressWs = require('express-ws');
@@ -77,7 +77,7 @@ icubtelemetry.defineNetworkConnector(
   }
 );
 
-const TerminationHandler = require('./terminationHandler.js');
+const TerminationHandler = require('../iCubTelemVizServer/terminationHandler.js');
 
 Object.keys(portInConfig).forEach(function (id) {
     var portIn = yarp.portHandler.open(portInConfig[id]["localName"],portInConfig[id]["portType"]);

@@ -1,1 +1,1 @@
-node ../iCubTelemVizServer/serverTest.js &
+node serverTest.js &
