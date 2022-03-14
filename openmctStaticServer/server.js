@@ -46,7 +46,7 @@ app.use(express.static(__dirname));
 
 // Start the server
 const port = process.env.PORT || config.openmctStaticServer.port;
-vizServer = app.listen(port, config.openmctStaticServer.host, function () {
+vizServer = http.listen(port, config.openmctStaticServer.host, function () {
     console.log('Visualizer Console Server (Open MCT based) listening on http://' + vizServer.address().address + ':' + vizServer.address().port);
 });
 
