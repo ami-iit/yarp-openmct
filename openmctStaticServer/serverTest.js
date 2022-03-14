@@ -1,21 +1,13 @@
 /**
- * Server http (non secure)
+ * Static Server http (non secure)
  */
 
 // Import main configuration
 var config = require('../config/processedDefault');
 
 // require and setup basic http functionalities
-var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || config.openmctStaticServer.port;
-var portTelemetryRespOrigin = process.env.PORT_TLM_RSP_ORIGIN || config.telemVizServer.port;
 var express = require('express');
 var app = express();
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://" + config.openmctStaticServer.host + ":" + portTelemetryReqOrigin); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -35,11 +27,6 @@ app.get('/', function(req, res){
   res.sendFile('indexTest.html',{ root : __dirname});
 });
 
-// Basic implementation of a history and realtime server.
-var ICubTelemetry = require('../iCubTelemVizServer/icubtelemetry');
-var RealtimeServer = require('../iCubTelemVizServer/realtime-server');
-var HistoryServer = require('../iCubTelemVizServer/history-server');
-
 // Create the ping handler
 var PingHandler = require('../iCubTelemVizServer/pingHandler');
 var pingHandler = new PingHandler();
@@ -50,59 +37,6 @@ var getDataURIscheme = require('../iCubTelemVizServer/getDataURIscheme');
 // Setup 'express-ws' in order to add WebSocket routes
 var expressWs = require('express-ws');
 expressWs(app);
-
-// Create the servers
-var icubtelemetry = new ICubTelemetry();
-var realtimeServer = new RealtimeServer(icubtelemetry);
-var historyServer = new HistoryServer(icubtelemetry);
-app.use('/realtime', realtimeServer);
-app.use('/history', historyServer);
-
-// Open the Yarp ports and feed the data to the 'icubtelemetry' object
-
-// Define the ports
-var portInConfig = config.portInConfig;
-
-// Open the ports, register read callback functions, connect the ports and start the notifier task.
-// Use topics to create persistent connections.
-icubtelemetry.defineNetworkConnector(
-  (id) => {
-      yarp.Network.connect(portInConfig[id]["yarpName"],"topic:/" + portInConfig[id]["yarpName"]);
-      yarp.Network.connect("topic:/" + portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
-  },
-  (id) => {
-      yarp.Network.disconnect(portInConfig[id]["yarpName"],"topic:/" + portInConfig[id]["yarpName"]);
-      yarp.Network.disconnect("topic:/" + portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
-      yarp.Network.disconnect(portInConfig[id]["yarpName"],portInConfig[id]["localName"]);
-  }
-);
-
-const TerminationHandler = require('../iCubTelemVizServer/terminationHandler.js');
-
-Object.keys(portInConfig).forEach(function (id) {
-    var portIn = yarp.portHandler.open(portInConfig[id]["localName"],portInConfig[id]["portType"]);
-
-    // Redefine the Yarp port listener
-    switch (portInConfig[id]["portType"]) {
-        case 'bottle':
-            portIn.onRead(function (bottle){
-                icubtelemetry.forwardYarpDataToNotifier[id](id,bottle.toArray());
-            });
-            break;
-        case 'image':
-            portIn.onRead(function (image){
-                icubtelemetry.forwardYarpDataToNotifier[id](id,getDataURIscheme(image.getCompressionType(),image.toBinary()));
-            });
-            break;
-        default:
-    }
-
-    // Connect the Yarp port listener to 'icubtelemetry' handler and to the robot interface.
-    // Prepare the disconnection for the server termination.
-    TerminationHandler.prototype.unlistenToNetworkPorts.push(icubtelemetry.connectTelemSrcToNotifier(id));
-});
-
-icubtelemetry.startNotifier();
 
 // Create RPC server for executing system commands
 portRPCserver4sysCmds = yarp.portHandler.open('/yarpjs/sysCmdsGenerator/rpc','rpc');
