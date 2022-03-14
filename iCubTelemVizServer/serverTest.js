@@ -164,40 +164,37 @@ portRPCserver4sysCmds.onRead(function (cmdNparams) {
     }
 });
 
-// Start history and realtime servers
-const telemServer = app.listen(portTelemetryRespOrigin, config.telemVizServer.host, function () {
-    console.log('ICubTelemetry History Server listening on http://' + telemServer.address().address + ':' + telemServer.address().port + '/history');
-    console.log('ICubTelemetry Realtime Server listening on ws://' + telemServer.address().address + ':' + telemServer.address().port + '/realtime');
-});
-
 // Start the control console server
-const consoleServer = http.listen(config.consoleServer.port, config.consoleServer.host, function(){
+const consoleServer = http.listen(config.openmctStaticServer.port, config.openmctStaticServer.host, function(){
   console.log('Control Console Server listening on http://' + consoleServer.address().address + ':' + consoleServer.address().port);
 });
 
 // Track the connections
 WebsocketTracker = require('../common/websocket-tracker');
-const telemServerTracker = new WebsocketTracker(telemServer);
 const consoleServerTracker = new WebsocketTracker(consoleServer);
 
-// Create and start the OpenMCT server
-var OpenMctServerHandler = require('./openMctServerHandlerParentProc');
-var openMctServerHandler = new OpenMctServerHandler(console.log,console.error);
-var ret = openMctServerHandler.start();
-console.log(ret);
+// Handle a clean process termination
+signalName2exitCodeMap = require('../common/utils').signalName2exitCodeMap;
 
-// Handler for a gracious termination
-var terminationHandler = new TerminationHandler(
-  openMctServerHandler,
-  telemServer,telemServerTracker,
-  consoleServer,consoleServerTracker,
-  icubtelemetry
-);
+function handleTermination(signal) {
+    console.log('Received '+signal+' ...');
+    consoleServer.close(() => {
+        console.log('Open-MCT Visualizer Server closed: all sockets closed.');
+        process.exitCode = signalName2exitCodeMap(signal);
+        process.removeListener('SIGINT', inhibit2ndSIGINT); // Remove the idle listener
+        clearTimeout(handleTermination.prototype.sigintTimer);    // Cancel the timeout that would remove the idle listener
+    });
+    console.log('Open-MCT Visualizer Server closing: no further incoming requests accepted. Refreshing the visualizer web page will fail.');
+    consoleServerTracker.closeAll();
+    // Run a timer for scheduling the removal of the idle listener in case the server closure gets stuck
+    handleTermination.prototype.sigintTimer = setTimeout(function () {process.removeListener('SIGINT', inhibit2ndSIGINT);},5000);
+}
 
-// Add our own termination signals listeners.
-// When the signal comes from the terminal, the generated event doesn't have a 'signal' parameter,
-// so it appears undefined in the callback body. We worked around this issue by explicitly setting
-// the 'signal' parameter case by case.
-terminationHandler.backupAndReplaceSignalListeners('SIGQUIT');
-terminationHandler.backupAndReplaceSignalListeners('SIGTERM');
-terminationHandler.backupAndReplaceSignalListeners('SIGINT');
+// IDLE termination handler for inhibiting an eventual 2nd SIGINT (probably from the parent process)
+// while we wait for the processing completion of the first SIGINT.
+function inhibit2ndSIGINT() {}
+
+process.prependOnceListener('SIGQUIT', () => {handleTermination('SIGQUIT');});
+process.prependOnceListener('SIGTERM', () => {handleTermination('SIGTERM');});
+process.prependOnceListener('SIGINT', () => {handleTermination('SIGINT');});
+process.prependListener('SIGINT', inhibit2ndSIGINT);
