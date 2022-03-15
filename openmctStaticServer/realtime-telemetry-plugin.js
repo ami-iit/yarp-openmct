@@ -8,8 +8,13 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,echoPort) {
         var listener = {};
 
         socket.onmessage = function (event) {
-            point = JSON.parse(event.data);
-            echoPort.write(JSON.stringify(point.value));
+            let data = JSON.parse(event.data);
+            let point = {
+                timestamp: data.timestamp,
+                value: yarp.getImageSrc(data.value.compressionType,data.value.buffer.data),
+                id: data.id
+            };
+            // echoPort.write(point.value);
             if (listener[point.id]) {
                 listener[point.id](point);
             }

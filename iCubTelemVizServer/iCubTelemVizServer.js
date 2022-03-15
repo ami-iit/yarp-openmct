@@ -91,7 +91,7 @@ Object.keys(portInConfig).forEach(function (id) {
             break;
         case 'image':
             portIn.onRead(function (image){
-                icubtelemetry.forwardYarpDataToNotifier[id](id,getDataURIscheme(image.getCompressionType(),image.toBinary()));
+                icubtelemetry.forwardYarpDataToNotifier[id](id,{"compressionType":image.getCompressionType(),"buffer":image.toBinary()});
             });
             break;
         default:
