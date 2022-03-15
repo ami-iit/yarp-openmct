@@ -2,14 +2,14 @@
  * Basic Realtime telemetry plugin using websockets.
  */
 
-function RealtimeTelemetryPlugin(telemServerHost,telemServerPort) {
+function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,echoPort) {
     return function (openmct) {
         var socket = new WebSocket('ws://' + telemServerHost + ':' + telemServerPort + '/realtime/');
         var listener = {};
 
         socket.onmessage = function (event) {
             point = JSON.parse(event.data);
-            // echoPort.write(JSON.stringify(point));
+            echoPort.write(JSON.stringify(point.value));
             if (listener[point.id]) {
                 listener[point.id](point);
             }
