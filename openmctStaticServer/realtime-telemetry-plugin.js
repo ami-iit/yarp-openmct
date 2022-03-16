@@ -33,11 +33,13 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,echoPort) {
                 listener[domainObject.identifier.key] = callback;
                 if (DOMAIN_OBJECTS_TYPES[domainObject.type].reportSchedule.includes(ReportSchedule.Direct)) {
                     yarp.Network.connect('/icubSim/camLeftEye','/yarpjs/camLeftEyeDirect:i');
+                    return function unsubscribe() {
+                        yarp.Network.disconnect('/icubSim/camLeftEye', '/yarpjs/camLeftEyeDirect:i');
+                    };
                 } else {
                     socket.send('subscribe ' + domainObject.identifier.key);
                     return function unsubscribe() {
                         delete listener[domainObject.identifier.key];
-                        yarp.Network.disconnect('/icubSim/camLeftEye','/yarpjs/camLeftEyeDirect:i');
                     };
                 }
             }
