@@ -3,5 +3,6 @@ const WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.walkingctrlte
 class ReportSchedule {
     static Realtime = Symbol();
     static Historical = Symbol();
+    static Direct = Symbol();
 }
 Object.freeze(ReportSchedule);

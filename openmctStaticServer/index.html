@@ -28,7 +28,7 @@
         let socket = io();
         let echoPort = [];
         yarp.onInit(function() {
-            echoPort = yarp.PortHandler.openPort('/yarpjs/cameraEcho:o', 'bottle');
+            echoPort = yarp.PortHandler.openPort('/yarpjs/camLeftEyeDirect:i','image');
         });
         yarp.init(socket);
 

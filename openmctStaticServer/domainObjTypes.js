@@ -9,7 +9,7 @@ const DOMAIN_OBJECTS_TYPES = {
         name: 'iCub Eye Camera Telemetry Entry',
         description: 'Camera images from one of the iCub eye cameras published on a single port.',
         icon: 'icon-camera',
-        reportSchedule: [ReportSchedule.Realtime,ReportSchedule.Historical]
+        reportSchedule: [ReportSchedule.Realtime,ReportSchedule.Direct]
     },
     "yarpopenmct.nwstatus": {
         name: 'Network Satus Related Entry',

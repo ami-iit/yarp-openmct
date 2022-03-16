@@ -20,17 +20,32 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,echoPort) {
             }
         };
 
+        echoPort.onRead(function(img) {
+            let point = {
+                timestamp: Date.now(),
+                value: yarp.getImageSrc(img.compression_type,img.buffer),
+                id: "sens.camLeftEye"
+            };
+            if (listener[point.id]) {
+                listener[point.id](point);
+            }
+        });
+
         var provider = {
             supportsSubscribe: function (domainObject) {
                 return DOMAIN_OBJECTS_TYPES[domainObject.type].reportSchedule.includes(ReportSchedule.Realtime);
             },
             subscribe: function (domainObject, callback) {
                 listener[domainObject.identifier.key] = callback;
-                socket.send('subscribe ' + domainObject.identifier.key);
-                return function unsubscribe() {
-                    delete listener[domainObject.identifier.key];
-                    socket.send('unsubscribe ' + domainObject.identifier.key);
-                };
+                if (DOMAIN_OBJECTS_TYPES[domainObject.type].reportSchedule.includes(ReportSchedule.Direct)) {
+                    yarp.Network.connect('/icubSim/camLeftEye','/yarpjs/camLeftEyeDirect:i');
+                } else {
+                    socket.send('subscribe ' + domainObject.identifier.key);
+                    return function unsubscribe() {
+                        delete listener[domainObject.identifier.key];
+                        yarp.Network.disconnect('/icubSim/camLeftEye','/yarpjs/camLeftEyeDirect:i');
+                    };
+                }
             }
         };
 
