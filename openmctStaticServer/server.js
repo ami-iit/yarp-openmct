@@ -64,6 +64,7 @@ function handleTermination(signal) {
         process.exitCode = signalName2exitCodeMap(signal);
         process.removeListener('SIGINT', inhibit2ndSIGINT); // Remove the idle listener
         clearTimeout(handleTermination.prototype.sigintTimer);    // Cancel the timeout that would remove the idle listener
+        process.exit(0);
     });
     console.log('Open-MCT Visualizer Server closing: no further incoming requests accepted. Refreshing the visualizer web page will fail.');
     vizServerTracker.closeAll();
