@@ -2,11 +2,11 @@ function WebsocketTracker(server) {
     this.server = server;
     this.sockets = new Map();
     server.on('connection',(socket) => {
-        console.log('NEW CONNECTION!!');
         this.sockets.set(socket,true);
+        console.log(`NEW CONNECTION!! (${this.sockets.size} sockets on ${this.server._connectionKey})`);
         socket.on('close',function() {
-            console.log('CLOSE CONNECTION');
             this.sockets.delete(socket);
+            console.log(`CLOSE CONNECTION (${this.sockets.size} sockets left on ${this.server._connectionKey})`);
         }.bind(this));
     })
 }
