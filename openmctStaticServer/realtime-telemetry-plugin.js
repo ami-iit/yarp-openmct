@@ -2,7 +2,7 @@
  * Basic Realtime telemetry plugin using websockets.
  */
 
-function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,echoPort) {
+function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,directPort,echoPort) {
     return function (openmct) {
         var socket = new WebSocket('ws://' + telemServerHost + ':' + telemServerPort + '/realtime/');
         var listener = {};
@@ -14,7 +14,7 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,echoPort) {
             }
         };
 
-        echoPort.onRead(function(img) {
+        directPort.onRead(function(img) {
             let point = {
                 timestamp: Date.now(),
                 value: yarp.getImageSrc(img.compression_type,img.buffer),
@@ -23,6 +23,7 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,echoPort) {
             if (listener[point.id]) {
                 listener[point.id](point);
             }
+            echoPort.write(img);
         });
 
         var provider = {

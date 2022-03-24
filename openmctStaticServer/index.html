@@ -26,9 +26,11 @@
         const ONE_HOUR = THIRTY_MINUTES * 2;
 
         let socket = io();
+        let directPort = [];
         let echoPort = [];
         yarp.onInit(function() {
-            echoPort = yarp.PortHandler.openPort('/yarpjs/camLeftEyeDirect:i','image');
+            directPort = yarp.PortHandler.openPort('/yarpjs/camLeftEyeDirect:i','image');
+            echoPort = yarp.PortHandler.openPort('/yarpjs/camLeftEyeEcho:o','image');
         });
         yarp.init(socket);
 
@@ -140,7 +142,7 @@
         let telemServerPort = processedConfig.telemVizServer.port;
         openmct.install(DictionaryPlugin(telemServerHost,telemServerPort));
         openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
-        openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort,echoPort));
+        openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort,directPort,echoPort));
 
         openmct.start();
     </script>
