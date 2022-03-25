@@ -16,11 +16,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dic-iit/yarp-openmct"
+    "url": "https://github.com/ami-iit/yarp-openmct"
   },
   "main": "iCubTelemVizServer/iCubTelemVisServer.js",
   "scripts": {
     "start": "cd iCubTelemVizServer && node ${NODE_DEBUG_OPTION} iCubTelemVizServer.js"
   },
-  "homepage": "https://github.com/dic-iit/yarp-openmct.git#README"
+  "homepage": "https://github.com/ami-iit/yarp-openmct.git#README"
 }

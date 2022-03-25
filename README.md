@@ -130,7 +130,7 @@ For most users, the one line installation procedure is recommended, directly ins
 
 6. In a location of your choice, run the **npm install** command directly from the repository remote URL 
     ```
-    npm install https://github.com/dic-iit/yarp-openmct.git --global-style true
+    npm install https://github.com/ami-iit/yarp-openmct.git --global-style true
     ```
 This command clones the repository with the protocol `git+http`, installs all the source files (without the `.git`, `.gitignore` nor other version control files) under the folder `./node_modules/yarp-openmct` and installs the dependencies following the manifest `./node_modules/yarp-openmct/package.json`.
 
@@ -143,7 +143,7 @@ Alternatively, if you wish to contribute as a developer or switch between unrele
 
 6. Clone the `yarp-openmct` repository in a location of your choice
     ```
-    git clone https://github.com/dic-iit/yarp-openmct.git
+    git clone https://github.com/ami-iit/yarp-openmct.git
     ```
 
 7. Install the visualizer: go to the repository folder (we shall refer to this folder as `<yarp-openmct-root-folder>`) and install the application via **npm**:

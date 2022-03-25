@@ -71,7 +71,7 @@ Available latest version is **stable 16.2.0**. Currently, **the compilation fail
 ```
 conda install nodejs
 ```
-Latest version 15.14.0, which includes the executable `npm`. Currently, the **Installation partially succeeds**: refer to [previous comment](https://github.com/dic-iit/element_software-engineering/issues/47#issuecomment-855171484).
+Latest version 15.14.0, which includes the executable `npm`. Currently, the **Installation partially succeeds**: refer to [previous comment](https://github.com/ami-iit/element_software-engineering/issues/47#issuecomment-855171484).
 
 ### Installing from Node.js Site https://nodejs.org
 
