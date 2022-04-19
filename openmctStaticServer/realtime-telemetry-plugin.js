@@ -41,6 +41,7 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,directPort,echo
                     socket.send('subscribe ' + domainObject.identifier.key);
                     return function unsubscribe() {
                         delete listener[domainObject.identifier.key];
+                        socket.send('unsubscribe ' + domainObject.identifier.key);
                     };
                 }
             }
