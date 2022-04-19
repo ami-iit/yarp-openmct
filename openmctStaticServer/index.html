@@ -14,8 +14,40 @@
     <script src="realtime-telemetry-plugin.js"></script>
     <script src="config/processedDefault.json"></script>
     <link rel="stylesheet" href="openmctdist/espressoTheme.css">
+
+    <style>
+        .cont {
+            text-align: center;
+        }
+
+        .cont * {
+            display: inline-block;
+        }
+
+        .main {
+            margin-top: 4em;
+        }
+
+        #stream-video {
+            border-radius: 10%;
+            border: 0.5em solid #D4D6D8;
+
+            box-shadow: 4px 4px 10px -3px rgba(0, 0, 0, 0.5);
+
+            display: block;
+            height: 480px;
+            width: 640px;
+        }
+    </style>
 </head>
 <body>
+    <div class='main cont'>
+    <div class='cont'>
+    // Test canvas
+    <canvas id='stream-video'></canvas>
+    </div>
+    </div>
+
     <script>
         const ONE_SECOND = 1000;
         const THIRTY_SECONDS = 30 * 1000;
@@ -28,123 +60,143 @@
         let socket = io();
         let directPort = [];
         let echoPort = [];
+        var g_img = undefined;
+
         yarp.onInit(function() {
             directPort = yarp.PortHandler.openPort('/yarpjs/camLeftEyeDirect:i','image');
             echoPort = yarp.PortHandler.openPort('/yarpjs/camLeftEyeEcho:o','image');
+
+            directPort.onRead(function(img) {
+                g_img = img;
+            });
         });
+
+        var video_stream_element = document.getElementById('stream-video');
+        var canvasImg = new Image();
+
+        function tmp_visual() {
+            if(g_img != undefined)
+            {
+                canvasImg.src = yarp.getImageSrc(g_img.compression_type,g_img.buffer);
+                video_stream_element.getContext('2d').drawImage(canvasImg,0,0,video_stream_element.width,video_stream_element.height);
+            }
+            setTimeout(tmp_visual,1);
+        }
+        tmp_visual();
+
         yarp.init(socket);
 
-        // Open MCT native plugins
-        openmct.install(openmct.plugins.LocalStorage());
-        openmct.install(openmct.plugins.Espresso());
-        openmct.install(openmct.plugins.MyItems());
-        openmct.install(openmct.plugins.PlanLayout());
-        openmct.install(openmct.plugins.Timeline());
-        openmct.install(openmct.plugins.Hyperlink());
-        openmct.install(openmct.plugins.UTCTimeSystem());
-        openmct.install(openmct.plugins.SummaryWidget());
-        openmct.install(openmct.plugins.Notebook());
-        openmct.install(openmct.plugins.LADTable());
-        openmct.install(openmct.plugins.Filters(['table', 'telemetry.plot.overlay']));
-        openmct.install(openmct.plugins.ObjectMigration());
-        openmct.install(openmct.plugins.ClearData(
-            ['table', 'telemetry.plot.overlay', 'telemetry.plot.stacked'],
-            {indicator: true}
-        ));
-        openmct.install(openmct.plugins.AutoflowView({
-            type: "telemetry.fixed"
-        }));
-        openmct.install(openmct.plugins.Clock({ enableClockIndicator: true }));
-
-        openmct.install(openmct.plugins.Conductor({
-            menuOptions: [
-                {
-                    name: "Fixed",
-                    timeSystem: 'utc',
-                    bounds: {
-                        start: Date.now() - ONE_MINUTE,
-                        end: Date.now() + ONE_SECOND
-                    },
-                    // commonly used bounds can be stored in history
-                    // bounds (start and end) can accept either a milliseconds number
-                    // or a callback function returning a milliseconds number
-                    // a function is useful for invoking Date.now() at exact moment of preset selection
-                    presets: [
-                        {
-                            label: '15 Minutes',
-                            bounds: {
-                                start: () => Date.now() - FIFTEEN_MINUTES,
-                                end: () => Date.now() + ONE_SECOND
-                            }
-                        },
-                        {
-                            label: '5 Minutes',
-                            bounds: {
-                                start: () => Date.now() - FIVE_MINUTES,
-                                end: () => Date.now() + ONE_SECOND
-                            }
-                        },
-                        {
-                            label: '1 Minute',
-                            bounds: {
-                                start: () => Date.now() - ONE_MINUTE,
-                                end: () => Date.now() + ONE_SECOND
-                            }
-                        }
-                    ],
-                    // maximum recent bounds to retain in conductor history
-                    records: 10
-                    // maximum duration between start and end bounds
-                    // for utc-based time systems this is in milliseconds
-                    // limit: ONE_DAY
-                },
-                {
-                    name: "Realtime",
-                    timeSystem: 'utc',
-                    clock: 'local',
-                    clockOffsets: {
-                        start: - ONE_MINUTE,
-                        end: ONE_SECOND
-                    },
-                    presets: [
-                        {
-                            label: '15 Minutes',
-                            bounds: {
-                                start: - FIFTEEN_MINUTES,
-                                end: ONE_SECOND
-                            }
-                        },
-                        {
-                            label: '5 Minutes',
-                            bounds: {
-                                start: - FIVE_MINUTES,
-                                end: ONE_SECOND
-                            }
-                        },
-                        {
-                            label: '1 Minute',
-                            bounds: {
-                                start: - ONE_MINUTE,
-                                end: ONE_SECOND
-                            }
-                        }
-                    ]
-                }
-            ]
-        }));
-
-        // For development use only (signal, state and image generator)
-        openmct.install(openmct.plugins.Generator());
-        openmct.install(openmct.plugins.ExampleImagery());
-
-        // Local plugins
-        let telemServerHost = processedConfig.telemVizServer.host;
-        let telemServerPort = processedConfig.telemVizServer.port;
-        openmct.install(DictionaryPlugin(telemServerHost,telemServerPort));
-        openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
-        openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort,directPort,echoPort));
-
-        openmct.start();
+        // // Open MCT native plugins
+        // openmct.install(openmct.plugins.LocalStorage());
+        // openmct.install(openmct.plugins.Espresso());
+        // openmct.install(openmct.plugins.MyItems());
+        // openmct.install(openmct.plugins.PlanLayout());
+        // openmct.install(openmct.plugins.Timeline());
+        // openmct.install(openmct.plugins.Hyperlink());
+        // openmct.install(openmct.plugins.UTCTimeSystem());
+        // openmct.install(openmct.plugins.SummaryWidget());
+        // openmct.install(openmct.plugins.Notebook());
+        // openmct.install(openmct.plugins.LADTable());
+        // openmct.install(openmct.plugins.Filters(['table', 'telemetry.plot.overlay']));
+        // openmct.install(openmct.plugins.ObjectMigration());
+        // openmct.install(openmct.plugins.ClearData(
+        //     ['table', 'telemetry.plot.overlay', 'telemetry.plot.stacked'],
+        //     {indicator: true}
+        // ));
+        // openmct.install(openmct.plugins.AutoflowView({
+        //     type: "telemetry.fixed"
+        // }));
+        // openmct.install(openmct.plugins.Clock({ enableClockIndicator: true }));
+        //
+        // openmct.install(openmct.plugins.Conductor({
+        //     menuOptions: [
+        //         {
+        //             name: "Fixed",
+        //             timeSystem: 'utc',
+        //             bounds: {
+        //                 start: Date.now() - ONE_MINUTE,
+        //                 end: Date.now() + ONE_SECOND
+        //             },
+        //             // commonly used bounds can be stored in history
+        //             // bounds (start and end) can accept either a milliseconds number
+        //             // or a callback function returning a milliseconds number
+        //             // a function is useful for invoking Date.now() at exact moment of preset selection
+        //             presets: [
+        //                 {
+        //                     label: '15 Minutes',
+        //                     bounds: {
+        //                         start: () => Date.now() - FIFTEEN_MINUTES,
+        //                         end: () => Date.now() + ONE_SECOND
+        //                     }
+        //                 },
+        //                 {
+        //                     label: '5 Minutes',
+        //                     bounds: {
+        //                         start: () => Date.now() - FIVE_MINUTES,
+        //                         end: () => Date.now() + ONE_SECOND
+        //                     }
+        //                 },
+        //                 {
+        //                     label: '1 Minute',
+        //                     bounds: {
+        //                         start: () => Date.now() - ONE_MINUTE,
+        //                         end: () => Date.now() + ONE_SECOND
+        //                     }
+        //                 }
+        //             ],
+        //             // maximum recent bounds to retain in conductor history
+        //             records: 10
+        //             // maximum duration between start and end bounds
+        //             // for utc-based time systems this is in milliseconds
+        //             // limit: ONE_DAY
+        //         },
+        //         {
+        //             name: "Realtime",
+        //             timeSystem: 'utc',
+        //             clock: 'local',
+        //             clockOffsets: {
+        //                 start: - ONE_MINUTE,
+        //                 end: ONE_SECOND
+        //             },
+        //             presets: [
+        //                 {
+        //                     label: '15 Minutes',
+        //                     bounds: {
+        //                         start: - FIFTEEN_MINUTES,
+        //                         end: ONE_SECOND
+        //                     }
+        //                 },
+        //                 {
+        //                     label: '5 Minutes',
+        //                     bounds: {
+        //                         start: - FIVE_MINUTES,
+        //                         end: ONE_SECOND
+        //                     }
+        //                 },
+        //                 {
+        //                     label: '1 Minute',
+        //                     bounds: {
+        //                         start: - ONE_MINUTE,
+        //                         end: ONE_SECOND
+        //                     }
+        //                 }
+        //             ]
+        //         }
+        //     ]
+        // }));
+        //
+        // // For development use only (signal, state and image generator)
+        // openmct.install(openmct.plugins.Generator());
+        // openmct.install(openmct.plugins.ExampleImagery());
+        //
+        // // Local plugins
+        // let telemServerHost = processedConfig.telemVizServer.host;
+        // let telemServerPort = processedConfig.telemVizServer.port;
+        // openmct.install(DictionaryPlugin(telemServerHost,telemServerPort));
+        // openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
+        // openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort,directPort,echoPort,video_stream_element));
+        //
+        // openmct.start();
     </script>
 </body>
 </html>
