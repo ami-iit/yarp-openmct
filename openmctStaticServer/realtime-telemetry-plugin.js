@@ -23,7 +23,6 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort,directPort,echo
             if (listener[point.id]) {
                 listener[point.id](point);
             }
-            echoPort.write(img);
         });
 
         var provider = {
