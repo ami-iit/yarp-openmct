@@ -17,6 +17,7 @@
 </head>
 <body>
     <script>
+        const ONE_SAMPLE = 10;
         const ONE_SECOND = 1000;
         const THIRTY_SECONDS = 30 * 1000;
         const ONE_MINUTE = THIRTY_SECONDS * 2;
@@ -90,6 +91,27 @@
                                 start: () => Date.now() - ONE_MINUTE,
                                 end: () => Date.now() + ONE_SECOND
                             }
+                        },
+                        {
+                            label: '1 second',
+                            bounds: {
+                                start: () => Date.now() - ONE_SECOND,
+                                end: () => Date.now() + ONE_SECOND
+                            }
+                        },
+                        {
+                            label: '5 samples',
+                            bounds: {
+                                start: () => Date.now() - 5 * ONE_SAMPLE,
+                                end: () => Date.now() + ONE_SAMPLE
+                            }
+                        },
+                        {
+                            label: '1 sample',
+                            bounds: {
+                                start: () => Date.now() - ONE_SAMPLE,
+                                end: () => Date.now() + ONE_SAMPLE
+                            }
                         }
                     ],
                     // maximum recent bounds to retain in conductor history
@@ -103,7 +125,7 @@
                     timeSystem: 'utc',
                     clock: 'local',
                     clockOffsets: {
-                        start: - ONE_MINUTE,
+                        start: - ONE_SECOND,
                         end: ONE_SECOND
                     },
                     presets: [
@@ -126,6 +148,27 @@
                             bounds: {
                                 start: - ONE_MINUTE,
                                 end: ONE_SECOND
+                            }
+                        },
+                        {
+                            label: '1 second',
+                            bounds: {
+                                start: - ONE_SECOND,
+                                end: ONE_SECOND
+                            }
+                        },
+                        {
+                            label: '5 samples',
+                            bounds: {
+                                start: - 5 * ONE_SAMPLE,
+                                end: ONE_SAMPLE
+                            }
+                        },
+                        {
+                            label: '1 sample',
+                            bounds: {
+                                start: - ONE_SAMPLE,
+                                end: ONE_SAMPLE
                             }
                         }
                     ]
