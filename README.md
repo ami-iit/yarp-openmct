@@ -221,10 +221,24 @@ If you wish to test the features of the installed tool, and installed #additiona
    ```
    - **FT sensors calibration:** make sure the RPC port `/wholeBodyDynamics/rpc` is available.
    - **Ground Reaction Forces:** make sure the RPC ports `/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o` and `/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o` are available.
-1. For using the Walking Coordinator from the Control Console client, run the `WalkingModule` RPC server and make sure it opens the RPC port `/walking-coordinator/rpc`.
-   ```
-   YARP_CLOCK=/clock WalkingModule
-   ```
+1. For using the Walking Coordinator from the Control Console client, the steps to follow depend on whether or not you wish to activate the Walking Logger along in order to visualize the Walking Controller telemetry variables (`Walking Controller Logger` telemetry entry in the YarpOpenMCT visualizer).
+   - **Walking Logger OFF:**
+       - Make sure the data dumping is deactivated with `dump_data` set to 0 in https://github.com/robotology/walking-controllers/blob/master/src/WalkingModule/app/robots/iCubGazeboV2_5/dcm_walking_with_joypad.ini.
+       - Run the `WalkingModule` RPC server and make sure it opens the RPC port `/walking-coordinator/rpc`. :warning: If the data dumping is not deactivated in the previous step, the Walking Module tries to connect to `/logger/data:i` and fails when not finding the destination port, with the output error
+         ```
+         [ERROR] Unable to connect the ports  /walking-coordinator/logger/data:o and /logger/data:i
+         ```
+   - **Walking Logger ON:**
+       - Activate the data dumping by setting `dump_data` to 1 in https://github.com/robotology/walking-controllers/blob/master/src/WalkingModule/app/robots/iCubGazeboV2_5/dcm_walking_with_joypad.ini.
+       - Run the `WalkingLoggerModule` and make sure it opens the log data input port `/logger/data:i`.
+         ```
+         YARP_CLOCK=/clock WalkingLoggerModule
+         ```
+       - run the `WalkingModule` RPC server and make sure it opens the RPC port `/walking-coordinator/rpc`.
+         ```
+         YARP_CLOCK=/clock WalkingModule
+         ```
+         The port `/walking-coordinator/logger/data:o` is also created by default, and automatically connected to `/logger/data:i`.
 1. **iCub Cameras:** Run two `fakeFrameGrabber` and `grabberDual`<sup>[1](#f1)</sup> devices, streaming image data on the respective ports `/icubSim/camera/left` and `/icub/camera/right`.
    ```
    YARP_CLOCK=/clock yarpdev --device fakeFrameGrabber --name /icubSim/camera/left
