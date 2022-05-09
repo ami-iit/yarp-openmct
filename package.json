@@ -6,12 +6,12 @@
   "license": "LGPL-3.0,ISC",
   "dependencies": {
     "express": "latest",
-    "express-ws": "4.0.0",
+    "express-ws": "latest",
     "jquery": "latest",
-    "socket.io": "1.5.1",
+    "socket.io": "latest",
     "socket.io-stream": "latest",
-    "YarpJS": "https://github.com/robotology/yarp.js",
-    "openmct": "https://github.com/ami-iit/openmct.git#1.7.8-iit",
+    "YarpJS": "file:/Users/nunoguedelha/dev/yarp.js",
+    "openmct": "file:/Users/nunoguedelha/dev/openmct",
     "ws": "^7.2.0"
   },
   "repository": {

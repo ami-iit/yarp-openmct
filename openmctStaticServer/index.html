@@ -122,10 +122,6 @@
             ]
         }));
 
-        // For development use only (signal, state and image generator)
-        openmct.install(openmct.plugins.Generator());
-        openmct.install(openmct.plugins.ExampleImagery());
-
         // Local plugins
         let telemServerHost = processedConfig.telemVizServer.host;
         let telemServerPort = processedConfig.telemVizServer.port;
