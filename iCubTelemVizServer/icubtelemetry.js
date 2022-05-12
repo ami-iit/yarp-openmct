@@ -18,7 +18,7 @@ var assert = require('assert');
 const NOTIFIER_REPEAT_INTERVAL_MS = 10;
 const TELEMETRY_DATA_DEPTH_MS = 60 * 1000;
 
-function ICubTelemetry() {
+function ICubTelemetry(portInConfig) {
     this.state = {
         "sens.imu": {
           "ori": {"roll": 0, "pitch": 0, "yaw": 0},
@@ -45,7 +45,28 @@ function ICubTelemetry() {
         "walkingController.logger": {}
     };
 
-    this.forwardYarpDataToNotifier = Object.keys(this.state).map((key) => {return (id,data) => {}});
+    this.parser = {};
+    Object.keys(portInConfig).forEach((key) => {
+        switch (portInConfig[key].parser.type) {
+            case "internal":
+                switch ((portInConfig[key]).parser.outputFormat) {
+                    case "vectorCollection":
+                        this.parser[key] = this.parseVectorCollectionMap.bind(this);
+                        break;
+                    case "fromId":
+                        this.parser[key] = this.parseFromId.bind(this);
+                        break;
+                    default:
+                        console.error('Unsupported output format');
+                }
+                break;
+            default:
+                console.error('Unsupported parser type.');
+        }
+    }, this);
+    this.forwardYarpDataToNotifier = {};
+    Object.keys(portInConfig).forEach((key) => {this.forwardYarpDataToNotifier[key] = (id,data) => {}});
+
     this.connectNetworkSource = (id) => {};
     this.disconnectNetworkSource = (id) => {};
 
@@ -77,7 +98,7 @@ ICubTelemetry.prototype.defineNetworkConnector = function (connectCallback,disco
 }
 
 ICubTelemetry.prototype.connectTelemSrcToNotifier = function (id) {
-  this.forwardYarpDataToNotifier[id] = this.updateState.bind(this);
+  this.forwardYarpDataToNotifier[id] = this.parser[id];
   this.connectNetworkSource(id);
   return (() => {this.disconnectTelemSrcFromNotifier(id)}).bind(this);
 }
@@ -120,7 +141,7 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
   return this.flattenHelper(nestedObj,'');
 }
 
-ICubTelemetry.prototype.updateState = function (id,sensorSample) {
+ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
     switch(id) {
         case "sens.imu":
             this.state[id].ori.roll = sensorSample[0];
@@ -160,16 +181,13 @@ ICubTelemetry.prototype.updateState = function (id,sensorSample) {
             this.state[id].temperature = sensorSample[3];
             this.state[id].status = sensorSample[4];
             break;
-        case "walkingController.logger":
-            this.parseVectorCollectionMap(id,sensorSample[0]);
-            break;
         default:
             this.state[id] = sensorSample;
     }
 }
 
-ICubTelemetry.prototype.parseVectorCollectionMap = function (id,signalMap) {
-    signalMap.forEach(function (signal) {
+ICubTelemetry.prototype.parseVectorCollectionMap = function (id,sensorSample) {
+    sensorSample[0].forEach(function (signal) {
         this.state[id][signal[0]] = signal[1];
     },this);
 }
@@ -213,6 +231,4 @@ ICubTelemetry.prototype.listen = function (listener) {
     }.bind(this);
 }
 
-module.exports = function () {
-    return new ICubTelemetry()
-}
+module.exports = ICubTelemetry;

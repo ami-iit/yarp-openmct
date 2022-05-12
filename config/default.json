@@ -18,42 +18,74 @@
         "sens.imu": {
             "yarpName": "${this.robotYarpPortPrefix}/inertial",
             "localName": "${this.localYarpPortPrefix}/inertial:i",
-            "portType": "bottle"
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
         },
         "sens.leftLegState": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/left_leg/stateExt:o",
-            "portType": "bottle"
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
         },
         "sens.camLeftEye": {
             "yarpName": "${this.robotYarpPortPrefix}/camLeftEye",
             "localName": "${this.localYarpPortPrefix}/camLeftEye:i",
-            "portType": "image"
+            "portType": "image",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
         },
         "sens.camRightEye": {
             "yarpName": "${this.robotYarpPortPrefix}/camRightEye",
             "localName": "${this.localYarpPortPrefix}/camRightEye:i",
-            "portType": "image"
+            "portType": "image",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
         },
         "sens.leftFootEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_foot/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/left_foot/cartesianEndEffectorWrench:i",
-            "portType": "bottle"
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
         },
         "sens.rightFootEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_foot/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/right_foot/cartesianEndEffectorWrench:i",
-            "portType": "bottle"
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
         },
         "sens.batteryStatus": {
             "yarpName": "${this.robotYarpPortPrefix}/battery/data:o",
             "localName": "${this.localYarpPortPrefix}/battery/data:i",
-            "portType": "bottle"
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
         },
         "walkingController.logger": {
             "yarpName": "/walking-coordinator/logger/data:o",
             "localName": "${this.localYarpPortPrefix}/walking-coordinator-logger/data:i",
-            "portType": "bottle"
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "vectorCollection"
+            }
         }
     }
 }

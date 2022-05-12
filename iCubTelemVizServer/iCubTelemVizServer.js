@@ -51,19 +51,17 @@ var getDataURIscheme = require('./getDataURIscheme');
 var expressWs = require('express-ws');
 expressWs(app);
 
+// Define the ports
+var portInConfig = config.portInConfig;
+
 // Create the servers
-var icubtelemetry = new ICubTelemetry();
+var icubtelemetry = new ICubTelemetry(portInConfig);
 var realtimeServer = new RealtimeServer(icubtelemetry);
 var historyServer = new HistoryServer(icubtelemetry);
 app.use('/realtime', realtimeServer);
 app.use('/history', historyServer);
 
-// Open the Yarp ports and feed the data to the 'icubtelemetry' object
-
-// Define the ports
-var portInConfig = config.portInConfig;
-
-// Open the ports, register read callback functions, connect the ports and start the notifier task.
+// Open the Yarp ports, register read callback functions, connect the ports and start the notifier task.
 // Use topics to create persistent connections.
 icubtelemetry.defineNetworkConnector(
   (id) => {

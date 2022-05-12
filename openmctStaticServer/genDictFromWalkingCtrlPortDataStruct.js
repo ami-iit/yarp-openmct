@@ -1,7 +1,7 @@
 /**
  * Generate the dictionary from the template and structure extracted from the Yarp port data
  *
- * @param {object} dictionaryTemplate - Template for initialising he dictionary.
+ * @param {object} dictionaryTemplate - Template for initialising the dictionary.
  * @param {object} telemetrySample - Telemetry sample used for filling the telemetry values attributes in the dictionary.
  * @returns {object} dictionary - Generated dictionary.
  */
