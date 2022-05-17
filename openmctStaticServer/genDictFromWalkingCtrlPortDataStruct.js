@@ -8,13 +8,15 @@
 function genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,telemetrySample) {
     let dictionary = JSON.parse(JSON.stringify(dictionaryTemplate)); // init the dictionary from the template
     var telemetryEntry = dictionary.telemetryEntries.filter(function (elem) {
-        return elem.key === "walkingController.logger";
+        return elem.key === telemetrySample.id;
     })[0];
     var valueTemplate = telemetryEntry.values[0];
     let timestampTemplate = telemetryEntry.values[1];
     telemetryEntry.values = []; // reset values array
 
     // traverse 'telemetrySample' and fill telemetryEntry.values
+    delete telemetrySample.timestamp;   // discard last element (timestamp)
+    delete telemetrySample.id; // discard first element (id)
     Object.keys(telemetrySample).forEach(function (key,index) {
         let splitKey = key.split('.');
         let componentIndex = splitKey.pop();

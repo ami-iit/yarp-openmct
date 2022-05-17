@@ -23,12 +23,9 @@ function getDictionary(identifier) {
             return http.get('/dictionaryVectorCollectionsTemplate.json')
                 .then(function (result) {
                     let dictionaryTemplate = result.data;
-                    return requestLatestTelemetrySample("walkingController.logger")
+                    return requestLatestTelemetrySample(identifier.key)
                         .then(function (sample) {
-                            let walkingCtrlPortDataStruct = sample;
-                            delete walkingCtrlPortDataStruct.timestamp;   // discard last element (timestamp)
-                            delete walkingCtrlPortDataStruct.id; // discard first element (id)
-                            return genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,walkingCtrlPortDataStruct);
+                            return genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,sample);
                         });
                 });
         default:

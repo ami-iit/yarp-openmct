@@ -41,8 +41,7 @@ function ICubTelemetry(portInConfig) {
         },
         "sens.batteryStatus": {
             "voltage": 0, "current": 0, "charge": 0, "temperature": 0, "status": 0
-        },
-        "walkingController.logger": {}
+        }
     };
 
     this.parser = {};
@@ -198,16 +197,12 @@ ICubTelemetry.prototype.parseVectorCollectionMap = function (id,sensorSample) {
  */
 ICubTelemetry.prototype.generateTelemetry = function (timestamp,value,id) {
     switch(id) {
-        case "sens.imu":
-        case "sens.leftLegState":
-        case "sens.leftFootEEwrench":
-        case "sens.rightFootEEwrench":
-        case "sens.batteryStatus":
-        case "walkingController.logger":
-            var telemetrySample = this.flatten({timestamp: timestamp, value: value, id: id});
+        case "sens.camLeftEye":
+        case "sens.camRightEye":
+            var telemetrySample = {timestamp: timestamp, value: value, id: id};
             break;
         default:
-            var telemetrySample = {timestamp: timestamp, value: value, id: id};
+            var telemetrySample = this.flatten({timestamp: timestamp, value: value, id: id});
     }
     this.notify(telemetrySample);
     this.history[id].push(telemetrySample);
