@@ -32,7 +32,7 @@ function getDictionary(identifier) {
                         });
                 });
         default:
-            console.error('Unknown namespace!!');
+            return Promise.reject('Unknown namespace!!');
     }
 }
 
@@ -65,7 +65,10 @@ class ObjectProvider {
                     location: identifier.namespace + ':' + dictionary.key
                 };
             }
-        }.bind(this));
+        }.bind(this)).catch((errorMessage) => {
+            console.error(errorMessage);
+            throw new Error(errorMessage);
+        });
     }
 }
 
