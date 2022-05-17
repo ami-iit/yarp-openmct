@@ -1,6 +1,6 @@
 {
-  "name": "Walking Controller Telemetry",
-  "key": "walkingctrltelemetry",
+  "name": "Vector Collections Telemetry",
+  "key": "vectorCollectionsTelemetry",
   "telemetryEntries": [
     {
       "name": "Walking Controller Logger",

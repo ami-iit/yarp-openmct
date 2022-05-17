@@ -19,8 +19,8 @@ function getDictionary(identifier) {
                 .then(function (result) {
                     return result.data;
                 });
-        case WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
-            return http.get('/dictionaryWalkingControllerTemplate.json')
+        case VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE:
+            return http.get('/dictionaryVectorCollectionsTemplate.json')
                 .then(function (result) {
                     let dictionaryTemplate = result.data;
                     return requestLatestTelemetrySample("walkingController.logger")
@@ -75,7 +75,7 @@ class ObjectProvider {
 var compositionProvider = {
     appliesTo: function (domainObject) {
         return (domainObject.identifier.namespace === ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE
-            || domainObject.identifier.namespace === WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE)
+            || domainObject.identifier.namespace === VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE)
             && domainObject.type === 'folder';
     },
     load: function (domainObject) {
@@ -112,11 +112,11 @@ function DictionaryPlugin(telemServerHost,telemServerPort) {
         openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
 
         openmct.objects.addRoot({
-            namespace: WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
-            key: 'walkingctrltelemetry'
+            namespace: VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE,
+            key: 'vectorCollectionsTelemetry'
         });
 
-        openmct.objects.addProvider(WALKINGCTRLTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
+        openmct.objects.addProvider(VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
 
         openmct.composition.addProvider(compositionProvider);
     };
