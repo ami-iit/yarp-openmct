@@ -50,6 +50,7 @@ function ICubTelemetry(portInConfig) {
             case "internal":
                 switch ((portInConfig[key]).parser.outputFormat) {
                     case "vectorCollection":
+                        this.state[key] = {};
                         this.parser[key] = this.parseVectorCollectionMap.bind(this);
                         break;
                     case "fromId":
