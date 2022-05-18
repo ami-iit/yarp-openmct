@@ -22,15 +22,31 @@ function getDictionary(identifier) {
         case VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE:
             return http.get('/dictionaryVectorCollectionsTemplate.json')
                 .then(function (result) {
-                    let dictionaryTemplate = result.data;
-                    return requestLatestTelemetrySample(identifier.key)
-                        .then(function (sample) {
-                            return genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,sample);
-                        });
+                    return result.data;
                 });
         default:
             return Promise.reject('Unknown namespace!!');
     }
+}
+
+function generateObject(identifier,dictionary) {
+    var telemetryEntry = dictionary.telemetryEntries.filter(function (m) {
+        return m.key === identifier.key;
+    })[0];
+    telemetryEntry.values.forEach(function (value) {
+        if (value.units !== undefined) {
+            value.name += " (" + value.units + ")";
+        }
+    });
+    return {
+        identifier: identifier,
+        name: telemetryEntry.name,
+        type: telemetryEntry.type,
+        telemetry: {
+            values: telemetryEntry.values
+        },
+        location: identifier.namespace + ':' + dictionary.key
+    };
 }
 
 class ObjectProvider {
@@ -44,23 +60,16 @@ class ObjectProvider {
                     location: 'ROOT'
                 };
             } else {
-                var telemetryEntry = dictionary.telemetryEntries.filter(function (m) {
-                    return m.key === identifier.key;
-                })[0];
-                telemetryEntry.values.forEach(function (value) {
-                    if (value.units !== undefined) {
-                        value.name += " (" + value.units + ")";
-                    }
-                });
-                return {
-                    identifier: identifier,
-                    name: telemetryEntry.name,
-                    type: telemetryEntry.type,
-                    telemetry: {
-                        values: telemetryEntry.values
-                    },
-                    location: identifier.namespace + ':' + dictionary.key
-                };
+                if (identifier.namespace === VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE) {
+                    return requestLatestTelemetrySample(identifier.key)
+                        .then(function (sample) {
+                            return genDictFromWalkingCtrlPortDataStruct(dictionary, sample);
+                        }).then(function (modifiedDictionary) {
+                            return generateObject(identifier,modifiedDictionary);
+                        });
+                } else {
+                    return generateObject(identifier,dictionary);
+                }
             }
         }.bind(this)).catch((errorMessage) => {
             console.error(errorMessage);
