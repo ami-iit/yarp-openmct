@@ -78,9 +78,18 @@
                 "outputFormat": "fromId"
             }
         },
-        "walkingController.logger": {
+        "walkingController.logger.1": {
             "yarpName": "/walking-coordinator/logger/data:o",
-            "localName": "${this.localYarpPortPrefix}/walking-coordinator-logger/data:i",
+            "localName": "${this.localYarpPortPrefix}/walking-coordinator-logger-1/data:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "vectorCollection"
+            }
+        },
+        "walkingController.logger.2": {
+            "yarpName": "/walking-coordinator/logger/data:o",
+            "localName": "${this.localYarpPortPrefix}/walking-coordinator-logger-2/data:i",
             "portType": "bottle",
             "parser": {
                 "type": "internal",

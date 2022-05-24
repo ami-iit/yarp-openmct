@@ -3,8 +3,33 @@
   "key": "vectorCollectionsTelemetry",
   "telemetryEntries": [
     {
-      "name": "Walking Controller Logger",
-      "key": "walkingController.logger",
+      "name": "Walking Controller Logger 1",
+      "key": "walkingController.logger.1",
+      "type": "yarpopenmct.veccollectionmap",
+      "values": [
+        {
+          "key": "value.singalName.0",
+          "name": "singalName[0]",
+          "units": "SI units",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "Walking Controller Logger 2",
+      "key": "walkingController.logger.2",
       "type": "yarpopenmct.veccollectionmap",
       "values": [
         {
