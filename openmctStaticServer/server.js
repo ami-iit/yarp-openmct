@@ -3,7 +3,7 @@
  */
 
 // Import main configuration and dynamic dictionaries
-config = require('../config/processedDefault');
+config = require('../common/processedDefault');
 
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
@@ -18,7 +18,7 @@ expressWs(app);
 
 const staticServer = new StaticServer();
 // Process default server configuration requests
-app.get('/config/processedDefault.json', function(req, res){
+app.get('/common/processedDefault.json', function(req, res){
     console.log('processedDefault.json requested!');
     res.send(jsonExportScript(config,'processedConfig'));
 });

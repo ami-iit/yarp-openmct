@@ -306,7 +306,7 @@ Depending on which robot data you wish to visualize or operation you wish to run
    
    - The ports configuration `portInConfig` define, for each port, the properties **Yarp name**, **local name** and **port 
      type** ("bottle", "image").
-   - The ports prefix `robotYarpPortPrefix` (`/icub`, `/icubSim`) is by default defined as a field at the root level of the configuration JSON object and its value is used on the Yarp port names. The `default.json` file has a JSON format but its format was "extended" (via the "pre" processing done in [`config/processedDefault.js`](config/processedDefault.js)) to support the use of variables in the JSON literals:
+   - The ports prefix `robotYarpPortPrefix` (`/icub`, `/icubSim`) is by default defined as a field at the root level of the configuration JSON object and its value is used on the Yarp port names. The `default.json` file has a JSON format but its format was "extended" (via the "pre" processing done in [`common/processedDefault.js`](common/processedDefault.js)) to support the use of variables in the JSON literals:
      ```json
      {
          "robotYarpPortPrefix": "/icubSim",
