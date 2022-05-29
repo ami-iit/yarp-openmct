@@ -1,16 +1,16 @@
 {
-  "name": "Vector Collections Telemetry",
-  "key": "vectorCollectionsTelemetry",
+  "name": "<telemetry folder name>",
+  "key": "<dictionary unique reference key>",
   "telemetryEntries": [
     {
-      "name": "Walking Controller Logger",
-      "key": "walkingController.logger",
+      "name": "<telemetry entry name>",
+      "key": "<same telemetry entry key matching the one used in the portInConfig section>",
       "type": "yarpopenmct.veccollectionmap",
       "values": [
         {
-          "key": "value.singalName.0",
-          "name": "singalName[0]",
-          "units": "SI units",
+          "key": "<value key in telemetry sample>",
+          "name": "<value formatted name>",
+          "units": "<SI units>",
           "format": "float",
           "hints": {
             "range": 1

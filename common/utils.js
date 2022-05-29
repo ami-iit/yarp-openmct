@@ -57,7 +57,7 @@ function MyCounter () {
  * @return {string} - script to be eventually run on a remote machine.
  */
 function jsonExportScript (jsonObject,objectName) {
-    return `var ${objectName} = ${JSON.stringify(jsonObject)}`;
+    return `const ${objectName} = ${JSON.stringify(jsonObject)}`;
 }
 
 

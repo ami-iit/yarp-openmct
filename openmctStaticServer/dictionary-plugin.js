@@ -20,7 +20,7 @@ function getDictionary(identifier) {
                     return result.data;
                 });
         case VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE:
-            return http.get('/dictionaryVectorCollectionsTemplate.json')
+            return http.get('config/dictionaryVectorCollectionsTelemetry.json')
                 .then(function (result) {
                     return result.data;
                 });

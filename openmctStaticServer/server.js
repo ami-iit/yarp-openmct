@@ -19,7 +19,6 @@ expressWs(app);
 const staticServer = new StaticServer();
 // Process default server configuration requests
 app.get('/common/processedDefault.json', function(req, res){
-    console.log('processedDefault.json requested!');
     res.send(jsonExportScript(config,'processedConfig'));
 });
 
