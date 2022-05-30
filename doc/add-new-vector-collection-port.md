@@ -1,7 +1,7 @@
 # Add a New Vector Collection Port and the Respective Domain Object in the Visualizer
 
 You can add a new telemetry entry under the folder "Vector Collections Telemetry" in the viualizer workspace, which will read from a Yarp port publishing `BipedalLocomotion.YarpUtilities.VectorsCollection` type data. This can be done by adding
-- the respective port configuration entry in the `portInConfig` section of the JSON configuration defined in `config/default.json`.
+- the respective port configuration entry in the `portInConfig` section of the JSON configuration defined in `config/servers.json`.
   ```json
   {
       ...,

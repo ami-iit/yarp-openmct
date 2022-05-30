@@ -3,7 +3,7 @@
  */
 
 // Import main configuration
-var config = require('../common/processedDefault');
+var config = require('../common/processedConfig');
 
 // require and setup basic http functionalities
 var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || config.openmctStaticServer.port;

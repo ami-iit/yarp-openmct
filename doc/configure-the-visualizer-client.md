@@ -12,7 +12,7 @@ We describe here the user interface for configuring the visualizer client, typic
 
 The Domain Objects appearing on the far left pane of the visualizer (`IMU sensor measurements`, `Left leg joint state measurements`, etc) can have associated types which can provide an abstraction for grouping, visualizing and interpreting purposes. Further documentation can be found in [Open-MCT API and tutorial](https://github.com/nasa/openmct/blob/master/API.md#object-attributes:), but we recap here the essentials.
 
-Such types are objects defined in [`../openmctStaticServer/domainObjTypes.js`](../openmctStaticServer/domainObjTypes.js).
+Such types are objects defined in [`../openmctStaticServer/plugins/conf/domainObjTypes.js`](../openmctStaticServer/plugins/conf/domainObjTypes.js).
 
 The **type** object attributes are:
 - A `string` key identifying the type, and used when specifying the Domain Object types in the dicionary `json` files. It is recommended prefixing your types with a namespace to avoid conflicts with other plugins (e.g. `yarpopenmct.sensormeas`, `yarpopenmct.camimage`, etc).

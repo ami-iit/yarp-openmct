@@ -4,7 +4,7 @@ function StaticServer() {
     var router = express.Router();
 
     router.use('/', express.static(__dirname));
-    router.use('/config', express.static(__dirname + '/../config'));
+    router.use('/config', express.static(__dirname + '/../conf'));
     router.use('/common', express.static(__dirname + '/../common'));
     router.use('/openmctdist', express.static(__dirname + '/../node_modules/openmct/dist'));
 

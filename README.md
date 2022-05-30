@@ -300,13 +300,13 @@ Depending on which robot data you wish to visualize or operation you wish to run
     ```
     conda activate icubtelemenv
     ```
-3. Open the default configuration file `<yarp-openmct-root-folder>/config/default.json`. This JSON formatted file holds the ports configuration, the ports prefix and the servers configuration.
+3. Open the default configuration file `<yarp-openmct-root-folder>/conf/servers.json`. This JSON formatted file holds the ports configuration, the ports prefix and the servers configuration.
    <details>
    <summary>[Servers Default Configuration Parameters]</summary>
    
    - The ports configuration `portInConfig` define, for each port, the properties **Yarp name**, **local name** and **port 
      type** ("bottle", "image").
-   - The ports prefix `robotYarpPortPrefix` (`/icub`, `/icubSim`) is by default defined as a field at the root level of the configuration JSON object and its value is used on the Yarp port names. The `default.json` file has a JSON format but its format was "extended" (via the "pre" processing done in [`common/processedDefault.js`](common/processedDefault.js)) to support the use of variables in the JSON literals:
+   - The ports prefix `robotYarpPortPrefix` (`/icub`, `/icubSim`) is by default defined as a field at the root level of the configuration JSON object and its value is used on the Yarp port names. The `servers.json` file has a JSON format but its format was "extended" (via the "pre" processing done in [`common/processedConfig.js`](common/processedConfig.js)) to support the use of variables in the JSON literals:
      ```json
      {
          "robotYarpPortPrefix": "/icubSim",

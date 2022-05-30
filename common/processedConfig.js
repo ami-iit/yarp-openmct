@@ -1,7 +1,7 @@
 "use strict";
 
 // Import the configuration
-let config = require('../config/default');
+let config = require('../conf/servers');
 
 /**
  * Performs string interpolation in strings, by using string interpolation in Template literals [1], and the eval

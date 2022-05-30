@@ -15,7 +15,7 @@ function requestLatestTelemetrySample(telemetryEntryKey) {
 function getDictionary(identifier) {
     switch (identifier.namespace) {
         case ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
-            return http.get('/dictionaryIcubTelemetry.json')
+            return http.get('plugins/conf/dictionaryIcubTelemetry.json')
                 .then(function (result) {
                     return result.data;
                 });
