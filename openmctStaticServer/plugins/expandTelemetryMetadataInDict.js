@@ -1,12 +1,12 @@
 /**
- * Generate the dictionary from the template and structure extracted from the Yarp port data
+ * Expand the telemetry metadata within the dictionary using the sample
+ * data received on the Yarp port, and the user defined dictionary.
  *
- * @param {object} dictionaryTemplate - Template for initialising the dictionary.
- * @param {object} telemetrySample - Telemetry sample used for filling the telemetry values attributes in the dictionary.
- * @returns {object} dictionary - Generated dictionary.
+ * @param {object} dictionary - input dictionary with unexpanded telemetry metadata elements.
+ * @param {object} telemetrySample - Telemetry sample used for filling the telemetry metadata values in the dictionary.
+ * @returns {object} dictionary - Expanded dictionary.
  */
-function genDictFromWalkingCtrlPortDataStruct(dictionaryTemplate,telemetrySample) {
-    let dictionary = JSON.parse(JSON.stringify(dictionaryTemplate)); // init the dictionary from the template
+function expandTelemetryMetadataInDict(dictionary,telemetrySample) {
     var telemetryEntry = dictionary.telemetryEntries.filter(function (elem) {
         return elem.key === telemetrySample.id;
     })[0];

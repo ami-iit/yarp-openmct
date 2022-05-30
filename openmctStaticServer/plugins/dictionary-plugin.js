@@ -63,7 +63,7 @@ class ObjectProvider {
                 if (identifier.namespace === VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE) {
                     return requestLatestTelemetrySample(identifier.key)
                         .then(function (sample) {
-                            return genDictFromWalkingCtrlPortDataStruct(dictionary, sample);
+                            return expandTelemetryMetadataInDict(dictionary, sample);
                         }).then(function (modifiedDictionary) {
                             return generateObject(identifier,modifiedDictionary);
                         });
