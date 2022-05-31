@@ -6,7 +6,12 @@
       "name": "Walking Controller Logger",
       "key": "walkingController.logger",
       "type": "yarpopenmct.veccollectionmap",
-      "values": {}
+      "values": {
+        "range": {
+          "name": "${_signalName} [ ${_componentIndex} ]",
+          "units": "n/a"
+        }
+      }
     }
   ]
 }

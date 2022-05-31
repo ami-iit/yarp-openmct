@@ -21,14 +21,15 @@ function expandTelemetryMetadataInDict(domainObjectsTypes, telemetryMetadataBase
     delete telemetrySample.timestamp;   // discard last element (timestamp)
     delete telemetrySample.id; // discard first element (id)
     Object.keys(telemetrySample).forEach(function (key,index) {
+        // Set template variables and set telem entry from user metadata
         let splitKey = key.split('.');
-        let componentIndex = splitKey.pop();
-        splitKey.shift(); // remove 'value' prefix
+        let _componentIndex = splitKey.pop();
+        let _signalName = splitKey.join('.').replace(/^value\./,"");
         telemetryEntry.values[index] = JSON.parse(JSON.stringify(userMetadata.range));
-        Object.assign(telemetryEntry.values[index],{
-            key: key,
-            name: splitKey.join('.')+'['+componentIndex+']',
-            hints: {"range": index+1}
+        dfsAssign(telemetryEntry.values[index],{
+            "key": key,
+            "name": eval('`' + userMetadata.range.name + '`'),
+            "hints": {"range": index+1}
         });
     });
 

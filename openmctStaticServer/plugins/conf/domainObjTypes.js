@@ -53,8 +53,8 @@ const DOMAIN_OBJECTS_TYPES = {
         reportSchedule: [ReportSchedule.Realtime,ReportSchedule.Historical],
         telemetryMetadataDflt: {
             range: {
-                "name": "${_singalName}[${_componentIndex}]",
-                "units": "n/a",
+                "name": "${_signalName}[${_componentIndex}]",
+                "units": "n/a"
             },
             domain: {}
         }
