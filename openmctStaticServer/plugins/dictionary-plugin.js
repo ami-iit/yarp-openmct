@@ -63,7 +63,7 @@ class ObjectProvider {
                 if (identifier.namespace === VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE) {
                     return requestLatestTelemetrySample(identifier.key)
                         .then(function (sample) {
-                            return expandTelemetryMetadataInDict(dictionary, sample);
+                            return expandTelemetryMetadataInDict(DOMAIN_OBJECTS_TYPES, telemetryMetadataBaseDflt, dictionary, sample);
                         }).then(function (modifiedDictionary) {
                             return generateObject(identifier,modifiedDictionary);
                         });

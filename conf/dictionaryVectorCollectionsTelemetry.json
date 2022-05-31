@@ -6,26 +6,7 @@
       "name": "Walking Controller Logger",
       "key": "walkingController.logger",
       "type": "yarpopenmct.veccollectionmap",
-      "values": [
-        {
-          "key": "<value.singalName.0>",
-          "name": "<singalName[0]>",
-          "units": "n/a",
-          "format": "float",
-          "hints": {
-            "range": 1
-          }
-        },
-        {
-          "key": "utc",
-          "source": "timestamp",
-          "name": "Timestamp",
-          "format": "utc",
-          "hints": {
-            "domain": 1
-          }
-        }
-      ]
+      "values": {}
     }
   ]
 }
