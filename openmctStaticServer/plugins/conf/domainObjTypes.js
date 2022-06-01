@@ -61,6 +61,10 @@ const DOMAIN_OBJECTS_TYPES = {
     }
 };
 
+
+/*
+ * DO NOT EDIT THE SECTION BELOW
+ */
 const telemetryMetadataBaseDflt = {
     range: {
         "key": '',

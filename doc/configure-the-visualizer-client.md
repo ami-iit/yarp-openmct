@@ -8,7 +8,7 @@ We describe here the user interface for configuring the visualizer client, typic
 <img src="../images/domainObjectsTreeExample.png" width="80%">
 </p>
 
-## Define new Domain Object Types or Edit Existing Ones
+## Edit Existing Domain Object Types (:warning: advanced users only)
 
 The Domain Objects appearing on the far left pane of the visualizer (`IMU sensor measurements`, `Left leg joint state measurements`, etc) can have associated types which can provide an abstraction for grouping, visualizing and interpreting purposes. Further documentation can be found in [Open-MCT API and tutorial](https://github.com/nasa/openmct/blob/master/API.md#object-attributes:), but we recap here the essentials.
 
@@ -23,11 +23,12 @@ The **type** object attributes are:
   - `reportSchedule`: listing all the supported modes of telemetry scheduling.
     - **ReportSchedule.Historical:** Supports historical data request.
     - **ReportSchedule.Realtime:** Supports periodic telemetry data streaming (realtime) to subscribers. Every time the user clicks on a Domain Object on the left pane of the visualizer client page, a subscription request is sent to the telemetry server.
+  - `telemetryMetadataDflt`: Telemetry metadata defaults. Refer to setions [Optional Parameters](./add-new-vector-collection-port.md#optional-parameters) and [Default Values for `conf/dictionaryVectorCollectionsTelemetry.json` Dictionary](./add-new-vector-collection-port.md#default-values-for-confdictionaryvectorcollectionstelemetryjson-dictionary) in the tutorial ["add new vector collection port"](./add-new-vector-collection-port.md) for further details.
 
 Note: F.Y.I, this interface extends the OpenMCT type object interface defined in https://github.com/nasa/openmct/blob/master/API.md#domain-object-types.
 
 The currently defined types are depicted below and can be edited by the user:
-https://github.com/ami-iit/yarp-openmct/blob/556832d79679cd21c8cfd165e75eff413bd1a626/openmctStaticServer/domainObjTypes.js#L1-L32
+https://github.com/ami-iit/yarp-openmct/blob/4cf77100a4a5fc0d774606e1fd237bd586145dfb/openmctStaticServer/domainObjTypes.js#L1-L62
 
 The final appearance of the respective Domain Objects are as follows:
 
@@ -54,7 +55,7 @@ The types defined above, represented by the respective keys, can be associated t
 ```
 
 Here we associate to the telemetry entry "IMU sensor measurements" the type `yarpopenmct.sensormeas` defined as:
-https://github.com/ami-iit/yarp-openmct/blob/556832d79679cd21c8cfd165e75eff413bd1a626/openmctStaticServer/domainObjTypes.js#L2-L7
+https://github.com/ami-iit/yarp-openmct/blob/4cf77100a4a5fc0d774606e1fd237bd586145dfb/openmctStaticServer/domainObjTypes.js#L2-L11
 
 The mapping can be freely modified by the user. We illustrate below a mapping example:
 
