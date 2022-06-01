@@ -8,7 +8,7 @@ We describe here the user interface for configuring the visualizer client, typic
 <img src="../images/domainObjectsTreeExample.png" width="80%">
 </p>
 
-## Define new Domain Object Types or Edite Existing Ones
+## Define new Domain Object Types or Edit Existing Ones
 
 The Domain Objects appearing on the far left pane of the visualizer (`IMU sensor measurements`, `Left leg joint state measurements`, etc) can have associated types which can provide an abstraction for grouping, visualizing and interpreting purposes. Further documentation can be found in [Open-MCT API and tutorial](https://github.com/nasa/openmct/blob/master/API.md#object-attributes:), but we recap here the essentials.
 
