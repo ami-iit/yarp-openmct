@@ -17,7 +17,7 @@ const DOMAIN_OBJECTS_TYPES = {
         telemetryMetadataDflt: {
             range: {
                 "key": "value",
-                "units": "n/a",
+                "unit": "n/a",
                 "format": "image",
                 "hints": {
                     "image": 1
@@ -54,7 +54,7 @@ const DOMAIN_OBJECTS_TYPES = {
         telemetryMetadataDflt: {
             range: {
                 "name": "${_signalName}[${_componentIndex}]",
-                "units": "n/a"
+                "unit": "n/a"
             },
             domain: {}
         }
@@ -69,7 +69,7 @@ const telemetryMetadataBaseDflt = {
     range: {
         "key": '',
         "name": '',
-        "units": '',
+        "unit": '',
         "format": "float",
         "hints": {
             "range": 1

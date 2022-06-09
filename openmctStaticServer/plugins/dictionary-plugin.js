@@ -34,8 +34,8 @@ function generateObject(identifier,dictionary) {
         return m.key === identifier.key;
     })[0];
     telemetryEntry.values.forEach(function (value) {
-        if (value.units !== undefined) {
-            value.name += " (" + value.units + ")";
+        if (value.unit !== undefined) {
+            value.name += " (" + value.unit + ")";
         }
     });
     return {

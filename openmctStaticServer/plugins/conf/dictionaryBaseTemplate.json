@@ -10,7 +10,7 @@
         {
           "key": "<value key in telemetry sample>",
           "name": "<value formatted name>",
-          "units": "<SI units>",
+          "unit": "<SI unit>",
           "format": "float|image",
           "hints": {
             "range": 1

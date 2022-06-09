@@ -9,7 +9,7 @@
       "values": {
         "range": {
           "name": "${_signalName} [ ${_componentIndex} ]",
-          "units": "n/a"
+          "unit": "n/a"
         }
       }
     }

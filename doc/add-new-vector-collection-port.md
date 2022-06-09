@@ -33,12 +33,12 @@ You can add a new telemetry entry under the folder "Vector Collections Telemetry
         "values": {
           "range": {
             "name": "<vertical axis legend pattern>",
-            "units": "<SI units>",
+            "unit": "<SI unit>",
             "format": "[float|image]"
           },
           "domain": {
             "name": "<horizontal axis legend>"
-          },
+          }
         }
       }
     ]
@@ -94,12 +94,12 @@ The key `<telemetry-key>` uniquely identifies the port added in the "portInConfi
 
 #### Optional Parameters
 
-`values.range` describes the properties of the data associated to the plot **vertical** axis: legend, units, etc.
+`values.range` describes the properties of the data associated to the plot **vertical** axis: legend, unit, etc.
 
   | Parameter | Type | Description | Allowed Values |
   | --- | --- | --- | --- |
   | `name` | string | Vertical axis legend. This can either be a simple string, either a pattern including predefined variables resolved by the visualizer application. | `[letters\|numbers\|brackets\|_\|-\|+\|${_signalName}\|${_componentIndex}]`[^7] |
-  | `units` | string | The SI units of the data values, e.g. `km`, `seconds`. | Any or `n/a` if the data has a collection of mixed units |
+  | `unit` | string | The SI unit of the data values, e.g. `km`, `seconds`. | Any or `n/a` if the data has a collection of mixed units |
   | `format` | string | A specific format identifier, mapping to a formatter. The list of available formatters is pre-defined. New formatters can be made available through feature request. In the future, creating custom formatters shall be possible for advanced users. | `[float\|image]` |
 
 [^7]: For instance the pattern `${_signalName}[${_componentIndex}]`.
@@ -115,20 +115,20 @@ The key `<telemetry-key>` uniquely identifies the port added in the "portInConfi
 
 The default values for the only domain type supported so far in the context of user defined telemetry entries, `yarpopenmct.veccollectionmap`, is:
 ```json
-      "values": {
-        "range": {
-          "name": "${_signalName}[${_componentIndex}]",
-          "units": "n/a",
-          "format": "float"
-        },
-        "domain": {
-          "name": "Timestamp"
-        },
-      }
+{
+  "range": {
+    "name": "${_signalName}[${_componentIndex}]",
+    "unit": "n/a",
+    "format": "float"
+  },
+  "domain": {
+    "name": "Timestamp"
+  }
+}
 ```
 If these values suit you, you can use the setting:
-```json
-      "values": {}
+```js
+  "values": {}
 ```
 
 
