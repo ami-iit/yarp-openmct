@@ -33,11 +33,6 @@ function generateObject(identifier,dictionary) {
     var telemetryEntry = dictionary.telemetryEntries.filter(function (m) {
         return m.key === identifier.key;
     })[0];
-    telemetryEntry.values.forEach(function (value) {
-        if (value.unit !== undefined) {
-            value.name += " (" + value.unit + ")";
-        }
-    });
     return {
         identifier: identifier,
         name: telemetryEntry.name,
