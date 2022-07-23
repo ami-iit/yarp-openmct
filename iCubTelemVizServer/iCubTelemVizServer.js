@@ -3,7 +3,8 @@
  */
 
 // Import main configuration
-var config = require('../common/processedConfig');
+const {evalTemplateLiteralInJSON} = require('../common/utils');
+var config = evalTemplateLiteralInJSON(require('../conf/servers'));
 
 // require and setup basic http functionalities
 var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || config.openmctStaticServer.port;
