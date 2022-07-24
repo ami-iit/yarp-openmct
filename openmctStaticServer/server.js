@@ -19,8 +19,8 @@ expressWs(app);
 
 const staticServer = new StaticServer();
 // Process default server configuration requests
-app.get('/common/processedConfig.json', function(req, res){
-    res.send(jsonExportScript(confServersJSON,'processedConfig'));
+app.get('/config/confServers.json', function(req, res){
+    res.send(jsonExportScript(confServersJSON,'confServers'));
 });
 
 // Route static server

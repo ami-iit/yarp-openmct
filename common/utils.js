@@ -60,6 +60,15 @@ function jsonExportScript (jsonObject,objectName) {
     return `const ${objectName} = ${JSON.stringify(jsonObject)}`;
 }
 
+/**
+ * Traverses the root object "jsonObjectWithTemplateLiterals", evaluating any used variable in the
+ * <value> string instantiated as ${this.key1.key2...keyN} where:
+ * - "this" is the root object,
+ * - "key1.key2...keyN" is the path to the nested field defining the variable.
+ *
+ * @param {object} jsonObjectWithTemplateLiterals
+ * @returns {object} evaluatedRootOject
+ */
 function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals) {
     /**
      * Performs string interpolation in strings, by using string interpolation in Template literals [1], and the eval
@@ -77,13 +86,13 @@ function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals) {
     }.bind(jsonObjectWithTemplateLiterals);
 
     /**
- * Traverses the object <key:value> pairs in a DFS (Deep First Search) pattern, evaluating any used variable in the
+     * Traverses the nested object <key:value> pairs in a DFS (Deep First Search) pattern, evaluating any used variable in the
      * <value> string instantiated as ${this.key1.key2...keyN} where:
- * - "this" is the root object "config",
+     * - "this" is the root object "jsonObjectWithTemplateLiterals",
      * - "key1.key2...keyN" is the path to the nested field defining the variable.
      *
- * @param {object} nestedObject
- * @returns {object} evaluatedNestedOject
+     * @param {object} nestedObject - Javascript object to perform a DFS on and keep evaluating.
+     * @returns {object} - evaluated nested object.
      */
     function traverse(nestedObject) {
         Object.keys(nestedObject).forEach((k) => {

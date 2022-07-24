@@ -10,7 +10,7 @@
     <script src="plugins/dictionary-plugin.js"></script>
     <script src="plugins/historical-telemetry-plugin.js"></script>
     <script src="plugins/realtime-telemetry-plugin.js"></script>
-    <script src="common/processedConfig.json"></script>
+    <script src="config/confServers.json"></script>
     <link rel="stylesheet" href="openmctdist/espressoTheme.css">
 </head>
 <body>
@@ -127,8 +127,8 @@
         openmct.install(openmct.plugins.ExampleImagery());
 
         // Local plugins
-        let telemServerHost = processedConfig.telemVizServer.host;
-        let telemServerPort = processedConfig.telemVizServer.port;
+        let telemServerHost = confServers.telemVizServer.host;
+        let telemServerPort = confServers.telemVizServer.port;
         openmct.install(DictionaryPlugin(telemServerHost,telemServerPort));
         openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
         openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort));
