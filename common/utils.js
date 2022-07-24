@@ -82,7 +82,15 @@ function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals) {
      * @returns {string} - the resulting string after string interpolation has been performed.
      */
     const templateLiteralEvalof = function (quoteDelimitedTemplateLiteral) {
-        return eval('`' + quoteDelimitedTemplateLiteral + '`');
+        let interpolatedString = eval('`' + quoteDelimitedTemplateLiteral + '`').replace(/^"/,"").replace(/"$/,"");
+        let out;
+        try {
+            out = JSON.parse(interpolatedString);
+        }
+        catch {
+            out = interpolatedString;
+        }
+        return out;
     }.bind(jsonObjectWithTemplateLiterals);
 
     /**
@@ -100,14 +108,13 @@ function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals) {
                 case "object":
                     nestedObject[k] = traverse(nestedObject[k]);
                     break;
-                case "number":
-                    nestedObject[k] = Number(templateLiteralEvalof(nestedObject[k]));
-                    break;
                 case "string":
-                    nestedObject[k] = String(templateLiteralEvalof(nestedObject[k]));
+                    if (nestedObject[k].includes("$")) {
+                        nestedObject[k] = templateLiteralEvalof(nestedObject[k]);
+                    }
                     break;
                 case "boolean":
-                    nestedObject[k] = Boolean(templateLiteralEvalof(nestedObject[k]));
+                case "number":
                     break;
                 default:
                     throw('Unsupported value type in nested object!');
