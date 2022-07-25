@@ -58,6 +58,168 @@
         }
       },
       {
+        "key": "value.jointVel.hip_pitch",
+        "name": "Vel: Hip Pitch",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 7
+        }
+      },
+      {
+        "key": "value.jointVel.hip_roll",
+        "name": "Vel: Hip Roll",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 8
+        }
+      },
+      {
+        "key": "value.jointVel.hip_yaw",
+        "name": "Vel: Hip Yaw",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 9
+        }
+      },
+      {
+        "key": "value.jointVel.knee",
+        "name": "Vel: Knee",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 10
+        }
+      },
+      {
+        "key": "value.jointVel.ankle_pitch",
+        "name": "Vel: Ankle Pitch",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 11
+        }
+      },
+      {
+        "key": "value.jointVel.ankle_roll",
+        "name": "Vel: Ankle Roll",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "value.jointAcc.hip_pitch",
+        "name": "Acc: Hip Pitch",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 13
+        }
+      },
+      {
+        "key": "value.jointAcc.hip_roll",
+        "name": "Acc: Hip Roll",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 14
+        }
+      },
+      {
+        "key": "value.jointAcc.hip_yaw",
+        "name": "Acc: Hip Yaw",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 15
+        }
+      },
+      {
+        "key": "value.jointAcc.knee",
+        "name": "Acc: Knee",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 16
+        }
+      },
+      {
+        "key": "value.jointAcc.ankle_pitch",
+        "name": "Acc: Ankle Pitch",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 17
+        }
+      },
+      {
+        "key": "value.jointAcc.ankle_roll",
+        "name": "Acc: Ankle Roll",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 18
+        }
+      },
+      {
+        "key": "value.jointTrq.hip_pitch",
+        "name": "Trq: Hip Pitch",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 19
+        }
+      },
+      {
+        "key": "value.jointTrq.hip_roll",
+        "name": "Trq: Hip Roll",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 20
+        }
+      },
+      {
+        "key": "value.jointTrq.hip_yaw",
+        "name": "Trq: Hip Yaw",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 21
+        }
+      },
+      {
+        "key": "value.jointTrq.knee",
+        "name": "Trq: Knee",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 22
+        }
+      },
+      {
+        "key": "value.jointTrq.ankle_pitch",
+        "name": "Trq: Ankle Pitch",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 23
+        }
+      },
+      {
+        "key": "value.jointTrq.ankle_roll",
+        "name": "Trq: Ankle Roll",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 24
+        }
+      },
+      {
         "key": "utc",
         "source": "timestamp",
         "name": "Timestamp",

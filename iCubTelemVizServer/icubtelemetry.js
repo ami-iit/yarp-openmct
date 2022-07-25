@@ -27,7 +27,10 @@ function ICubTelemetry(portInConfig) {
           "mag": {"x": 0, "y": 0, "z": 0}
         },
         "sens.leftLegJointState": {
-            "jointPos": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0}
+            "jointPos": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
+            "jointVel": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
+            "jointAcc": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
+            "jointTrq": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
         },
         "sens.camLeftEye": 0,
         "sens.camRightEye": 0,
@@ -158,12 +161,14 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             this.state[id].mag.z = sensorSample[11];
             break;
         case "sens.leftLegJointState":
-            this.state[id].jointPos.hip_pitch = sensorSample[0][0];
-            this.state[id].jointPos.hip_roll = sensorSample[0][1];
-            this.state[id].jointPos.hip_yaw = sensorSample[0][2];
-            this.state[id].jointPos.knee = sensorSample[0][3];
-            this.state[id].jointPos.ankle_pitch = sensorSample[0][4];
-            this.state[id].jointPos.ankle_roll = sensorSample[0][5];
+            for (let jointStateMod of ['jointPos','jointVel','jointAcc','jointTrq']) {
+                this.state[id][jointStateMod].hip_pitch = sensorSample[0][0];
+                this.state[id][jointStateMod].hip_roll = sensorSample[0][1];
+                this.state[id][jointStateMod].hip_yaw = sensorSample[0][2];
+                this.state[id][jointStateMod].knee = sensorSample[0][3];
+                this.state[id][jointStateMod].ankle_pitch = sensorSample[0][4];
+                this.state[id][jointStateMod].ankle_roll = sensorSample[0][5];
+            }
             break;
         case "sens.leftFootEEwrench":
         case "sens.rightFootEEwrench":
