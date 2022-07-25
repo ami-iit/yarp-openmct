@@ -62,7 +62,7 @@ The mapping can be freely modified by the user. We illustrate below a mapping ex
 | Telemetry Entry | Domain Object Type |
 | --- | --- |
 | "sens.imu" | "yarpopenmct.sensormeas" |
-| "sens.leftLegState" | "yarpopenmct.sensormeas" |
+| "sens.leftLegJointState" | "yarpopenmct.sensormeas" |
 | "sens.camLeftEye" | "yarpopenmct.camimage" |
 | "ping" | "yarpopenmct.nwstatus" |
 | "sens.leftFootEEwrench" | "yarpopenmct.wbdestimation" |

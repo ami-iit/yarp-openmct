@@ -4,7 +4,7 @@
   "valuesTemplates": {
     "legJointState": [
       {
-        "key": "value.jointPos.l_hip_pitch",
+        "key": "value.jointPos.hip_pitch",
         "name": "Pos: Hip Pitch",
         "unit": "deg",
         "format": "float",
@@ -13,7 +13,7 @@
         }
       },
       {
-        "key": "value.jointPos.l_hip_roll",
+        "key": "value.jointPos.hip_roll",
         "name": "Pos: Hip Roll",
         "unit": "deg",
         "format": "float",
@@ -22,7 +22,7 @@
         }
       },
       {
-        "key": "value.jointPos.l_hip_yaw",
+        "key": "value.jointPos.hip_yaw",
         "name": "Pos: Hip Yaw",
         "unit": "deg",
         "format": "float",
@@ -31,7 +31,7 @@
         }
       },
       {
-        "key": "value.jointPos.l_knee",
+        "key": "value.jointPos.knee",
         "name": "Pos: Knee",
         "unit": "deg",
         "format": "float",
@@ -40,7 +40,7 @@
         }
       },
       {
-        "key": "value.jointPos.l_ankle_pitch",
+        "key": "value.jointPos.ankle_pitch",
         "name": "Pos: Ankle Pitch",
         "unit": "deg",
         "format": "float",
@@ -49,7 +49,7 @@
         }
       },
       {
-        "key": "value.jointPos.l_ankle_roll",
+        "key": "value.jointPos.ankle_roll",
         "name": "Pos: Ankle Roll",
         "unit": "deg",
         "format": "float",
@@ -195,7 +195,7 @@
     },
     {
       "name": "Left leg joint state measurements",
-      "key": "sens.leftLegState",
+      "key": "sens.leftLegJointState",
       "type": "yarpopenmct.sensormeas",
       "values": "${JSON.stringify(this.valuesTemplates.legJointState)}"
     },

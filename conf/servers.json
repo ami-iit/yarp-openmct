@@ -24,7 +24,7 @@
                 "outputFormat": "fromId"
             }
         },
-        "sens.leftLegState": {
+        "sens.leftLegJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/left_leg/stateExt:o",
             "portType": "bottle",
