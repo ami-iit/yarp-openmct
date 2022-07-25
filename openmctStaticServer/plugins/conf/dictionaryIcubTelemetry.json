@@ -228,6 +228,507 @@
           "domain": 1
         }
       }
+    ],
+    "armJointState": [
+      {
+        "key": "value.jointPos.shoulder_pitch",
+        "name": "Pos: Shoulder Pitch",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.jointPos.shoulder_roll",
+        "name": "Pos: Shoulder Roll",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.jointPos.shoulder_yaw",
+        "name": "Pos: Shoulder Yaw",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      },
+      {
+        "key": "value.jointPos.elbow",
+        "name": "Pos: Elbow",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 4
+        }
+      },
+      {
+        "key": "value.jointPos.wrist_prosup",
+        "name": "Pos: Wrist Prosup",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 5
+        }
+      },
+      {
+        "key": "value.jointPos.wrist_pitch",
+        "name": "Pos: Wrist Pitch",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 6
+        }
+      },
+      {
+        "key": "value.jointPos.wrist_yaw",
+        "name": "Pos: Wrist Yaw",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 7
+        }
+      },
+      {
+        "key": "value.jointVel.shoulder_pitch",
+        "name": "Vel: Shoulder Pitch",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 8
+        }
+      },
+      {
+        "key": "value.jointVel.shoulder_roll",
+        "name": "Vel: Shoulder Roll",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 9
+        }
+      },
+      {
+        "key": "value.jointVel.shoulder_yaw",
+        "name": "Vel: Shoulder Yaw",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 10
+        }
+      },
+      {
+        "key": "value.jointVel.elbow",
+        "name": "Vel: Elbow",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 11
+        }
+      },
+      {
+        "key": "value.jointVel.wrist_prosup",
+        "name": "Vel: Wrist Prosup",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "value.jointVel.wrist_pitch",
+        "name": "Vel: Wrist Pitch",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 13
+        }
+      },
+      {
+        "key": "value.jointVel.wrist_yaw",
+        "name": "Vel: Wrist Yaw",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 14
+        }
+      },
+      {
+        "key": "value.jointAcc.shoulder_pitch",
+        "name": "Acc: Shoulder Pitch",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 15
+        }
+      },
+      {
+        "key": "value.jointAcc.shoulder_roll",
+        "name": "Acc: Shoulder Roll",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 16
+        }
+      },
+      {
+        "key": "value.jointAcc.shoulder_yaw",
+        "name": "Acc: Shoulder Yaw",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 17
+        }
+      },
+      {
+        "key": "value.jointAcc.elbow",
+        "name": "Acc: Elbow",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 18
+        }
+      },
+      {
+        "key": "value.jointAcc.wrist_prosup",
+        "name": "Acc: Wrist Prosup",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 19
+        }
+      },
+      {
+        "key": "value.jointAcc.wrist_pitch",
+        "name": "Acc: Wrist Pitch",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 20
+        }
+      },
+      {
+        "key": "value.jointAcc.wrist_yaw",
+        "name": "Acc: Wrist Yaw",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 21
+        }
+      },
+      {
+        "key": "value.jointTrq.shoulder_pitch",
+        "name": "Trq: Shoulder Pitch",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 22
+        }
+      },
+      {
+        "key": "value.jointTrq.shoulder_roll",
+        "name": "Trq: Shoulder Roll",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 23
+        }
+      },
+      {
+        "key": "value.jointTrq.shoulder_yaw",
+        "name": "Trq: Shoulder Yaw",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 24
+        }
+      },
+      {
+        "key": "value.jointTrq.elbow",
+        "name": "Trq: Elbow",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 25
+        }
+      },
+      {
+        "key": "value.jointTrq.wrist_prosup",
+        "name": "Trq: Wrist Prosup",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 26
+        }
+      },
+      {
+        "key": "value.jointTrq.wrist_pitch",
+        "name": "Trq: Wrist Pitch",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 27
+        }
+      },
+      {
+        "key": "value.jointTrq.wrist_yaw",
+        "name": "Trq: Wrist Yaw",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 28
+        }
+      },
+      {
+        "key": "utc",
+        "source": "timestamp",
+        "name": "Timestamp",
+        "format": "utc",
+        "hints": {
+          "domain": 1
+        }
+      }
+    ],
+    "torsoJointState": [
+      {
+        "key": "value.jointPos.torso_pitch",
+        "name": "Pos: Torso Pitch",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.jointPos.torso_roll",
+        "name": "Pos: Torso Roll",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.jointPos.torso_yaw",
+        "name": "Pos: Torso Yaw",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      },
+      {
+        "key": "value.jointVel.torso_pitch",
+        "name": "Vel: Torso Pitch",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 4
+        }
+      },
+      {
+        "key": "value.jointVel.torso_roll",
+        "name": "Vel: Torso Roll",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 5
+        }
+      },
+      {
+        "key": "value.jointVel.torso_yaw",
+        "name": "Vel: Torso Yaw",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 6
+        }
+      },
+      {
+        "key": "value.jointAcc.torso_pitch",
+        "name": "Acc: Torso Pitch",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 7
+        }
+      },
+      {
+        "key": "value.jointAcc.torso_roll",
+        "name": "Acc: Torso Roll",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 8
+        }
+      },
+      {
+        "key": "value.jointAcc.torso_yaw",
+        "name": "Acc: Torso Yaw",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 9
+        }
+      },
+      {
+        "key": "value.jointTrq.torso_pitch",
+        "name": "Trq: Torso Pitch",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 10
+        }
+      },
+      {
+        "key": "value.jointTrq.torso_roll",
+        "name": "Trq: Torso Roll",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 11
+        }
+      },
+      {
+        "key": "value.jointTrq.torso_yaw",
+        "name": "Trq: Torso Yaw",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "utc",
+        "source": "timestamp",
+        "name": "Timestamp",
+        "format": "utc",
+        "hints": {
+          "domain": 1
+        }
+      }
+    ],
+    "headJointState": [
+      {
+        "key": "value.jointPos.head_pitch",
+        "name": "Pos: Head Pitch",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.jointPos.head_roll",
+        "name": "Pos: Head Roll",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.jointPos.head_yaw",
+        "name": "Pos: Head Yaw",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      },
+      {
+        "key": "value.jointVel.head_pitch",
+        "name": "Vel: Head Pitch",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 4
+        }
+      },
+      {
+        "key": "value.jointVel.head_roll",
+        "name": "Vel: Head Roll",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 5
+        }
+      },
+      {
+        "key": "value.jointVel.head_yaw",
+        "name": "Vel: Head Yaw",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 6
+        }
+      },
+      {
+        "key": "value.jointAcc.head_pitch",
+        "name": "Acc: Head Pitch",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 7
+        }
+      },
+      {
+        "key": "value.jointAcc.head_roll",
+        "name": "Acc: Head Roll",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 8
+        }
+      },
+      {
+        "key": "value.jointAcc.head_yaw",
+        "name": "Acc: Head Yaw",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 9
+        }
+      },
+      {
+        "key": "value.jointTrq.head_pitch",
+        "name": "Trq: Head Pitch",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 10
+        }
+      },
+      {
+        "key": "value.jointTrq.head_roll",
+        "name": "Trq: Head Roll",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 11
+        }
+      },
+      {
+        "key": "value.jointTrq.head_yaw",
+        "name": "Trq: Head Yaw",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "utc",
+        "source": "timestamp",
+        "name": "Timestamp",
+        "format": "utc",
+        "hints": {
+          "domain": 1
+        }
+      }
     ]
   },
   "telemetryEntries": [
@@ -360,6 +861,36 @@
       "key": "sens.leftLegJointState",
       "type": "yarpopenmct.sensormeas",
       "values": "${JSON.stringify(this.valuesTemplates.legJointState)}"
+    },
+    {
+      "name": "Right leg joint state measurements",
+      "key": "sens.rightLegJointState",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.valuesTemplates.legJointState)}"
+    },
+    {
+      "name": "Left arm joint state measurements",
+      "key": "sens.leftArmJointState",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.valuesTemplates.armJointState)}"
+    },
+    {
+      "name": "Right arm joint state measurements",
+      "key": "sens.rightArmJointState",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.valuesTemplates.armJointState)}"
+    },
+    {
+      "name": "Torso joint state measurements",
+      "key": "sens.torsoJointState",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.valuesTemplates.torsoJointState)}"
+    },
+    {
+      "name": "Head joint state measurements",
+      "key": "sens.headJointState",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.valuesTemplates.headJointState)}"
     },
     {
       "name": "Camera view Left eye",
