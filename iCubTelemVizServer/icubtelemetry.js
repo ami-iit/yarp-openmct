@@ -185,39 +185,39 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             break;
         case "sens.leftLegJointState":
         case "sens.rightLegJointState":
-            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',1],['jointAcc',2],['jointTrq',3]]) {
-                this.state[id][jointStateMod].hip_pitch = sensorSample[2*index][0];
-                this.state[id][jointStateMod].hip_roll = sensorSample[2*index][1];
-                this.state[id][jointStateMod].hip_yaw = sensorSample[2*index][2];
-                this.state[id][jointStateMod].knee = sensorSample[2*index][3];
-                this.state[id][jointStateMod].ankle_pitch = sensorSample[2*index][4];
-                this.state[id][jointStateMod].ankle_roll = sensorSample[2*index][5];
+            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12]]) {
+                this.state[id][jointStateMod].hip_pitch = sensorSample[index][0];
+                this.state[id][jointStateMod].hip_roll = sensorSample[index][1];
+                this.state[id][jointStateMod].hip_yaw = sensorSample[index][2];
+                this.state[id][jointStateMod].knee = sensorSample[index][3];
+                this.state[id][jointStateMod].ankle_pitch = sensorSample[index][4];
+                this.state[id][jointStateMod].ankle_roll = sensorSample[index][5];
             }
             break;
         case "sens.leftArmJointState":
         case "sens.rightArmJointState":
-            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',1],['jointAcc',2],['jointTrq',3]]) {
-                this.state[id][jointStateMod].shoulder_pitch = sensorSample[2*index][0];
-                this.state[id][jointStateMod].shoulder_roll = sensorSample[2*index][1];
-                this.state[id][jointStateMod].shoulder_yaw = sensorSample[2*index][2];
-                this.state[id][jointStateMod].elbow = sensorSample[2*index][3];
-                this.state[id][jointStateMod].wrist_prosup = sensorSample[2*index][4];
-                this.state[id][jointStateMod].wrist_pitch = sensorSample[2*index][5];
-                this.state[id][jointStateMod].wrist_yaw = sensorSample[2*index][6];
+            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12]]) {
+                this.state[id][jointStateMod].shoulder_pitch = sensorSample[index][0];
+                this.state[id][jointStateMod].shoulder_roll = sensorSample[index][1];
+                this.state[id][jointStateMod].shoulder_yaw = sensorSample[index][2];
+                this.state[id][jointStateMod].elbow = sensorSample[index][3];
+                this.state[id][jointStateMod].wrist_prosup = sensorSample[index][4];
+                this.state[id][jointStateMod].wrist_pitch = sensorSample[index][5];
+                this.state[id][jointStateMod].wrist_yaw = sensorSample[index][6];
             }
             break;
         case "sens.torsoJointState":
-            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',1],['jointAcc',2],['jointTrq',3]]) {
-                this.state[id][jointStateMod].torso_pitch = sensorSample[2*index][0];
-                this.state[id][jointStateMod].torso_roll = sensorSample[2*index][1];
-                this.state[id][jointStateMod].torso_yaw = sensorSample[2*index][2];
+            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12]]) {
+                this.state[id][jointStateMod].torso_pitch = sensorSample[index][0];
+                this.state[id][jointStateMod].torso_roll = sensorSample[index][1];
+                this.state[id][jointStateMod].torso_yaw = sensorSample[index][2];
             }
             break;
         case "sens.headJointState":
-            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',1],['jointAcc',2],['jointTrq',3]]) {
-                this.state[id][jointStateMod].head_pitch = sensorSample[2*index][0];
-                this.state[id][jointStateMod].head_roll = sensorSample[2*index][1];
-                this.state[id][jointStateMod].head_yaw = sensorSample[2*index][2];
+            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12]]) {
+                this.state[id][jointStateMod].head_pitch = sensorSample[index][0];
+                this.state[id][jointStateMod].head_roll = sensorSample[index][1];
+                this.state[id][jointStateMod].head_yaw = sensorSample[index][2];
             }
             break;
         case "sens.leftFootEEwrench":
