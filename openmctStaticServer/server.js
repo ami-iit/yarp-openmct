@@ -13,9 +13,14 @@ procHandler.messageParentProcess({"pid": process.pid});
 
 const StaticServer = require('./static-server');
 const expressWs = require('express-ws');
-const {jsonExportScript,evalTemplateLiteralInJSON} = require("../common/utils");
+const {
+    jsonExportScript,
+    evalTemplateLiteralInJSON,
+    expandTelemetryDictionary
+} = require("../common/utils");
 const confServersJSON = evalTemplateLiteralInJSON(confServers);
-const dictionaryJSON = evalTemplateLiteralInJSON(dictionary);
+const expandedDictionary = expandTelemetryDictionary(dictionary);
+const dictionaryJSON = evalTemplateLiteralInJSON(expandedDictionary);
 const app = require('express')();
 expressWs(app);
 

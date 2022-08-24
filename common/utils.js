@@ -69,7 +69,14 @@ function jsonExportScript (jsonObject,objectName) {
  * @param {object} jsonObjectWithTemplateLiterals
  * @returns {object} evaluatedRootOject
  */
-function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals) {
+function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals, ...args) {
+    /**
+     * Set variable arguments
+     */
+    if (args.length > 0) {
+       var inVars = args[0];
+    }
+
     /**
      * Performs string interpolation in strings, by using string interpolation in Template literals [1], and the eval
      * function [2].
@@ -126,10 +133,48 @@ function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals) {
     return traverse(jsonObjectWithTemplateLiterals);
 }
 
+/**
+ * Generates the values template blocks (generatedValuesBase) from the parameters in valuesTemplateGeneratorParams.
+ * @type {{MyCounter: MyCounter, jsonExportScript: (function(Object, string): string), signalName2exitCodeMap: (function(string)), signalName2codeMap: {SIGQUIT: number, SIGINT: number, SIGALRM: number, SIGHUP: number, SIGABRT: number, SIGTERM: number, SIGKILL: number}, evalTemplateLiteralInJSON: (function(Object): Object)}}
+ */
+function expandTelemetryDictionary(dictionary2expand) {
+    // Run a first interpolation
+    let interpolatedDictionary2expand = JSON.parse(JSON.stringify(dictionary2expand));
+    evalTemplateLiteralInJSON(interpolatedDictionary2expand);
+    let jointStateParams = interpolatedDictionary2expand.valuesTemplateGeneratorParams.jointState;
+    // Convert literals #{} to ${}
+    let valuesTemplate = JSON.parse(JSON.stringify(jointStateParams.valuesTemplate).replace(/#/g,"$"));
+
+    Object.keys(interpolatedDictionary2expand.generatedValuesBase.jointState).forEach((bodyPart) => {
+        // Generate all value keys combinations of format "value.${modKey}.${jointKey}".
+        let valueIndex = 0;
+        let valueKeyIndexArray = Object.keys(jointStateParams.mods).reduce((concatArray,modKey) => {
+            return concatArray.concat(jointStateParams.jointKeys[bodyPart].map((jointKey) => {
+                valueIndex += 1;
+                return [modKey,jointKey,valueIndex];
+            }));
+        },[]);
+
+        // Generate the block for each key combination
+        let values = valueKeyIndexArray.map((modKeyIndex) => {
+            let [modKey,jointKey,rangeIndex] = modKeyIndex;
+            let modValue = jointStateParams.mods[modKey];
+            let jointName = jointKey.replace(/_/g," ");
+            return evalTemplateLiteralInJSON(JSON.parse(JSON.stringify(valuesTemplate)),{"modKey": modKey, "jointKey": jointKey, "modValue": modValue, "jointName": jointName, "rangeIndex": rangeIndex});
+        });
+
+        dictionary2expand.generatedValuesBase.jointState[bodyPart] = values;
+        dictionary2expand.generatedValuesBase.jointState[bodyPart].push(jointStateParams.timestampTemplate);
+    });
+
+    return dictionary2expand;
+}
+
 module.exports = {
     signalName2codeMap: signalName2codeMap,
     signalName2exitCodeMap: signalName2exitCodeMap,
     MyCounter: MyCounter,
     jsonExportScript: jsonExportScript,
-    evalTemplateLiteralInJSON: evalTemplateLiteralInJSON
+    evalTemplateLiteralInJSON: evalTemplateLiteralInJSON,
+    expandTelemetryDictionary: expandTelemetryDictionary
 };
