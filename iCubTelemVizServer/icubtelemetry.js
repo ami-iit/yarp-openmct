@@ -31,6 +31,11 @@ function ICubTelemetry(portInConfig) {
             "jointVel": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
             "jointAcc": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
             "jointTrq": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
+            "motorPos": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
+            "motorVel": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
+            "motorAcc": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
+            "motorCur": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
+            "motorPwm": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0}
         },
         "sens.rightLegJointState": {},
         "sens.leftArmJointState": {
@@ -38,6 +43,11 @@ function ICubTelemetry(portInConfig) {
             "jointVel": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
             "jointAcc": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
             "jointTrq": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
+            "motorPos": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
+            "motorVel": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
+            "motorAcc": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
+            "motorCur": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
+            "motorPwm": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0}
         },
         "sens.rightArmJointState": {},
         "sens.torsoJointState": {
@@ -45,12 +55,22 @@ function ICubTelemetry(portInConfig) {
             "jointVel": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
             "jointAcc": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
             "jointTrq": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
+            "motorPos": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
+            "motorVel": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
+            "motorAcc": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
+            "motorCur": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
+            "motorPwm": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0}
         },
         "sens.headJointState": {
             "jointPos": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
             "jointVel": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
             "jointAcc": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
             "jointTrq": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
+            "motorPos": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
+            "motorVel": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
+            "motorAcc": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
+            "motorCur": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
+            "motorPwm": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0}
         },
         "sens.camLeftEye": 0,
         "sens.camRightEye": 0,
@@ -185,7 +205,7 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             break;
         case "sens.leftLegJointState":
         case "sens.rightLegJointState":
-            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12]]) {
+            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12],['motorPos',6],['motorVel',8],['motorAcc',10],['motorCur',14],['motorPwm',16]]) {
                 this.state[id][jointStateMod].hip_pitch = sensorSample[index][0];
                 this.state[id][jointStateMod].hip_roll = sensorSample[index][1];
                 this.state[id][jointStateMod].hip_yaw = sensorSample[index][2];
@@ -196,7 +216,7 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             break;
         case "sens.leftArmJointState":
         case "sens.rightArmJointState":
-            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12]]) {
+            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12],['motorPos',6],['motorVel',8],['motorAcc',10],['motorCur',14],['motorPwm',16]]) {
                 this.state[id][jointStateMod].shoulder_pitch = sensorSample[index][0];
                 this.state[id][jointStateMod].shoulder_roll = sensorSample[index][1];
                 this.state[id][jointStateMod].shoulder_yaw = sensorSample[index][2];
@@ -207,14 +227,14 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             }
             break;
         case "sens.torsoJointState":
-            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12]]) {
+            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12],['motorPos',6],['motorVel',8],['motorAcc',10],['motorCur',14],['motorPwm',16]]) {
                 this.state[id][jointStateMod].torso_pitch = sensorSample[index][0];
                 this.state[id][jointStateMod].torso_roll = sensorSample[index][1];
                 this.state[id][jointStateMod].torso_yaw = sensorSample[index][2];
             }
             break;
         case "sens.headJointState":
-            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12]]) {
+            for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12],['motorPos',6],['motorVel',8],['motorAcc',10],['motorCur',14],['motorPwm',16]]) {
                 this.state[id][jointStateMod].head_pitch = sensorSample[index][0];
                 this.state[id][jointStateMod].head_roll = sensorSample[index][1];
                 this.state[id][jointStateMod].head_yaw = sensorSample[index][2];

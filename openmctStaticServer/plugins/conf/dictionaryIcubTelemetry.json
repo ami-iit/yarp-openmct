@@ -61,8 +61,8 @@
           "namePrefix": "Motor Acc",
           "unit": "deg/s^2"
         },
-        "motorPwr": {
-          "namePrefix": "Motor Pwr: ",
+        "motorPwm": {
+          "namePrefix": "Motor Pwm: ",
           "unit": "%"
         },
         "motorCur": {
