@@ -34,20 +34,40 @@
       },
       "mods": {
         "jointPos": {
-          "namePrefix": "Pos",
+          "namePrefix": "Joint Pos",
           "unit": "deg"
         },
         "jointVel": {
-          "namePrefix": "Vel",
+          "namePrefix": "Joint Vel",
           "unit": "deg/s"
         },
         "jointAcc": {
-          "namePrefix": "Acc",
+          "namePrefix": "Joint Acc",
           "unit": "deg/s^2"
         },
         "jointTrq": {
-          "namePrefix": "Trq",
+          "namePrefix": "Joint Trq",
           "unit": "Nm"
+        },
+        "motorPos": {
+          "namePrefix": "Motor Pos",
+          "unit": "deg"
+        },
+        "motorVel": {
+          "namePrefix": "Motor Vel",
+          "unit": "deg/s"
+        },
+        "motorAcc": {
+          "namePrefix": "Motor Acc",
+          "unit": "deg/s^2"
+        },
+        "motorPwr": {
+          "namePrefix": "Motor Pwr: ",
+          "unit": "%"
+        },
+        "motorCur": {
+          "namePrefix": "Motor Cur: ",
+          "unit": "A"
         }
       },
       "valuesTemplate": {
