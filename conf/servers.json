@@ -33,6 +33,51 @@
                 "outputFormat": "fromId"
             }
         },
+        "sens.rightLegJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_leg/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/right_leg/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.leftArmJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_arm/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/left_arm/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightArmJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_arm/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/right_arm/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.torsoJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/torso/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/torso/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.headJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/head/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/head/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
         "sens.camLeftEye": {
             "yarpName": "${this.robotYarpPortPrefix}/camLeftEye",
             "localName": "${this.localYarpPortPrefix}/camLeftEye:i",
