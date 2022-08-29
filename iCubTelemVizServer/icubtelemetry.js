@@ -67,8 +67,8 @@ function ICubTelemetry(portInConfig) {
         }
     };
 
-    this.state["sens.rightLegJointState"] = this.state["sens.leftLegJointState"];
-    this.state["sens.rightArmJointState"] = this.state["sens.leftArmJointState"];
+    this.state["sens.rightLegJointState"] = JSON.parse(JSON.stringify(this.state["sens.leftLegJointState"]));
+    this.state["sens.rightArmJointState"] = JSON.parse(JSON.stringify(this.state["sens.leftArmJointState"]));
 
     this.parser = {};
     Object.keys(portInConfig).forEach((key) => {
