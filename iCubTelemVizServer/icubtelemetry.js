@@ -20,7 +20,7 @@ const TELEMETRY_DATA_DEPTH_MS = 60 * 1000;
 
 function ICubTelemetry(portInConfig) {
     this.state = {
-        "sens.imu": {
+        "sens.legacyIMU": {
           "ori": {"roll": 0, "pitch": 0, "yaw": 0},
           "acc": {"x": 0, "y": 0, "z": 0},
           "gyr": {"x": 0, "y": 0, "z": 0},
@@ -189,7 +189,7 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
 
 ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
     switch(id) {
-        case "sens.imu":
+        case "sens.legacyIMU":
             this.state[id].ori.roll = sensorSample[0];
             this.state[id].ori.pitch = sensorSample[1];
             this.state[id].ori.yaw = sensorSample[2];

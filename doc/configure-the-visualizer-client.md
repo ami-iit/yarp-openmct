@@ -45,7 +45,7 @@ The types defined above, represented by the respective keys, can be associated t
   "telemetryEntries": [
     {
       "name": "IMU sensor measurements",
-      "key": "sens.imu",
+      "key": "sens.legacyIMU",
       "type": "yarpopenmct.sensormeas",
       "values": [...]
     },
@@ -61,7 +61,7 @@ The mapping can be freely modified by the user. We illustrate below a mapping ex
 
 | Telemetry Entry | Domain Object Type |
 | --- | --- |
-| "sens.imu" | "yarpopenmct.sensormeas" |
+| "sens.legacyIMU" | "yarpopenmct.sensormeas" |
 | "sens.leftLegJointState" | "yarpopenmct.sensormeas" |
 | "sens.camLeftEye" | "yarpopenmct.camimage" |
 | "ping" | "yarpopenmct.nwstatus" |

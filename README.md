@@ -312,7 +312,7 @@ Depending on which robot data you wish to visualize or operation you wish to run
          "robotYarpPortPrefix": "/icubSim",
          ...
          "portInConfig": {
-             "sens.imu": {
+             "sens.legacyIMU": {
                  "yarpName": "${this.robotYarpPortPrefix}/inertial",
                  ...
              },

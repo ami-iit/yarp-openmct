@@ -15,7 +15,7 @@
         "port": 8080
     },
     "portInConfig": {
-        "sens.imu": {
+        "sens.legacyIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/inertial",
             "localName": "${this.localYarpPortPrefix}/inertial:i",
             "portType": "bottle",

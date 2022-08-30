@@ -100,8 +100,8 @@
   },
   "telemetryEntries": [
     {
-      "name": "IMU sensor measurements",
-      "key": "sens.imu",
+      "name": "Legacy IMU sensor measurements",
+      "key": "sens.legacyIMU",
       "type": "yarpopenmct.sensormeas",
       "values": [
         {
