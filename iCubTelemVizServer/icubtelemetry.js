@@ -74,11 +74,7 @@ function ICubTelemetry(portInConfig) {
         },
         "sens.camLeftEye": 0,
         "sens.camRightEye": 0,
-        "sens.leftFootEEwrench": {
-            "force": {"x": 0, "y": 0, "z": 0},
-            "torque": {"x": 0, "y": 0, "z": 0}
-        },
-        "sens.rightFootEEwrench": {
+        "sens.leftArmEEwrench": {
             "force": {"x": 0, "y": 0, "z": 0},
             "torque": {"x": 0, "y": 0, "z": 0}
         },
@@ -97,6 +93,13 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.rightLegIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
     this.state["sens.leftFootIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
     this.state["sens.rightFootIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
+    this.state["sens.rightArmEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftLegEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightLegEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
 
     this.parser = {};
     Object.keys(portInConfig).forEach((key) => {
@@ -269,8 +272,14 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
                 this.state[id][jointStateMod].head_yaw = sensorSample[index][2];
             }
             break;
-        case "sens.leftFootEEwrench":
-        case "sens.rightFootEEwrench":
+        case "sens.leftArmEEwrench":
+        case "sens.rightArmEEwrench":
+        case "sens.leftLegEEwrench":
+        case "sens.rightLegEEwrench":
+        case "sens.leftFootFrontEEwrench":
+        case "sens.leftFootRearEEwrench":
+        case "sens.rightFootFrontEEwrench":
+        case "sens.rightFootRearEEwrench":
             this.state[id].force.x = sensorSample[0];
             this.state[id].force.y = sensorSample[1];
             this.state[id].force.z = sensorSample[2];
