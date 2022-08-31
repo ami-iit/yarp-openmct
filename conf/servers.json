@@ -24,6 +24,78 @@
                 "outputFormat": "fromId"
             }
         },
+        "sens.headIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/head/inertials/measures:o",
+            "localName": "${this.localYarpPortPrefix}/head/inertials:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.torsoIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/torso/inertialGYRO",
+            "localName": "${this.localYarpPortPrefix}/torso/inertials:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.leftArmIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_arm/imu/measures:o",
+            "localName": "${this.localYarpPortPrefix}/leftArm/inertials:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightArmIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_arm/imu/measures:o",
+            "localName": "${this.localYarpPortPrefix}/rightArm/inertials:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.leftLegIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_leg/imu/measures:o",
+            "localName": "${this.localYarpPortPrefix}/leftLeg/inertials:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightLegIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_leg/imu/measures:o",
+            "localName": "${this.localYarpPortPrefix}/rightLeg/inertials:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.leftFootIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_foot/imu/measures:o",
+            "localName": "${this.localYarpPortPrefix}/leftFoot/inertials:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightFootIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_foot/imu/measures:o",
+            "localName": "${this.localYarpPortPrefix}/rightFoot/inertials:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
         "sens.leftLegJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/left_leg/stateExt:o",
