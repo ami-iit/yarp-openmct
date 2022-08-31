@@ -89,6 +89,14 @@ function ICubTelemetry(portInConfig) {
 
     this.state["sens.rightLegJointState"] = JSON.parse(JSON.stringify(this.state["sens.leftLegJointState"]));
     this.state["sens.rightArmJointState"] = JSON.parse(JSON.stringify(this.state["sens.leftArmJointState"]));
+    this.state["sens.headIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
+    this.state["sens.torsoIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
+    this.state["sens.leftArmIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
+    this.state["sens.rightArmIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
+    this.state["sens.leftLegIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
+    this.state["sens.rightLegIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
+    this.state["sens.leftFootIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
+    this.state["sens.rightFootIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
 
     this.parser = {};
     Object.keys(portInConfig).forEach((key) => {
@@ -190,6 +198,7 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
 ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
     switch(id) {
         case "sens.legacyIMU":
+        case "sens.torsoIMU":
             this.state[id].ori.roll = sensorSample[0];
             this.state[id].ori.pitch = sensorSample[1];
             this.state[id].ori.yaw = sensorSample[2];
@@ -202,6 +211,26 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             this.state[id].mag.x = sensorSample[9];
             this.state[id].mag.y = sensorSample[10];
             this.state[id].mag.z = sensorSample[11];
+            break;
+        case "sens.headIMU":
+        case "sens.leftArmIMU":
+        case "sens.rightArmIMU":
+        case "sens.leftLegIMU":
+        case "sens.rightLegIMU":
+        case "sens.leftFootIMU":
+        case "sens.rightFootIMU":
+            this.state[id].ori.roll = sensorSample[0][0][0][0];
+            this.state[id].ori.pitch = sensorSample[0][0][0][1];
+            this.state[id].ori.yaw = sensorSample[0][0][0][2];
+            this.state[id].acc.x = sensorSample[1][0][0][0];
+            this.state[id].acc.y = sensorSample[1][0][0][1];
+            this.state[id].acc.z = sensorSample[1][0][0][2];
+            this.state[id].gyr.x = sensorSample[2][0][0][0];
+            this.state[id].gyr.y = sensorSample[2][0][0][1];
+            this.state[id].gyr.z = sensorSample[2][0][0][2];
+            this.state[id].mag.x = sensorSample[3][0][0][0];
+            this.state[id].mag.y = sensorSample[3][0][0][1];
+            this.state[id].mag.z = sensorSample[3][0][0][2];
             break;
         case "sens.leftLegJointState":
         case "sens.rightLegJointState":
