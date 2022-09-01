@@ -93,8 +93,10 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.leftFootIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
     this.state["sens.rightFootIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
     this.state["sens.rightArmEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.leftLegEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.rightLegEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftUpperLegEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftLowerLegEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightUpperLegEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightLowerLegEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
     this.state["sens.leftFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
     this.state["sens.leftFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
     this.state["sens.rightFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
@@ -272,8 +274,10 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             break;
         case "sens.leftArmEEwrench":
         case "sens.rightArmEEwrench":
-        case "sens.leftLegEEwrench":
-        case "sens.rightLegEEwrench":
+        case "sens.leftUpperLegEEwrench":
+        case "sens.leftLowerLegEEwrench":
+        case "sens.rightUpperLegEEwrench":
+        case "sens.rightLowerLegEEwrench":
         case "sens.leftFootFrontEEwrench":
         case "sens.leftFootRearEEwrench":
         case "sens.rightFootFrontEEwrench":

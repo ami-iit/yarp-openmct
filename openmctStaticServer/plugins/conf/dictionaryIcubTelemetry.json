@@ -574,14 +574,26 @@
       "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
     },
     {
-      "name": "Left Leg end effector wrench",
-      "key": "sens.leftLegEEwrench",
+      "name": "Left Upper Leg end effector wrench",
+      "key": "sens.leftUpperLegEEwrench",
       "type": "yarpopenmct.wbdestimation",
       "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
     },
     {
-      "name": "Right Leg end effector wrench",
-      "key": "sens.rightLegEEwrench",
+      "name": "Left Lower Leg end effector wrench",
+      "key": "sens.leftLowerLegEEwrench",
+      "type": "yarpopenmct.wbdestimation",
+      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+    },
+    {
+      "name": "Right Upper Leg end effector wrench",
+      "key": "sens.rightUpperLegEEwrench",
+      "type": "yarpopenmct.wbdestimation",
+      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+    },
+    {
+      "name": "Right Lower Leg end effector wrench",
+      "key": "sens.rightLowerLegEEwrench",
       "type": "yarpopenmct.wbdestimation",
       "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
     },

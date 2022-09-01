@@ -177,18 +177,36 @@
                 "outputFormat": "fromId"
             }
         },
-        "sens.leftLegEEwrench": {
-            "yarpName": "/wholeBodyDynamics/left_leg/cartesianEndEffectorWrench:o",
-            "localName": "${this.localYarpPortPrefix}/left_leg/cartesianEndEffectorWrench:i",
+        "sens.leftUpperLegEEwrench": {
+            "yarpName": "/wholeBodyDynamics/left_upper_leg/cartesianEndEffectorWrench:o",
+            "localName": "${this.localYarpPortPrefix}/left_upper_leg/cartesianEndEffectorWrench:i",
             "portType": "bottle",
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
             }
         },
-        "sens.rightLegEEwrench": {
-            "yarpName": "/wholeBodyDynamics/right_leg/cartesianEndEffectorWrench:o",
-            "localName": "${this.localYarpPortPrefix}/right_leg/cartesianEndEffectorWrench:i",
+        "sens.leftLowerLegEEwrench": {
+            "yarpName": "/wholeBodyDynamics/left_lower_leg/cartesianEndEffectorWrench:o",
+            "localName": "${this.localYarpPortPrefix}/left_lower_leg/cartesianEndEffectorWrench:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightUpperLegEEwrench": {
+            "yarpName": "/wholeBodyDynamics/right_upper_leg/cartesianEndEffectorWrench:o",
+            "localName": "${this.localYarpPortPrefix}/right_upper_leg/cartesianEndEffectorWrench:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightLowerLegEEwrench": {
+            "yarpName": "/wholeBodyDynamics/right_lower_leg/cartesianEndEffectorWrench:o",
+            "localName": "${this.localYarpPortPrefix}/right_lower_leg/cartesianEndEffectorWrench:i",
             "portType": "bottle",
             "parser": {
                 "type": "internal",
