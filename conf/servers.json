@@ -33,15 +33,6 @@
                 "outputFormat": "fromId"
             }
         },
-        "sens.torsoIMU": {
-            "yarpName": "${this.robotYarpPortPrefix}/torso/inertialGYRO",
-            "localName": "${this.localYarpPortPrefix}/torso/inertials:i",
-            "portType": "bottle",
-            "parser": {
-                "type": "internal",
-                "outputFormat": "fromId"
-            }
-        },
         "sens.leftArmIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/left_arm/imu/measures:o",
             "localName": "${this.localYarpPortPrefix}/leftArm/inertials:i",

@@ -417,12 +417,6 @@
       "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
     },
     {
-      "name": "Torso IMU sensor measurements",
-      "key": "sens.torsoIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
-    },
-    {
       "name": "Left arm IMU sensor measurements",
       "key": "sens.leftArmIMU",
       "type": "yarpopenmct.sensormeas",

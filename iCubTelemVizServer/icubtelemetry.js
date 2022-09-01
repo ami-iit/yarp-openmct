@@ -86,7 +86,6 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.rightLegJointState"] = JSON.parse(JSON.stringify(this.state["sens.leftLegJointState"]));
     this.state["sens.rightArmJointState"] = JSON.parse(JSON.stringify(this.state["sens.leftArmJointState"]));
     this.state["sens.headIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
-    this.state["sens.torsoIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
     this.state["sens.leftArmIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
     this.state["sens.rightArmIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
     this.state["sens.leftLegIMU"] = JSON.parse(JSON.stringify(this.state["sens.legacyIMU"]));
@@ -201,7 +200,6 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
 ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
     switch(id) {
         case "sens.legacyIMU":
-        case "sens.torsoIMU":
             this.state[id].ori.roll = sensorSample[0];
             this.state[id].ori.pitch = sensorSample[1];
             this.state[id].ori.yaw = sensorSample[2];
