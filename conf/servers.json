@@ -249,6 +249,60 @@
                 "outputFormat": "fromId"
             }
         },
+        "sens.leftArmFT": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_arm/measures:o",
+            "localName": "${this.localYarpPortPrefix}/left_arm/FT:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightArmFT": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_arm/measures:o",
+            "localName": "${this.localYarpPortPrefix}/right_arm/FT:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.leftLegHipFT": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_leg_hip/measures:o",
+            "localName": "${this.localYarpPortPrefix}/left_leg_hip/FT:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightLegHipFT": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_leg_hip/measures:o",
+            "localName": "${this.localYarpPortPrefix}/right_leg_hip/FT:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.leftFootHeelTiptoeFTs": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_foot_heel_tiptoe/measures:o",
+            "localName": "${this.localYarpPortPrefix}/left_foot_heel_tiptoe/FT:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "sens.rightFootHeelTiptoeFTs": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_foot_heel_tiptoe/measures:o",
+            "localName": "${this.localYarpPortPrefix}/right_foot_heel_tiptoe/FT:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
         "sens.batteryStatus": {
             "yarpName": "${this.robotYarpPortPrefix}/battery/data:o",
             "localName": "${this.localYarpPortPrefix}/battery/data:i",

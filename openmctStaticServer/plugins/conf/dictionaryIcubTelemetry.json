@@ -401,7 +401,8 @@
           "domain": 1
         }
       }
-    ]
+    ],
+    "FTsensor": "${this.presetValuesBase.cartesianEEwrench}"
   },
   "telemetryEntries": [
     {
@@ -620,6 +621,54 @@
       "key": "sens.rightFootRearEEwrench",
       "type": "yarpopenmct.wbdestimation",
       "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+    },
+    {
+      "name": "Left arm FT sensor measurements",
+      "key": "sens.leftArmFT",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+    },
+    {
+      "name": "Right arm FT sensor measurements",
+      "key": "sens.rightArmFT",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+    },
+    {
+      "name": "Left leg hip FT sensor measurements",
+      "key": "sens.leftLegHipFT",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+    },
+    {
+      "name": "Right leg hip FT sensor measurements",
+      "key": "sens.rightLegHipFT",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+    },
+    {
+      "name": "Left foot heel FT sensor measurements",
+      "key": "sens.leftFootHeelFT",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+    },
+    {
+      "name": "Left foot toe tip FT sensor measurements",
+      "key": "sens.leftFootToetipFT",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+    },
+    {
+      "name": "Right foot heel FT sensor measurements",
+      "key": "sens.rightFootHeelFT",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+    },
+    {
+      "name": "Right foot toe tip FT sensor measurements",
+      "key": "sens.rightFootToetipFT",
+      "type": "yarpopenmct.sensormeas",
+      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
     },
     {
       "name": "Battery State",

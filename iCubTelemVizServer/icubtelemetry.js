@@ -101,6 +101,14 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.leftFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
     this.state["sens.rightFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
     this.state["sens.rightFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftArmFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightArmFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftLegHipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightLegHipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftFootHeelFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.leftFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightFootHeelFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
 
     this.parser = {};
     Object.keys(portInConfig).forEach((key) => {
@@ -200,6 +208,15 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
 }
 
 ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
+    const parseFTmasData = function (subId,sensIdx,sensorSample) {
+        this.state[subId].force.x = sensorSample[sensIdx][0][0][0];
+        this.state[subId].force.y = sensorSample[sensIdx][0][0][1];
+        this.state[subId].force.z = sensorSample[sensIdx][0][0][2];
+        this.state[subId].torque.x = sensorSample[sensIdx][0][0][3];
+        this.state[subId].torque.y = sensorSample[sensIdx][0][0][4];
+        this.state[subId].torque.z = sensorSample[sensIdx][0][0][5];
+    };
+
     switch(id) {
         case "sens.legacyIMU":
             this.state[id].ori.roll = sensorSample[0];
@@ -288,6 +305,22 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             this.state[id].torque.x = sensorSample[3];
             this.state[id].torque.y = sensorSample[4];
             this.state[id].torque.z = sensorSample[5];
+            break;
+        case "sens.leftArmFT":
+        case "sens.rightArmFT":
+        case "sens.leftLegHipFT":
+        case "sens.rightLegHipFT":
+            parseFTmasData(id,0,sensorSample);
+            break;
+        case "sens.leftFootHeelTiptoeFTs":
+            for (let [subId,sensIdx] in [["leftFoot"+"HeelFT",0],["leftFoot"+"ToetipFT",1]]) {
+                parseFTmasData(subId,sensIdx,sensorSample);
+            }
+            break;
+        case "sens.rightFootHeelTiptoeFTs":
+            for (let [subId,sensIdx] in [["rightFoot"+"HeelFT",0],["rightFoot"+"ToetipFT",1]]) {
+                parseFTmasData(subId,sensIdx,sensorSample);
+            }
             break;
         case "sens.batteryStatus":
             this.state[id].voltage = sensorSample[0];
