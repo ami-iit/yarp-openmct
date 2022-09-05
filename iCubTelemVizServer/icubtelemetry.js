@@ -209,13 +209,13 @@ ICubTelemetry.prototype.flatten = function (nestedObj) {
 
 ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
     const parseFTmasData = function (subId,sensIdx,sensorSample) {
-        this.state[subId].force.x = sensorSample[sensIdx][0][0][0];
-        this.state[subId].force.y = sensorSample[sensIdx][0][0][1];
-        this.state[subId].force.z = sensorSample[sensIdx][0][0][2];
-        this.state[subId].torque.x = sensorSample[sensIdx][0][0][3];
-        this.state[subId].torque.y = sensorSample[sensIdx][0][0][4];
-        this.state[subId].torque.z = sensorSample[sensIdx][0][0][5];
-    };
+        this.state[subId].force.x = sensorSample[5][sensIdx][0][0];
+        this.state[subId].force.y = sensorSample[5][sensIdx][0][1];
+        this.state[subId].force.z = sensorSample[5][sensIdx][0][2];
+        this.state[subId].torque.x = sensorSample[5][sensIdx][0][3];
+        this.state[subId].torque.y = sensorSample[5][sensIdx][0][4];
+        this.state[subId].torque.z = sensorSample[5][sensIdx][0][5];
+    }.bind(this);
 
     switch(id) {
         case "sens.legacyIMU":
@@ -239,18 +239,18 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
         case "sens.rightLegIMU":
         case "sens.leftFootIMU":
         case "sens.rightFootIMU":
-            this.state[id].ori.roll = sensorSample[0][0][0][0];
-            this.state[id].ori.pitch = sensorSample[0][0][0][1];
-            this.state[id].ori.yaw = sensorSample[0][0][0][2];
+            this.state[id].ori.roll = sensorSample[3][0][0][0];
+            this.state[id].ori.pitch = sensorSample[3][0][0][1];
+            this.state[id].ori.yaw = sensorSample[3][0][0][2];
             this.state[id].acc.x = sensorSample[1][0][0][0];
             this.state[id].acc.y = sensorSample[1][0][0][1];
             this.state[id].acc.z = sensorSample[1][0][0][2];
-            this.state[id].gyr.x = sensorSample[2][0][0][0];
-            this.state[id].gyr.y = sensorSample[2][0][0][1];
-            this.state[id].gyr.z = sensorSample[2][0][0][2];
-            this.state[id].mag.x = sensorSample[3][0][0][0];
-            this.state[id].mag.y = sensorSample[3][0][0][1];
-            this.state[id].mag.z = sensorSample[3][0][0][2];
+            this.state[id].gyr.x = sensorSample[0][0][0][0];
+            this.state[id].gyr.y = sensorSample[0][0][0][1];
+            this.state[id].gyr.z = sensorSample[0][0][0][2];
+            this.state[id].mag.x = sensorSample[2][0][0][0];
+            this.state[id].mag.y = sensorSample[2][0][0][1];
+            this.state[id].mag.z = sensorSample[2][0][0][2];
             break;
         case "sens.leftLegJointState":
         case "sens.rightLegJointState":
@@ -313,12 +313,12 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             parseFTmasData(id,0,sensorSample);
             break;
         case "sens.leftFootHeelTiptoeFTs":
-            for (let [subId,sensIdx] in [["sens.leftFootHeelFT",0],["sens.leftFootToetipFT",1]]) {
+            for (let [subId,sensIdx] of [["sens.leftFootHeelFT",0],["sens.leftFootToetipFT",1]]) {
                 parseFTmasData(subId,sensIdx,sensorSample);
             }
             break;
         case "sens.rightFootHeelTiptoeFTs":
-            for (let [subId,sensIdx] in [["sens.rightFootHeelFT",0],["sens.rightFootToetipFT",1]]) {
+            for (let [subId,sensIdx] of [["sens.rightFootHeelFT",0],["sens.rightFootToetipFT",1]]) {
                 parseFTmasData(subId,sensIdx,sensorSample);
             }
             break;
