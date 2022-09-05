@@ -313,12 +313,12 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             parseFTmasData(id,0,sensorSample);
             break;
         case "sens.leftFootHeelTiptoeFTs":
-            for (let [subId,sensIdx] in [["leftFoot"+"HeelFT",0],["leftFoot"+"ToetipFT",1]]) {
+            for (let [subId,sensIdx] in [["sens.leftFootHeelFT",0],["sens.leftFootToetipFT",1]]) {
                 parseFTmasData(subId,sensIdx,sensorSample);
             }
             break;
         case "sens.rightFootHeelTiptoeFTs":
-            for (let [subId,sensIdx] in [["rightFoot"+"HeelFT",0],["rightFoot"+"ToetipFT",1]]) {
+            for (let [subId,sensIdx] in [["sens.rightFootHeelFT",0],["sens.rightFootToetipFT",1]]) {
                 parseFTmasData(subId,sensIdx,sensorSample);
             }
             break;
