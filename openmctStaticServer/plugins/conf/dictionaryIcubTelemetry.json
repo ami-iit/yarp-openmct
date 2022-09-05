@@ -99,7 +99,7 @@
     }
   },
   "presetValuesBase": {
-    "analogSensorIMU": [
+    "IMUsensor": [
       {
         "key": "value.ori.roll",
         "name": "Roll",
@@ -176,125 +176,6 @@
         "key": "value.gyr.z",
         "name": "Gyr Z",
         "unit": "deg/s",
-        "format": "float",
-        "hints": {
-          "range": 9
-        }
-      },
-      {
-        "key": "value.mag.x",
-        "name": "Mag X",
-        "unit": "T",
-        "format": "float",
-        "hints": {
-          "range": 10
-        }
-      },
-      {
-        "key": "value.mag.y",
-        "name": "Mag Y",
-        "unit": "T",
-        "format": "float",
-        "hints": {
-          "range": 11
-        }
-      },
-      {
-        "key": "value.mag.z",
-        "name": "Mag Z",
-        "unit": "T",
-        "format": "float",
-        "hints": {
-          "range": 12
-        }
-      },
-      {
-        "key": "utc",
-        "source": "timestamp",
-        "name": "Timestamp",
-        "format": "utc",
-        "hints": {
-          "domain": 1
-        }
-      }
-    ],
-    "masIMU": [
-      {
-        "key": "value.ori.roll",
-        "name": "Roll",
-        "unit": "rad",
-        "format": "float",
-        "hints": {
-          "range": 1
-        }
-      },
-      {
-        "key": "value.ori.pitch",
-        "name": "Pitch",
-        "unit": "rad",
-        "format": "float",
-        "hints": {
-          "range": 2
-        }
-      },
-      {
-        "key": "value.ori.yaw",
-        "name": "Yaw",
-        "unit": "rad",
-        "format": "float",
-        "hints": {
-          "range": 3
-        }
-      },
-      {
-        "key": "value.acc.x",
-        "name": "Acc X",
-        "unit": "m/s^2",
-        "format": "float",
-        "hints": {
-          "range": 4
-        }
-      },
-      {
-        "key": "value.acc.y",
-        "name": "Acc Y",
-        "unit": "m/s^2",
-        "format": "float",
-        "hints": {
-          "range": 5
-        }
-      },
-      {
-        "key": "value.acc.z",
-        "name": "Acc Z",
-        "unit": "m/s^2",
-        "format": "float",
-        "hints": {
-          "range": 6
-        }
-      },
-      {
-        "key": "value.gyr.x",
-        "name": "Gyr X",
-        "unit": "rad/s",
-        "format": "float",
-        "hints": {
-          "range": 7
-        }
-      },
-      {
-        "key": "value.gyr.y",
-        "name": "Gyr Y",
-        "unit": "rad/s",
-        "format": "float",
-        "hints": {
-          "range": 8
-        }
-      },
-      {
-        "key": "value.gyr.z",
-        "name": "Gyr Z",
-        "unit": "rad/s",
         "format": "float",
         "hints": {
           "range": 9
@@ -409,49 +290,49 @@
       "name": "Legacy IMU sensor measurements",
       "key": "sens.legacyIMU",
       "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.analogSensorIMU)}"
+      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
     },
     {
       "name": "Head IMU sensor measurements",
       "key": "sens.headIMU",
       "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
+      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
     },
     {
       "name": "Left arm IMU sensor measurements",
       "key": "sens.leftArmIMU",
       "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
+      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
     },
     {
       "name": "Right arm IMU sensor measurements",
       "key": "sens.rightArmIMU",
       "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
+      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
     },
     {
       "name": "Left leg IMU sensor measurements",
       "key": "sens.leftLegIMU",
       "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
+      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
     },
     {
       "name": "Right leg IMU sensor measurements",
       "key": "sens.rightLegIMU",
       "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
+      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
     },
     {
       "name": "Left foot IMU sensor measurements",
       "key": "sens.leftFootIMU",
       "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
+      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
     },
     {
       "name": "Right foot IMU sensor measurements",
       "key": "sens.rightFootIMU",
       "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.masIMU)}"
+      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
     },
     {
       "name": "Left leg joint state measurements",
