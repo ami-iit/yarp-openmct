@@ -78,6 +78,11 @@ function ICubTelemetry(portInConfig) {
             "force": {"x": 0, "y": 0, "z": 0},
             "torque": {"x": 0, "y": 0, "z": 0}
         },
+        "sens.leftArmFT": {
+            "force": {"x": 0, "y": 0, "z": 0},
+            "torque": {"x": 0, "y": 0, "z": 0},
+            "temperature": 0
+        },
         "sens.batteryStatus": {
             "voltage": 0, "current": 0, "charge": 0, "temperature": 0, "status": 0
         }
@@ -101,14 +106,13 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.leftFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
     this.state["sens.rightFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
     this.state["sens.rightFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.leftArmFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.rightArmFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.leftLegHipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.rightLegHipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.leftFootHeelFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.leftFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.rightFootHeelFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
-    this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmEEwrench"]));
+    this.state["sens.rightArmFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
+    this.state["sens.leftLegHipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
+    this.state["sens.rightLegHipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
+    this.state["sens.leftFootHeelFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
+    this.state["sens.leftFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
+    this.state["sens.rightFootHeelFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
+    this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
 
     this.parser = {};
     Object.keys(portInConfig).forEach((key) => {
@@ -215,6 +219,7 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
         this.state[subId].torque.x = sensorSample[5][sensIdx][0][3];
         this.state[subId].torque.y = sensorSample[5][sensIdx][0][4];
         this.state[subId].torque.z = sensorSample[5][sensIdx][0][5];
+        this.state[subId].temperature = sensorSample[4][sensIdx][0][0];
     }.bind(this);
 
     switch(id) {

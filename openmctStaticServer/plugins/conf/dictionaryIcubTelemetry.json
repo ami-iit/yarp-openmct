@@ -283,7 +283,80 @@
         }
       }
     ],
-    "FTsensor": "${this.presetValuesBase.cartesianEEwrench}"
+    "FTsensor": [
+      {
+        "key": "value.force.x",
+        "name": "Fx",
+        "unit": "N",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.force.y",
+        "name": "Fy",
+        "unit": "N",
+        "format": "float",
+        "hints": {
+          "range":2
+        }
+      },
+      {
+        "key": "value.force.z",
+        "name": "Fz",
+        "unit": "N",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      },
+      {
+        "key": "value.torque.x",
+        "name": "Taux",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 4
+        }
+      },
+      {
+        "key": "value.torque.y",
+        "name": "Tauy",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 5
+        }
+      },
+      {
+        "key": "value.torque.z",
+        "name": "Tauz",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 6
+        }
+      },
+      {
+        "key": "value.temperature",
+        "name": "Temp",
+        "unit": "˚C",
+        "format": "float",
+        "hints": {
+          "range": 7
+        }
+      },
+      {
+        "key": "utc",
+        "source": "timestamp",
+        "name": "Timestamp",
+        "format": "utc",
+        "hints": {
+          "domain": 1
+        }
+      }
+    ]
   },
   "telemetryEntries": [
     {
