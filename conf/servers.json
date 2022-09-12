@@ -320,6 +320,24 @@
                 "type": "internal",
                 "outputFormat": "vectorCollection"
             }
+        },
+        "processTextLogging.yarpRobotInterface": {
+            "yarpName": "/log/iiticublap199/yarprobotinterfa[yarprobotinterface]/1205",
+            "localName": "${this.localYarpPortPrefix}/proc-yarprobotinterface-yarptextlogging:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
+        },
+        "processTextLogging.walkingModule": {
+            "yarpName": "/log/iiticublap199/WalkingModule-0.[walkingModule]/1470",
+            "localName": "${this.localYarpPortPrefix}/proc-walkingmodule-yarptextlogging:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            }
         }
     }
 }

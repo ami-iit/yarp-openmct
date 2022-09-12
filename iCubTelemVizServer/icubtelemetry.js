@@ -15,6 +15,8 @@
 
 // Handle errors
 var assert = require('assert');
+const {yarpBottleString2JSON} = require('../common/utils');
+
 const NOTIFIER_REPEAT_INTERVAL_MS = 10;
 const TELEMETRY_DATA_DEPTH_MS = 60 * 1000;
 
@@ -85,6 +87,9 @@ function ICubTelemetry(portInConfig) {
         },
         "sens.batteryStatus": {
             "voltage": 0, "current": 0, "charge": 0, "temperature": 0, "status": 0
+        },
+        "processTextLogging.yarpRobotInterface": {
+            "message": "", "level": "", "filename": "", "line": 0, "function": "", "hostname": "", "pid": 0, "cmd": "", "args": "", "thread_id": 0 , "component": "", "id": "", "systemtime": 0, "networktime": 0, "externaltime": 0, "backtrace": ""
         }
     };
 
@@ -113,6 +118,8 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.leftFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
     this.state["sens.rightFootHeelFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
     this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
+    this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
+    this.state["processTextLogging.walkingModule"] = JSON.parse(JSON.stringify(this.state["processTextLogging.yarpRobotInterface"]));
 
     this.parser = {};
     Object.keys(portInConfig).forEach((key) => {
@@ -333,6 +340,17 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             this.state[id].charge = sensorSample[2];
             this.state[id].temperature = sensorSample[3];
             this.state[id].status = sensorSample[4];
+            break;
+        case "processTextLogging.yarpRobotInterface":
+        case "processTextLogging.walkingModule":
+            // Parse hostname, pid, port.
+            let pid, hostname;
+            [,hostname,,pid] = sensorSample[0].match(/[^\/]*\/log\/(.+)\/(.+)\/([0-9]+)/);
+            // Parse other information: level, systemtime, etc.
+            Object.assign(this.state[id],
+                {"pid": Number(pid), "hostname": hostname},
+                yarpBottleString2JSON(sensorSample[1])
+            );
             break;
         default:
             this.state[id] = sensorSample;

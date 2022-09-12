@@ -1,5 +1,7 @@
 "use strict";
 
+var yarp = require('YarpJS');
+
 /**
  * Signal string to code conversion from the POSIX standard
  *
@@ -135,7 +137,9 @@ function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals, ...args) {
 
 /**
  * Generates the values template blocks (generatedValuesBase) from the parameters in valuesTemplateGeneratorParams.
- * @type {{MyCounter: MyCounter, jsonExportScript: (function(Object, string): string), signalName2exitCodeMap: (function(string)), signalName2codeMap: {SIGQUIT: number, SIGINT: number, SIGALRM: number, SIGHUP: number, SIGABRT: number, SIGTERM: number, SIGKILL: number}, evalTemplateLiteralInJSON: (function(Object): Object)}}
+ *
+ * @param {object} dictionary2expand - JSON dictionary with the parameters for generating the generatedValuesBase blocks.
+ * @returns {object} - expanded dictionary.
  */
 function expandTelemetryDictionary(dictionary2expand) {
     // Run a first interpolation
@@ -170,11 +174,27 @@ function expandTelemetryDictionary(dictionary2expand) {
     return dictionary2expand;
 }
 
+/**
+ * Convert Bottle from string to JSON format
+ *
+ * @param {string} bottleAsString - JSON dictionary with the parameters for generating the generatedValuesBase blocks.
+ * @returns {object} - JSON formatted object.
+ */
+function yarpBottleString2JSON(bottleAsString) {
+    let bottleAsJSON = {};
+    let bottleAsNestedArray = yarp.Bottle().fromString(bottleAsString).toArray();
+    bottleAsNestedArray.forEach((elem) => {
+        bottleAsJSON[elem[0]] = elem[1];
+    });
+    return bottleAsJSON;
+}
+
 module.exports = {
     signalName2codeMap: signalName2codeMap,
     signalName2exitCodeMap: signalName2exitCodeMap,
     MyCounter: MyCounter,
     jsonExportScript: jsonExportScript,
     evalTemplateLiteralInJSON: evalTemplateLiteralInJSON,
-    expandTelemetryDictionary: expandTelemetryDictionary
+    expandTelemetryDictionary: expandTelemetryDictionary,
+    yarpBottleString2JSON: yarpBottleString2JSON
 };
