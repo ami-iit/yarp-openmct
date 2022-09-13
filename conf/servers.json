@@ -321,7 +321,7 @@
                 "outputFormat": "vectorCollection"
             }
         },
-        "processTextLogging.yarpRobotInterface": {
+        "yarplogger.yarpRobotInterface": {
             "yarpName": "/log/iiticublap199/yarprobotinterfa[yarprobotinterface]/1205",
             "localName": "${this.localYarpPortPrefix}/proc-yarprobotinterface-yarptextlogging:i",
             "portType": "bottle",
@@ -330,7 +330,7 @@
                 "outputFormat": "fromId"
             }
         },
-        "processTextLogging.walkingModule": {
+        "yarplogger.walkingModule": {
             "yarpName": "/log/iiticublap199/WalkingModule-0.[walkingModule]/1470",
             "localName": "${this.localYarpPortPrefix}/proc-walkingmodule-yarptextlogging:i",
             "portType": "bottle",

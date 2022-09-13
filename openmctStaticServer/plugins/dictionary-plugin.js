@@ -13,18 +13,12 @@ function requestLatestTelemetrySample(telemetryEntryKey) {
 }
 
 function getDictionary(identifier) {
-    switch (identifier.namespace) {
-        case ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE:
-            return http.get('plugins/conf/dictionaryIcubTelemetry.json')
+    if (namespace2dictionaryFile[identifier.namespace] !== undefined) {
+        return http.get(namespace2dictionaryFile[identifier.namespace])
                 .then(function (result) {
                     return result.data;
                 });
-        case VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE:
-            return http.get('config/dictionaryVectorCollectionsTelemetry.json')
-                .then(function (result) {
-                    return result.data;
-                });
-        default:
+    } else {
             return Promise.reject('Unknown namespace!!');
     }
 }

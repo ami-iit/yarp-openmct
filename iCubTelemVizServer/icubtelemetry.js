@@ -88,7 +88,7 @@ function ICubTelemetry(portInConfig) {
         "sens.batteryStatus": {
             "voltage": 0, "current": 0, "charge": 0, "temperature": 0, "status": 0
         },
-        "processTextLogging.yarpRobotInterface": {
+        "yarplogger.yarpRobotInterface": {
             "message": "", "level": "", "filename": "", "line": 0, "function": "", "hostname": "", "pid": 0, "cmd": "", "args": "", "thread_id": 0 , "component": "", "id": "", "systemtime": 0, "networktime": 0, "externaltime": 0, "backtrace": ""
         }
     };
@@ -119,7 +119,7 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.rightFootHeelFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
     this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
     this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
-    this.state["processTextLogging.walkingModule"] = JSON.parse(JSON.stringify(this.state["processTextLogging.yarpRobotInterface"]));
+    this.state["yarplogger.walkingModule"] = JSON.parse(JSON.stringify(this.state["yarplogger.yarpRobotInterface"]));
 
     this.parser = {};
     Object.keys(portInConfig).forEach((key) => {
@@ -341,8 +341,8 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             this.state[id].temperature = sensorSample[3];
             this.state[id].status = sensorSample[4];
             break;
-        case "processTextLogging.yarpRobotInterface":
-        case "processTextLogging.walkingModule":
+        case "yarplogger.yarpRobotInterface":
+        case "yarplogger.walkingModule":
             // Parse hostname, pid, port.
             let pid, hostname;
             [,hostname,,pid] = sensorSample[0].match(/[^\/]*\/log\/(.+)\/(.+)\/([0-9]+)/);
