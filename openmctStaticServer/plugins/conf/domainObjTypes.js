@@ -58,6 +58,16 @@ const DOMAIN_OBJECTS_TYPES = {
             },
             domain: {}
         }
+    },
+    "yarpopenmct.yarptextlog": {
+        name: 'Yarp Text Logging Message',
+        description: 'Process log message forwarded to the YarpLogger on a Yarp port /log/hostname/processname[YARP_LOG_PROCESS_LABEL]/pid.',
+        icon: 'icon-info',
+        reportSchedule: [ReportSchedule.Realtime,ReportSchedule.Historical],
+        telemetryMetadataDflt: {
+            range: {},
+            domain: {}
+        }
     }
 };
 

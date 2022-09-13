@@ -1,0 +1,175 @@
+{
+  "name": "Process Logging",
+  "key": "processLogging",
+  "presetValuesBase": {
+    "yarpLoggerMessage": [
+      {
+        "key": "value.message",
+        "name": "Message",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.level",
+        "name": "Level",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.filename",
+        "name": "File name",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 3
+        }
+      },
+      {
+        "key": "value.line",
+        "name": "Line",
+        "unit": "",
+        "format": "int",
+        "hints": {
+          "range": 4
+        }
+      },
+      {
+        "key": "value.function",
+        "name": "Function",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 5
+        }
+      },
+      {
+        "key": "value.hostname",
+        "name": "Host name",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 6
+        }
+      },
+      {
+        "key": "value.pid",
+        "name": "PID",
+        "unit": "",
+        "format": "int",
+        "hints": {
+          "range": 7
+        }
+      },
+      {
+        "key": "value.cmd",
+        "name": "Command",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 8
+        }
+      },
+      {
+        "key": "value.args",
+        "name": "Arguments",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 9
+        }
+      },
+      {
+        "key": "value.thread_id",
+        "name": "Thread ID",
+        "unit": "",
+        "format": "int",
+        "hints": {
+          "range": 10
+        }
+      },
+      {
+        "key": "value.component",
+        "name": "Component",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 11
+        }
+      },
+      {
+        "key": "value.id",
+        "name": "ID",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "value.systemtime",
+        "name": "System time",
+        "unit": "s",
+        "format": "float",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "value.networktime",
+        "name": "Network time",
+        "unit": "s",
+        "format": "float",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "value.externaltime",
+        "name": "External time",
+        "unit": "s",
+        "format": "float",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "value.backtrace",
+        "name": "Back trace",
+        "unit": "",
+        "format": "string",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "utc",
+        "source": "timestamp",
+        "name": "Timestamp",
+        "format": "utc",
+        "hints": {
+          "domain": 1
+        }
+      }
+    ]
+  },
+  "telemetryEntries": [
+    {
+      "name": "yarprobotinterface process logging through yarplogger",
+      "key": "yarplogger.yarpRobotInterface",
+      "type": "yarpopenmct.yarptextlog",
+      "values": "${JSON.stringify(this.presetValuesBase.yarpLoggerMessage)}"
+    },
+    {
+      "name": "WalkingModule process logging through yarplogger",
+      "key": "yarplogger.walkingModule",
+      "type": "yarpopenmct.yarptextlog",
+      "values": "${JSON.stringify(this.presetValuesBase.yarpLoggerMessage)}"
+    }
+  ]
+}

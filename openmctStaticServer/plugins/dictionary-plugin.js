@@ -15,11 +15,11 @@ function requestLatestTelemetrySample(telemetryEntryKey) {
 function getDictionary(identifier) {
     if (namespace2dictionaryFile[identifier.namespace] !== undefined) {
         return http.get(namespace2dictionaryFile[identifier.namespace])
-                .then(function (result) {
-                    return result.data;
-                });
+            .then(function (result) {
+                return result.data;
+            });
     } else {
-            return Promise.reject('Unknown namespace!!');
+        return Promise.reject('Unknown namespace!!');
     }
 }
 
@@ -70,7 +70,8 @@ class ObjectProvider {
 var compositionProvider = {
     appliesTo: function (domainObject) {
         return (domainObject.identifier.namespace === ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE
-            || domainObject.identifier.namespace === VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE)
+            || domainObject.identifier.namespace === VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE
+            || domainObject.identifier.namespace === PROCESSLOGGING_DOMAIN_OBJECTS_NAMESPACE)
             && domainObject.type === 'folder';
     },
     load: function (domainObject) {
@@ -105,6 +106,13 @@ function DictionaryPlugin(telemServerHost,telemServerPort) {
         });
 
         openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
+
+        openmct.objects.addRoot({
+            namespace: PROCESSLOGGING_DOMAIN_OBJECTS_NAMESPACE,
+            key: 'processLogging'
+        });
+
+        openmct.objects.addProvider(PROCESSLOGGING_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
 
         openmct.objects.addRoot({
             namespace: VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE,
