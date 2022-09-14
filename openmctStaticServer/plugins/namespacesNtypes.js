@@ -5,7 +5,7 @@ const PROCESSLOGGING_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.processLogging';
 const namespace2dictionaryFile = {
     'yarpopenmct.icubtelemetry': 'plugins/conf/dictionaryIcubTelemetry.json',
     'yarpopenmct.vectorCollectionsTelemetry': 'config/dictionaryVectorCollectionsTelemetry.json',
-    'yarpopenmct.processLogging': 'config/dictionaryProcessLogging.json'
+    'yarpopenmct.processLogging': 'plugins/conf/dictionaryProcessLogging.json'
 }
 Object.freeze(namespace2dictionaryFile);
 

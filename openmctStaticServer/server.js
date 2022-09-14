@@ -4,7 +4,7 @@
 
 // Import main configuration and dynamic dictionaries
 confServers = require('../conf/servers');
-dictionary = require('./plugins/conf/dictionaryIcubTelemetry');
+dictionaryIcubtelemetry = require('./plugins/conf/dictionaryIcubTelemetry');
 
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
@@ -19,8 +19,8 @@ const {
     expandTelemetryDictionary
 } = require("../common/utils");
 const confServersJSON = evalTemplateLiteralInJSON(confServers);
-const expandedDictionary = expandTelemetryDictionary(dictionary);
-const dictionaryJSON = evalTemplateLiteralInJSON(expandedDictionary);
+const expandedDictionaryIcubtelemetry = expandTelemetryDictionary(dictionaryIcubtelemetry);
+const dictionaryIcubtelemetryJSON = evalTemplateLiteralInJSON(expandedDictionaryIcubtelemetry);
 const app = require('express')();
 expressWs(app);
 
@@ -30,7 +30,7 @@ app.get('/config/confServers.json', function(req, res){
     res.send(jsonExportScript(confServersJSON,'confServers'));
 });
 app.get('/plugins/conf/dictionaryIcubTelemetry.json', function(req, res){
-    res.send(dictionaryJSON);
+    res.send(dictionaryIcubtelemetryJSON);
 });
 
 // Route static server
