@@ -121,17 +121,17 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
     this.state["yarplogger.walkingModule"] = JSON.parse(JSON.stringify(this.state["yarplogger.yarpRobotInterface"]));
 
-    this.parser = {};
+    this.parseNforwardDataToNotifier = {};
     Object.keys(portInConfig).forEach((key) => {
         switch (portInConfig[key].parser.type) {
             case "internal":
                 switch ((portInConfig[key]).parser.outputFormat) {
                     case "vectorCollection":
                         this.state[key] = {};
-                        this.parser[key] = this.parseVectorCollectionMap.bind(this);
+                        this.parseNforwardDataToNotifier[key] = this.parseVectorCollectionMap.bind(this);
                         break;
                     case "fromId":
-                        this.parser[key] = this.parseFromId.bind(this);
+                        this.parseNforwardDataToNotifier[key] = this.parseFromId.bind(this);
                         break;
                     default:
                         console.error('Unsupported output format');
@@ -141,8 +141,8 @@ function ICubTelemetry(portInConfig) {
                 console.error('Unsupported parser type.');
         }
     }, this);
-    this.forwardYarpDataToNotifier = {};
-    Object.keys(portInConfig).forEach((key) => {this.forwardYarpDataToNotifier[key] = (id,data) => {}});
+    this.processOrDropYarpData = {};
+    Object.keys(portInConfig).forEach((key) => {this.processOrDropYarpData[key] = (id,data) => {}});
 
     this.connectNetworkSource = (id) => {};
     this.disconnectNetworkSource = (id) => {};
@@ -175,14 +175,14 @@ ICubTelemetry.prototype.defineNetworkConnector = function (connectCallback,disco
 }
 
 ICubTelemetry.prototype.connectTelemSrcToNotifier = function (id) {
-  this.forwardYarpDataToNotifier[id] = this.parser[id];
+  this.processOrDropYarpData[id] = this.parseNforwardDataToNotifier[id];
   this.connectNetworkSource(id);
   return (() => {this.disconnectTelemSrcFromNotifier(id)}).bind(this);
 }
 
 ICubTelemetry.prototype.disconnectTelemSrcFromNotifier = function (id) {
   this.disconnectNetworkSource(id);
-  this.forwardYarpDataToNotifier[id] = (id,data) => {};
+  this.processOrDropYarpData[id] = (id,data) => {};
 }
 
 ICubTelemetry.prototype.startNotifier = function () {

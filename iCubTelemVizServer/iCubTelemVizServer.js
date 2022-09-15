@@ -85,12 +85,12 @@ Object.keys(portInConfig).forEach(function (id) {
     switch (portInConfig[id]["portType"]) {
         case 'bottle':
             portIn.onRead(function (bottle){
-                icubtelemetry.forwardYarpDataToNotifier[id](id,bottle.toArray());
+                icubtelemetry.processOrDropYarpData[id](id,bottle.toArray());
             });
             break;
         case 'image':
             portIn.onRead(function (image){
-                icubtelemetry.forwardYarpDataToNotifier[id](id,getDataURIscheme(image.getCompressionType(),image.toBinary()));
+                icubtelemetry.processOrDropYarpData[id](id,getDataURIscheme(image.getCompressionType(),image.toBinary()));
             });
             break;
         default:
