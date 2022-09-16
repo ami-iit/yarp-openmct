@@ -121,17 +121,21 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
     this.state["yarplogger.walkingModule"] = JSON.parse(JSON.stringify(this.state["yarplogger.yarpRobotInterface"]));
 
-    this.parseNforwardDataToNotifier = {};
+    this.parseNforwardDataToNotifierOrSend = [];
+
+    this.telemetryIDsToSend = [];
+
     Object.keys(portInConfig).forEach((key) => {
+        this.parseNforwardDataToNotifierOrSend[key] = {};
         switch (portInConfig[key].parser.type) {
             case "internal":
-                switch ((portInConfig[key]).parser.outputFormat) {
+                switch (portInConfig[key].parser.outputFormat) {
                     case "vectorCollection":
                         this.state[key] = {};
-                        this.parseNforwardDataToNotifier[key] = this.parseVectorCollectionMap.bind(this);
+                        this.parseNforwardDataToNotifierOrSend[key].parse = this.parseVectorCollectionMap.bind(this);
                         break;
                     case "fromId":
-                        this.parseNforwardDataToNotifier[key] = this.parseFromId.bind(this);
+                        this.parseNforwardDataToNotifierOrSend[key].parse = this.parseFromId.bind(this);
                         break;
                     default:
                         console.error('Unsupported output format');
@@ -140,7 +144,26 @@ function ICubTelemetry(portInConfig) {
             default:
                 console.error('Unsupported parser type.');
         }
+        switch (portInConfig[key].sourceSync) {
+            case "localTimer":
+                this.parseNforwardDataToNotifierOrSend[key].forwardOrSend = function () {
+                    this.telemetryIDsToSend.push(key);
+                }.bind(this);
+                break;
+            case "yarpPort":
+                this.parseNforwardDataToNotifierOrSend[key].forwardOrSend = function () {
+                    this.generateTelemetry(Date.now(),this.state[key],key);
+                }.bind(this);
+                break;
+            default:
+                console.error('Unsupported synch source.');
+        }
+        this.parseNforwardDataToNotifierOrSend[key].process = function (id,data) {
+            this.parse(id,data);
+            this.forwardOrSend();
+        }.bind(this.parseNforwardDataToNotifierOrSend[key]);
     }, this);
+
     this.processOrDropYarpData = {};
     Object.keys(portInConfig).forEach((key) => {this.processOrDropYarpData[key] = (id,data) => {}});
 
@@ -156,9 +179,10 @@ function ICubTelemetry(portInConfig) {
 
     this.notifierTask = function () {
         var timestamp = Date.now();
-        Object.keys(this.state).forEach(function (id) {
+        this.telemetryIDsToSend.forEach(function (id) {
             this.generateTelemetry(timestamp,this.state[id],id);
         }, this);
+        this.telemetryIDsToSend = [];
     }.bind(this);
 
     console.log("iCub Telemetry server launched!");
@@ -175,7 +199,7 @@ ICubTelemetry.prototype.defineNetworkConnector = function (connectCallback,disco
 }
 
 ICubTelemetry.prototype.connectTelemSrcToNotifier = function (id) {
-  this.processOrDropYarpData[id] = this.parseNforwardDataToNotifier[id];
+  this.processOrDropYarpData[id] = this.parseNforwardDataToNotifierOrSend[id].process;
   this.connectNetworkSource(id);
   return (() => {this.disconnectTelemSrcFromNotifier(id)}).bind(this);
 }
@@ -376,8 +400,8 @@ ICubTelemetry.prototype.generateTelemetry = function (timestamp,value,id) {
         default:
             var telemetrySample = this.flatten({timestamp: timestamp, value: value, id: id});
     }
-    this.notify(telemetrySample);
-    this.history[id].push(telemetrySample);
+    this.notify(telemetrySample); // send to the client subscribers
+    this.history[id].push(telemetrySample); // update history
     if (this.history[id].length > this.maxDepthSamples) {
         this.history[id].shift(); // removes the oldest element
     }

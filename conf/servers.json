@@ -22,7 +22,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.headIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/head/inertials/measures:o",
@@ -31,7 +32,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftArmIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/left_arm/imu/measures:o",
@@ -40,7 +42,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightArmIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/right_arm/imu/measures:o",
@@ -49,7 +52,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftLegIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg/imu/measures:o",
@@ -58,7 +62,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightLegIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/right_leg/imu/measures:o",
@@ -67,7 +72,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftFootIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/left_foot/imu/measures:o",
@@ -76,7 +82,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightFootIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/right_foot/imu/measures:o",
@@ -85,7 +92,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftLegJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg/stateExt:o",
@@ -94,7 +102,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightLegJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/right_leg/stateExt:o",
@@ -103,7 +112,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftArmJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/left_arm/stateExt:o",
@@ -112,7 +122,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightArmJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/right_arm/stateExt:o",
@@ -121,7 +132,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.torsoJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/torso/stateExt:o",
@@ -130,7 +142,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.headJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/head/stateExt:o",
@@ -139,7 +152,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.camLeftEye": {
             "yarpName": "${this.robotYarpPortPrefix}/camLeftEye",
@@ -148,7 +162,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.camRightEye": {
             "yarpName": "${this.robotYarpPortPrefix}/camRightEye",
@@ -157,7 +172,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftArmEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_arm/cartesianEndEffectorWrench:o",
@@ -166,7 +182,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightArmEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_arm/cartesianEndEffectorWrench:o",
@@ -175,7 +192,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftUpperLegEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_upper_leg/cartesianEndEffectorWrench:o",
@@ -184,7 +202,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftLowerLegEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_lower_leg/cartesianEndEffectorWrench:o",
@@ -193,7 +212,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightUpperLegEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_upper_leg/cartesianEndEffectorWrench:o",
@@ -202,7 +222,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightLowerLegEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_lower_leg/cartesianEndEffectorWrench:o",
@@ -211,7 +232,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftFootFrontEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_foot_front/cartesianEndEffectorWrench:o",
@@ -220,7 +242,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftFootRearEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_foot_rear/cartesianEndEffectorWrench:o",
@@ -229,7 +252,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightFootFrontEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_foot_front/cartesianEndEffectorWrench:o",
@@ -238,7 +262,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightFootRearEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_foot_rear/cartesianEndEffectorWrench:o",
@@ -247,7 +272,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftArmFT": {
             "yarpName": "${this.robotYarpPortPrefix}/left_arm/measures:o",
@@ -256,7 +282,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightArmFT": {
             "yarpName": "${this.robotYarpPortPrefix}/right_arm/measures:o",
@@ -265,7 +292,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftLegHipFT": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg_hip/measures:o",
@@ -274,7 +302,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightLegHipFT": {
             "yarpName": "${this.robotYarpPortPrefix}/right_leg_hip/measures:o",
@@ -283,7 +312,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.leftFootHeelTiptoeFTs": {
             "yarpName": "${this.robotYarpPortPrefix}/left_foot_heel_tiptoe/measures:o",
@@ -292,7 +322,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.rightFootHeelTiptoeFTs": {
             "yarpName": "${this.robotYarpPortPrefix}/right_foot_heel_tiptoe/measures:o",
@@ -301,7 +332,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "sens.batteryStatus": {
             "yarpName": "${this.robotYarpPortPrefix}/battery/data:o",
@@ -310,7 +342,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "walkingController.logger": {
             "yarpName": "/walking-coordinator/logger/data:o",
@@ -319,7 +352,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "vectorCollection"
-            }
+            },
+            "sourceSync": "localTimer"
         },
         "yarplogger.yarpRobotInterface": {
             "yarpName": "/log/iiticublap199/yarprobotinterfa[yarprobotinterface]/1205",
@@ -328,7 +362,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "yarpPort"
         },
         "yarplogger.walkingModule": {
             "yarpName": "/log/iiticublap199/WalkingModule-0.[walkingModule]/1470",
@@ -337,7 +372,8 @@
             "parser": {
                 "type": "internal",
                 "outputFormat": "fromId"
-            }
+            },
+            "sourceSync": "yarpPort"
         }
     }
 }
