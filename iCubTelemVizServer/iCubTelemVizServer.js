@@ -2,9 +2,10 @@
  * Server http (non secure)
  */
 
-// Import main configuration
-const {evalTemplateLiteralInJSON} = require('../common/utils');
-var config = evalTemplateLiteralInJSON(require('../conf/servers'));
+// Retrieve the main configuration
+const ConfigHandler = require('./configHandler');
+const configHandler = new ConfigHandler('../conf/servers');
+var config = configHandler.config;
 
 // require and setup basic http functionalities
 var portTelemetryReqOrigin = process.env.PORT_TLM_REQ_ORIGIN || config.openmctStaticServer.port;

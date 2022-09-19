@@ -121,7 +121,7 @@ function ICubTelemetry(portInConfig) {
     this.state["sens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["sens.leftArmFT"]));
     this.state["yarplogger.walkingModule"] = JSON.parse(JSON.stringify(this.state["yarplogger.yarpRobotInterface"]));
 
-    this.parseNforwardDataToNotifierOrSend = [];
+    this.parseNforwardDataToNotifierOrSend = {};
 
     this.telemetryIDsToSend = [];
 
