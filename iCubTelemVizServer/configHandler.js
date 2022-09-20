@@ -1,11 +1,14 @@
 "use strict";
 
 const {evalTemplateLiteralInJSON} = require ('../common/utils');
+const YarpNameListHandler = require ('../common/yarpNameListHandler');
 
 function ConfigHandler(configFile) {
     this.config = require(configFile);
     this.config = evalTemplateLiteralInJSON(this.config);
     this.regexpMatchedPortInConfig = undefined;
+    this.activeYarpPorts = undefined;
+    this.yarpNameListHdl = new YarpNameListHandler();
 }
 
 /**
@@ -21,7 +24,9 @@ ConfigHandler.prototype.matchRegexpYarpPortNames = function() {
     if (regexpPortNames.length == 0) {
         return this.regexpMatchedPortInConfig = {};
     }
-    return this.regexpMatchedPortInConfig;
+    return this.getActiveYarpPorts().then((yarpPortNames) => {
+        this.activeYarpPorts = yarpPortNames;
+    });
 }
 
 /**
@@ -32,6 +37,34 @@ ConfigHandler.prototype.matchRegexpYarpPortNames = function() {
 ConfigHandler.prototype.getRegexpPortEntries = function() {
     return Object.keys(this.config.portInConfig).filter((id) => {
         return (this.config.portInConfig[id].yarpName.match(/^\@\{.+\}$/i) !== null);
+    });
+}
+
+/**
+ * Runs a system command listing the Yarp active ports: "yarp name list", and returns that
+ * list.
+ */
+ConfigHandler.prototype.getActiveYarpPorts = function() {
+    let rplyBuffer = Buffer.from('');
+
+    // Define the output callbacks
+    let onStdout = function (stdoutChunk) {
+        rplyBuffer = Buffer.concat([rplyBuffer,stdoutChunk]);
+    };
+    let onStdinf = function (info) {
+        console.debug('info:' + info);
+    };
+    let onStderr = function (data) {
+        console.error('stderr: ' + data);
+    };
+
+    return this.yarpNameListHdl.run('',onStdout,onStdinf,onStderr).then((resultCode) => {
+        console.debug(`Yarp port names retrieval completed successfully (${resultCode})`);
+        return rplyBuffer.toString().split(/\n/).filter((line) => {
+            return line.startsWith("registration name");
+        }).map((line) => {
+            return line.split(' ')[2];
+        });
     });
 }
 
