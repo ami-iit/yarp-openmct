@@ -20,13 +20,14 @@ function ConfigHandler(configFile) {
  * @returns {string[]} - array of matching Yarp port names.
  */
 ConfigHandler.prototype.matchRegexpYarpPortNames = function() {
-    let regexpPortNames = this.getRegexpPortEntries();
-    if (regexpPortNames.length == 0) {
+    let regexpPortIDs = this.getRegexpPortEntries();
+    if (regexpPortIDs.length == 0) {
         return this.regexpMatchedPortInConfig = {};
     }
-    return this.getActiveYarpPorts().then((yarpPortNames) => {
+    return this.getActiveYarpPorts().then(function (yarpPortNames) {
         this.activeYarpPorts = yarpPortNames;
-    });
+        return this.regexpMatchedPortInConfig = this.matchRegexp(regexpPortIDs,yarpPortNames);
+    }.bind(this));
 }
 
 /**
@@ -66,6 +67,29 @@ ConfigHandler.prototype.getActiveYarpPorts = function() {
             return line.split(' ')[2];
         });
     });
+}
+
+/**
+ * Match the `regexpPortIDs` from the ports configuration with the active Yarp ports list and
+ * return the result.
+ *
+ * @param {string[]} regexpPortIDs - array of keys indexing Yarp ports defined through a regexp.
+ * @param {string[]} activeYarpPortNames - active remote Yarp ports.
+ * @return {object} - port configuration list with matched Yarp remote ports.
+ */
+ConfigHandler.prototype.matchRegexp = function(regexpPortIDs, activeYarpPortNames) {
+    let regexpMatchedPortInConfig = JSON.parse(JSON.stringify(this.config.portInConfig));
+    regexpPortIDs.forEach((id) => {
+        let regexpPattern = new RegExp(regexpMatchedPortInConfig[id].yarpName.match(/^@{(?<thePattern>.+)}$/i).groups.thePattern,"i");
+        let matchedPorts = activeYarpPortNames.filter((name) => {
+            return (name.match(regexpPattern) !== null);
+        });
+        if (matchedPorts > 1) {
+            console.error('error: Yarp port name regexp has multiple matches, kept the first match.');
+        }
+        regexpMatchedPortInConfig[id].yarpName = matchedPorts[0];
+    });
+    return regexpMatchedPortInConfig;
 }
 
 module.exports = ConfigHandler;

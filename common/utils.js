@@ -118,7 +118,7 @@ function evalTemplateLiteralInJSON(jsonObjectWithTemplateLiterals, ...args) {
                     nestedObject[k] = traverse(nestedObject[k]);
                     break;
                 case "string":
-                    if (nestedObject[k].includes("$")) {
+                    if (nestedObject[k].match(/.*\${.+}.*/i) !== null) {
                         nestedObject[k] = templateLiteralEvalof(nestedObject[k]);
                     }
                     break;
