@@ -356,7 +356,7 @@
             "sourceSync": "localTimer"
         },
         "yarplogger.yarpRobotInterface": {
-            "yarpName": "/log/iiticublap199/yarprobotinterfa[yarprobotinterface]/1205",
+            "yarpName": "@{^\\/log\\/.*\\[yarprobotinterface\\].*$}",
             "localName": "${this.localYarpPortPrefix}/proc-yarprobotinterface-yarptextlogging:i",
             "portType": "bottle",
             "parser": {
@@ -366,7 +366,7 @@
             "sourceSync": "yarpPort"
         },
         "yarplogger.walkingModule": {
-            "yarpName": "/log/iiticublap199/WalkingModule-0.[walkingModule]/1470",
+            "yarpName": "@{\\[walkingModule\\]}",
             "localName": "${this.localYarpPortPrefix}/proc-walkingmodule-yarptextlogging:i",
             "portType": "bottle",
             "parser": {
