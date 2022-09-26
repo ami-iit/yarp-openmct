@@ -22,7 +22,9 @@ function ConfigHandler(configFile) {
 ConfigHandler.prototype.matchRegexpYarpPortNames = function() {
     let regexpPortIDs = this.getRegexpPortEntries();
     if (regexpPortIDs.length == 0) {
-        return this.regexpMatchedPortInConfig = {};
+        return Promise.resolve(
+            this.regexpMatchedPortInConfig = JSON.parse(JSON.stringify(this.config.portInConfig))
+        );
     }
     return this.getActiveYarpPorts().then(function (yarpPortNames) {
         this.activeYarpPorts = yarpPortNames;
