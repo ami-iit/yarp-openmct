@@ -63,6 +63,7 @@ var historyServer = new HistoryServer(icubtelemetry);
 app.use('/realtime', realtimeServer);
 app.use('/history', historyServer);
 
+// Open the Yarp ports, register read callback functions
 Object.keys(portInConfig).forEach(function (id) {
     var portIn = yarp.portHandler.open(portInConfig[id]["localName"],portInConfig[id]["portType"]);
 
@@ -84,18 +85,17 @@ Object.keys(portInConfig).forEach(function (id) {
 
 const TerminationHandler = require('./terminationHandler.js');
 
-configHandler.matchRegexpYarpPortNames().then((matchedPortConfig) => {
-// Open the Yarp ports, register read callback functions, connect the ports and start the notifier task.
-// Use topics to create persistent connections.
+const connectPortsAndStartNotifier = function (matchedPortConfig) {
+    // Connect the ports and start the notifier task. Use topics to create persistent connections.
     icubtelemetry.defineNetworkConnector(
         (id) => {
-            yarp.Network.connect(matchedPortConfig[id]["yarpName"],"topic:/" + matchedPortConfig[id]["yarpName"]);
-            yarp.Network.connect("topic:/" + matchedPortConfig[id]["yarpName"],matchedPortConfig[id]["localName"]);
+            yarp.Network.connect(matchedPortConfig[id]["yarpName"], "topic:/" + matchedPortConfig[id]["yarpName"]);
+            yarp.Network.connect("topic:/" + matchedPortConfig[id]["yarpName"], matchedPortConfig[id]["localName"]);
         },
         (id) => {
-            yarp.Network.disconnect(matchedPortConfig[id]["yarpName"],"topic:/" + matchedPortConfig[id]["yarpName"]);
-            yarp.Network.disconnect("topic:/" + matchedPortConfig[id]["yarpName"],matchedPortConfig[id]["localName"]);
-            yarp.Network.disconnect(matchedPortConfig[id]["yarpName"],matchedPortConfig[id]["localName"]);
+            yarp.Network.disconnect(matchedPortConfig[id]["yarpName"], "topic:/" + matchedPortConfig[id]["yarpName"]);
+            yarp.Network.disconnect("topic:/" + matchedPortConfig[id]["yarpName"], matchedPortConfig[id]["localName"]);
+            yarp.Network.disconnect(matchedPortConfig[id]["yarpName"], matchedPortConfig[id]["localName"]);
         }
     );
 
@@ -106,7 +106,9 @@ configHandler.matchRegexpYarpPortNames().then((matchedPortConfig) => {
     });
 
     icubtelemetry.startNotifier();
-});
+}
+
+configHandler.matchRegexpYarpPortNames().then(connectPortsAndStartNotifier);
 
 // Create RPC server for executing system commands
 portRPCserver4sysCmds = yarp.portHandler.open('/yarpjs/sysCmdsGenerator/rpc','rpc');
@@ -187,6 +189,11 @@ const consoleServerTracker = new WebsocketTracker(consoleServer);
 // Create and start the OpenMCT server
 var OpenMctServerHandler = require('./openMctServerHandlerParentProc');
 var openMctServerHandler = new OpenMctServerHandler(console.log,console.error);
+openMctServerHandler.installRefreshPorts(() => {
+    TerminationHandler.prototype.unlistenToNetworkPorts.forEach((disconnect) => {disconnect();});
+    TerminationHandler.prototype.unlistenToNetworkPorts = [];
+    configHandler.matchRegexpYarpPortNames().then(connectPortsAndStartNotifier);
+});
 var ret = openMctServerHandler.start();
 console.log(ret);
 

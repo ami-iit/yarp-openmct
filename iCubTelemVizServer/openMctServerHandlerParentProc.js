@@ -24,11 +24,16 @@ function OpenMctServerHandlerParentProc(outputCallback,errorCallback) {
     this.onCloseFailure = (errorObject) => {
         this.errorCallback('Untriggered closure: ' + errorObject.toString());
     };
+    this.refreshPortsNconnections = () => {};
 }
 
 // Old Javascript inheritance: inherit all of OpenMctServerHandlerBase'methods
 OpenMctServerHandlerParentProc.prototype = new OpenMctServerHandlerBase();
 OpenMctServerHandlerParentProc.prototype.constructor = OpenMctServerHandlerParentProc;
+
+OpenMctServerHandlerParentProc.prototype.installRefreshPorts = function (refreshPortsNconnectionsCB) {
+    this.refreshPortsNconnections = refreshPortsNconnectionsCB;
+}
 
 OpenMctServerHandlerParentProc.prototype.start = function () {
     // Check if the server is already running
