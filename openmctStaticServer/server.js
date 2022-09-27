@@ -10,7 +10,7 @@ dictionaryProcessLogging = require('./plugins/conf/dictionaryProcessLogging');
 // Send the process PID back to the parent through the IPC channel
 const OpenMctServerHandlerChildProc = require('./openMctServerHandlerChildProc');
 const procHandler = new OpenMctServerHandlerChildProc(console.log,console.error);
-procHandler.messageParentProcess({"pid": process.pid});
+procHandler.reportPIDtoParent();
 
 const StaticServer = require('./static-server');
 const expressWs = require('express-ws');
@@ -28,6 +28,16 @@ expressWs(app);
 
 const staticServer = new StaticServer();
 // Process default server configuration requests
+
+// The default page request processing is defined by default, but redefined here for triggering a refresh of the port
+// connections.
+app.get('/', function(req, res){
+    res.sendFile('index.html',{ root : __dirname});
+    if (!procHandler.requestPortsRefresh()) {
+        console.warn('Ports refresh request not sent!');
+    }
+});
+
 app.get('/config/confServers.json', function(req, res){
     res.send(jsonExportScript(confServersJSON,'confServers'));
 });

@@ -5,7 +5,7 @@ const path = require('path');
 // Create a child process spawn for later setting the NVM version and running the server
 const childProcess = require('child_process');
 // Import comon properties for OpenMctServerHandlerParentProc and OpenMctServerHandlerChildProc
-var OpenMctServerHandlerBase = require('../common/openMctServerHandlerBase');
+const {OpenMctServerHandlerBase,Child2ParentCommands} = require('../common/openMctServerHandlerBase');
 // Format the output like printf
 const util = require('util');
 // Handle errors
@@ -65,7 +65,23 @@ OpenMctServerHandlerParentProc.prototype.start = function () {
     });
     npmStart.on('message', function (m) {
         embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] ipc: ' + JSON.stringify(m));
-        embeddedThis.processPID = m.pid;
+        Object.keys(m).forEach((k) => {
+            switch (k) {
+                case "pid":
+                    embeddedThis.processPID = m.pid;
+                    break;
+                case "cmd":
+                    switch (m.cmd) {
+                        case Child2ParentCommands.RefreshRegexpConnections:
+                            embeddedThis.refreshPortsNconnections();
+                            break;
+                        default:
+                    }
+                    break;
+                default:
+                    embeddedThis.outputCallback(`[OPEN-MCT STATIC SERVER] ipc: Don't know how to parse IPC message!`);
+            }
+        });
     });
     npmStart.on('close', function (code,signal) {
         embeddedThis.processPID = undefined;

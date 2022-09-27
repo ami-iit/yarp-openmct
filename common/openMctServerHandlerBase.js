@@ -8,4 +8,13 @@ function OpenMctServerHandlerBase(outputCallback,errorCallback) {
 OpenMctServerHandlerBase.prototype.RUNNING = 0;
 OpenMctServerHandlerBase.prototype.CLOSING = 1;
 
-module.exports = OpenMctServerHandlerBase;
+// Supported Child->Parent commands
+class Child2ParentCommands {
+    static RefreshRegexpConnections = 0;
+}
+Object.freeze(Child2ParentCommands);
+
+module.exports = {
+    OpenMctServerHandlerBase,
+    Child2ParentCommands
+};

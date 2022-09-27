@@ -1,7 +1,7 @@
 "use strict";
 
 // Import comon properties for OpenMctServerHandlerParentProc and OpenMctServerHandlerChildProc
-const OpenMctServerHandlerBase = require('../common/openMctServerHandlerBase');
+const {OpenMctServerHandlerBase,Child2ParentCommands} = require('../common/openMctServerHandlerBase');
 
 function OpenMctServerHandlerChildProc(outputCallback) {
     // Old Javascript inheritance: Apply the "parent" class OpenMctServerHandlerBase
@@ -19,6 +19,14 @@ OpenMctServerHandlerChildProc.prototype.messageParentProcess = function (message
     if (process.connected) {
         process.send(message);
     }
+}
+
+// Data and commands messaging to the parent process
+OpenMctServerHandlerChildProc.prototype.reportPIDtoParent = function () {
+    this.messageParentProcess({"pid": process.pid});
+}
+OpenMctServerHandlerChildProc.prototype.requestPortsRefresh = function () {
+    this.messageParentProcess({"cmd": Child2ParentCommands.RefreshRegexpConnections});
 }
 
 module.exports = OpenMctServerHandlerChildProc;
