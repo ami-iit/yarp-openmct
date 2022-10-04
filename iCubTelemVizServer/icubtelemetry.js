@@ -146,21 +146,25 @@ function ICubTelemetry(portInConfig) {
         }
         switch (portInConfig[key].sourceSync) {
             case "localTimer":
-                this.parseNforwardDataToNotifierOrSend[key].forwardOrSend = function () {
-                    this.telemetryIDsToSend.push(key);
+                this.parseNforwardDataToNotifierOrSend[key].forwardOrSend = function (subIds) {
+                    subIds.forEach(function (subId) {
+                        this.telemetryIDsToSend.push(subId);
+                    },this);
                 }.bind(this);
                 break;
             case "yarpPort":
-                this.parseNforwardDataToNotifierOrSend[key].forwardOrSend = function () {
-                    this.generateTelemetry(Date.now(),this.state[key],key);
+                this.parseNforwardDataToNotifierOrSend[key].forwardOrSend = function (subIds) {
+                    subIds.forEach(function (subId) {
+                        this.generateTelemetry(Date.now(), this.state[subId], subId);
+                    },this);
                 }.bind(this);
                 break;
             default:
                 console.error('Unsupported synch source.');
         }
         this.parseNforwardDataToNotifierOrSend[key].process = function (id,data) {
-            this.parse(id,data);
-            this.forwardOrSend();
+            let subIds = this.parse(id,data);
+            this.forwardOrSend(subIds);
         }.bind(this.parseNforwardDataToNotifierOrSend[key]);
     }, this);
 
@@ -352,12 +356,12 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             for (let [subId,sensIdx] of [["sens.leftFootHeelFT",0],["sens.leftFootToetipFT",1]]) {
                 parseFTmasData(subId,sensIdx,sensorSample);
             }
-            break;
+            return ["sens.leftFootHeelFT","sens.leftFootToetipFT"];
         case "sens.rightFootHeelTiptoeFTs":
             for (let [subId,sensIdx] of [["sens.rightFootHeelFT",0],["sens.rightFootToetipFT",1]]) {
                 parseFTmasData(subId,sensIdx,sensorSample);
             }
-            break;
+            return ["sens.rightFootHeelFT","sens.rightFootToetipFT"];
         case "sens.batteryStatus":
             this.state[id].voltage = sensorSample[0];
             this.state[id].current = sensorSample[1];
@@ -379,6 +383,7 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
         default:
             this.state[id] = sensorSample;
     }
+    return [id];
 }
 
 ICubTelemetry.prototype.parseVectorCollectionMap = function (id,sensorSample) {
