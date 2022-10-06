@@ -1,13 +1,12 @@
-const ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.icubtelemetry';
-const VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.vectorCollectionsTelemetry';
-const PROCESSLOGGING_DOMAIN_OBJECTS_NAMESPACE = 'yarpopenmct.processLogging';
+const YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE = 'yarpopenmct';
+const VECTORCOLLECTIONS_DOMAIN_OBJECTS_SUBNAMESPACE = 'vectorCollectionsTelemetry';
 
-const namespace2dictionaryFile = {
-    'yarpopenmct.icubtelemetry': 'plugins/conf/dictionaryIcubTelemetry.json',
-    'yarpopenmct.vectorCollectionsTelemetry': 'config/dictionaryVectorCollectionsTelemetry.json',
-    'yarpopenmct.processLogging': 'plugins/conf/dictionaryProcessLogging.json'
+const dictionaryID2file = {
+    'icubtelemetry': 'plugins/conf/dictionaryIcubTelemetry.json',
+    'vectorCollectionsTelemetry': 'config/dictionaryVectorCollectionsTelemetry.json',
+    'processLogging': 'plugins/conf/dictionaryProcessLogging.json'
 }
-Object.freeze(namespace2dictionaryFile);
+Object.freeze(dictionaryID2file);
 
 class ReportSchedule {
     static Realtime = Symbol();

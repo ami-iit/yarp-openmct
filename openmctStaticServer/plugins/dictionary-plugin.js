@@ -13,19 +13,20 @@ function requestLatestTelemetrySample(telemetryEntryKey) {
 }
 
 function getDictionary(identifier) {
-    if (namespace2dictionaryFile[identifier.namespace] !== undefined) {
-        return http.get(namespace2dictionaryFile[identifier.namespace])
+    let subNamespace = identifier.key.split('.')[0];
+    if (dictionaryID2file[subNamespace] !== undefined) {
+        return http.get(dictionaryID2file[subNamespace])
             .then(function (result) {
                 return result.data;
             });
     } else {
-        return Promise.reject('Unknown namespace!!');
+        return Promise.reject(`Unknown sub-namespace ${subNamespace}!!`);
     }
 }
 
 function generateObject(identifier,dictionary) {
     var telemetryEntry = dictionary.telemetryEntries.filter(function (m) {
-        return m.key === identifier.key;
+        return [dictionary.key,m.key].join('.') === identifier.key;
     })[0];
     return {
         identifier: identifier,
@@ -48,18 +49,16 @@ class ObjectProvider {
                     type: 'folder',
                     location: 'ROOT'
                 };
-            } else {
-                if (identifier.namespace === VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE) {
-                    return requestLatestTelemetrySample(identifier.key)
-                        .then(function (sample) {
-                            return expandTelemetryMetadataInDict(DOMAIN_OBJECTS_TYPES, telemetryMetadataBaseDflt, dictionary, sample);
-                        }).then(function (modifiedDictionary) {
-                            return generateObject(identifier,modifiedDictionary);
-                        });
-                } else {
-                    return generateObject(identifier,dictionary);
-                }
             }
+            if (identifier.key.split('.')[0] === VECTORCOLLECTIONS_DOMAIN_OBJECTS_SUBNAMESPACE) {
+                return requestLatestTelemetrySample(identifier.key)
+                    .then(function (sample) {
+                        return expandTelemetryMetadataInDict(DOMAIN_OBJECTS_TYPES, telemetryMetadataBaseDflt, dictionary, sample);
+                    }).then(function (modifiedDictionary) {
+                        return generateObject(identifier,modifiedDictionary);
+                    });
+            }
+            return generateObject(identifier,dictionary);
         }.bind(this)).catch((errorMessage) => {
             console.error(errorMessage);
             throw new Error(errorMessage);
@@ -69,9 +68,7 @@ class ObjectProvider {
 
 var compositionProvider = {
     appliesTo: function (domainObject) {
-        return (domainObject.identifier.namespace === ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE
-            || domainObject.identifier.namespace === VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE
-            || domainObject.identifier.namespace === PROCESSLOGGING_DOMAIN_OBJECTS_NAMESPACE)
+        return domainObject.identifier.namespace === YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE
             && domainObject.type === 'folder';
     },
     load: function (domainObject) {
@@ -80,7 +77,7 @@ var compositionProvider = {
                 return dictionary.telemetryEntries.map(function (m) {
                     return {
                         namespace: domainObject.identifier.namespace,
-                        key: m.key
+                        key: [dictionary.key,m.key].join('.')
                     };
                 });
             });
@@ -100,26 +97,22 @@ function DictionaryPlugin(telemServerHost,telemServerPort) {
             }));
         });
 
-        openmct.objects.addRoot({
-            namespace: ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE,
-            key: 'icubtelemetry'
-        });
+        openmct.objects.addRoot([
+            {
+                namespace: YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE,
+                key: 'icubtelemetry'
+            },
+            {
+                namespace: YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE,
+                key: 'processLogging'
+            },
+            {
+                namespace: YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE,
+                key: 'vectorCollectionsTelemetry'
+            }
+        ]);
 
-        openmct.objects.addProvider(ICUBTELEMETRY_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
-
-        openmct.objects.addRoot({
-            namespace: PROCESSLOGGING_DOMAIN_OBJECTS_NAMESPACE,
-            key: 'processLogging'
-        });
-
-        openmct.objects.addProvider(PROCESSLOGGING_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
-
-        openmct.objects.addRoot({
-            namespace: VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE,
-            key: 'vectorCollectionsTelemetry'
-        });
-
-        openmct.objects.addProvider(VECTORCOLLECTIONS_DOMAIN_OBJECTS_NAMESPACE, new ObjectProvider());
+        openmct.objects.addProvider(YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE, new ObjectProvider());
 
         openmct.composition.addProvider(compositionProvider);
     };

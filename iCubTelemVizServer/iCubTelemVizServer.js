@@ -144,7 +144,7 @@ portRPCserver4sysCmds.onRead(function (cmdNparams) {
                         console.log('error: Missing round trip time');
                     }
                     else {
-                        icubtelemetry.generateTelemetry(Date.now(),data,'ping');
+                        icubtelemetry.generateTelemetry(Date.now(),data,'icubtelemetry.ping');
                     }
                 }
                 onStderror = function (data) {
