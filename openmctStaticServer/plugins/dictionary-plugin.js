@@ -1,6 +1,18 @@
 // Prepare closure variables for function 'requestLatestTelemetrySample()'
 let telemServerAddress = {host:'',port:''};
 
+function getElemFromComposedKey(dictionary,telemetryEntryKey) {
+    let keyPath = telemetryEntryKey.split('.');
+    if (keyPath.shift() !== dictionary.key) {
+        console.error('Inconsistent dictionary key and telemetry key sub-namespace!');
+    }
+    return keyPath.reduce((parentElem,currentKey) => {
+        return parentElem.telemetryEntries.filter(function (m) {
+            return currentKey === m.key;
+        })[0];
+    },dictionary);
+}
+
 function requestLatestTelemetrySample(telemetryEntryKey) {
     var url = 'http://' + telemServerAddress.host + ':' + telemServerAddress.port + '/history/' +
         telemetryEntryKey +
@@ -25,9 +37,7 @@ function getDictionary(identifier) {
 }
 
 function generateObject(identifier,dictionary) {
-    var telemetryEntry = dictionary.telemetryEntries.filter(function (m) {
-        return [dictionary.key,m.key].join('.') === identifier.key;
-    })[0];
+    var telemetryEntry = getElemFromComposedKey(dictionary,identifier.key);
     return {
         identifier: identifier,
         name: telemetryEntry.name,
@@ -74,10 +84,10 @@ var compositionProvider = {
     load: function (domainObject) {
         return getDictionary(domainObject.identifier)
             .then(function (dictionary) {
-                return dictionary.telemetryEntries.map(function (m) {
+                return getElemFromComposedKey(dictionary,domainObject.identifier.key).telemetryEntries.map(function (m) {
                     return {
                         namespace: domainObject.identifier.namespace,
-                        key: [dictionary.key,m.key].join('.')
+                        key: [domainObject.identifier.key,m.key].join('.')
                     };
                 });
             });

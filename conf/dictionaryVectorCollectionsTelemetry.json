@@ -4,7 +4,7 @@
   "telemetryEntries": [
     {
       "name": "Walking Controller Logger",
-      "key": "walkingController.logger",
+      "key": "walkingController_logger",
       "type": "yarpopenmct.veccollectionmap",
       "values": {
         "range": {

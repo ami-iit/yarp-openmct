@@ -15,7 +15,7 @@
         "port": 8080
     },
     "portInConfig": {
-        "icubtelemetry.sens.legacyIMU": {
+        "icubtelemetry.sens_legacyIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/inertial",
             "localName": "${this.localYarpPortPrefix}/inertial:i",
             "portType": "bottle",
@@ -25,7 +25,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.headIMU": {
+        "icubtelemetry.sens_headIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/head/inertials/measures:o",
             "localName": "${this.localYarpPortPrefix}/head/inertials:i",
             "portType": "bottle",
@@ -35,7 +35,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftArmIMU": {
+        "icubtelemetry.sens_leftArmIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/left_arm/imu/measures:o",
             "localName": "${this.localYarpPortPrefix}/leftArm/inertials:i",
             "portType": "bottle",
@@ -45,7 +45,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightArmIMU": {
+        "icubtelemetry.sens_rightArmIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/right_arm/imu/measures:o",
             "localName": "${this.localYarpPortPrefix}/rightArm/inertials:i",
             "portType": "bottle",
@@ -55,7 +55,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftLegIMU": {
+        "icubtelemetry.sens_leftLegIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg/imu/measures:o",
             "localName": "${this.localYarpPortPrefix}/leftLeg/inertials:i",
             "portType": "bottle",
@@ -65,7 +65,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightLegIMU": {
+        "icubtelemetry.sens_rightLegIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/right_leg/imu/measures:o",
             "localName": "${this.localYarpPortPrefix}/rightLeg/inertials:i",
             "portType": "bottle",
@@ -75,7 +75,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftFootIMU": {
+        "icubtelemetry.sens_leftFootIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/left_foot/imu/measures:o",
             "localName": "${this.localYarpPortPrefix}/leftFoot/inertials:i",
             "portType": "bottle",
@@ -85,7 +85,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightFootIMU": {
+        "icubtelemetry.sens_rightFootIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/right_foot/imu/measures:o",
             "localName": "${this.localYarpPortPrefix}/rightFoot/inertials:i",
             "portType": "bottle",
@@ -95,7 +95,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftLegJointState": {
+        "icubtelemetry.sens_leftLegJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/left_leg/stateExt:o",
             "portType": "bottle",
@@ -105,7 +105,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightLegJointState": {
+        "icubtelemetry.sens_rightLegJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/right_leg/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/right_leg/stateExt:o",
             "portType": "bottle",
@@ -115,7 +115,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftArmJointState": {
+        "icubtelemetry.sens_leftArmJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/left_arm/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/left_arm/stateExt:o",
             "portType": "bottle",
@@ -125,7 +125,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightArmJointState": {
+        "icubtelemetry.sens_rightArmJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/right_arm/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/right_arm/stateExt:o",
             "portType": "bottle",
@@ -135,7 +135,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.torsoJointState": {
+        "icubtelemetry.sens_torsoJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/torso/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/torso/stateExt:o",
             "portType": "bottle",
@@ -145,7 +145,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.headJointState": {
+        "icubtelemetry.sens_headJointState": {
             "yarpName": "${this.robotYarpPortPrefix}/head/stateExt:o",
             "localName": "${this.localYarpPortPrefix}/head/stateExt:o",
             "portType": "bottle",
@@ -155,7 +155,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.camLeftEye": {
+        "icubtelemetry.sens_camLeftEye": {
             "yarpName": "${this.robotYarpPortPrefix}/camLeftEye",
             "localName": "${this.localYarpPortPrefix}/camLeftEye:i",
             "portType": "image",
@@ -165,7 +165,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.camRightEye": {
+        "icubtelemetry.sens_camRightEye": {
             "yarpName": "${this.robotYarpPortPrefix}/camRightEye",
             "localName": "${this.localYarpPortPrefix}/camRightEye:i",
             "portType": "image",
@@ -175,7 +175,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftArmEEwrench": {
+        "icubtelemetry.sens_leftArmEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_arm/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/left_arm/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -185,7 +185,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightArmEEwrench": {
+        "icubtelemetry.sens_rightArmEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_arm/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/right_arm/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -195,7 +195,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftUpperLegEEwrench": {
+        "icubtelemetry.sens_leftUpperLegEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_upper_leg/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/left_upper_leg/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -205,7 +205,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftLowerLegEEwrench": {
+        "icubtelemetry.sens_leftLowerLegEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_lower_leg/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/left_lower_leg/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -215,7 +215,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightUpperLegEEwrench": {
+        "icubtelemetry.sens_rightUpperLegEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_upper_leg/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/right_upper_leg/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -225,7 +225,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightLowerLegEEwrench": {
+        "icubtelemetry.sens_rightLowerLegEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_lower_leg/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/right_lower_leg/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -235,7 +235,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftFootFrontEEwrench": {
+        "icubtelemetry.sens_leftFootFrontEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_foot_front/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/left_foot_front/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -245,7 +245,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftFootRearEEwrench": {
+        "icubtelemetry.sens_leftFootRearEEwrench": {
             "yarpName": "/wholeBodyDynamics/left_foot_rear/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/left_foot_rear/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -255,7 +255,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightFootFrontEEwrench": {
+        "icubtelemetry.sens_rightFootFrontEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_foot_front/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/right_foot_front/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -265,7 +265,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightFootRearEEwrench": {
+        "icubtelemetry.sens_rightFootRearEEwrench": {
             "yarpName": "/wholeBodyDynamics/right_foot_rear/cartesianEndEffectorWrench:o",
             "localName": "${this.localYarpPortPrefix}/right_foot_rear/cartesianEndEffectorWrench:i",
             "portType": "bottle",
@@ -275,7 +275,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftArmFT": {
+        "icubtelemetry.sens_leftArmFT": {
             "yarpName": "${this.robotYarpPortPrefix}/left_arm/measures:o",
             "localName": "${this.localYarpPortPrefix}/left_arm/FT:i",
             "portType": "bottle",
@@ -285,7 +285,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightArmFT": {
+        "icubtelemetry.sens_rightArmFT": {
             "yarpName": "${this.robotYarpPortPrefix}/right_arm/measures:o",
             "localName": "${this.localYarpPortPrefix}/right_arm/FT:i",
             "portType": "bottle",
@@ -295,7 +295,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftLegHipFT": {
+        "icubtelemetry.sens_leftLegHipFT": {
             "yarpName": "${this.robotYarpPortPrefix}/left_leg_hip/measures:o",
             "localName": "${this.localYarpPortPrefix}/left_leg_hip/FT:i",
             "portType": "bottle",
@@ -305,7 +305,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightLegHipFT": {
+        "icubtelemetry.sens_rightLegHipFT": {
             "yarpName": "${this.robotYarpPortPrefix}/right_leg_hip/measures:o",
             "localName": "${this.localYarpPortPrefix}/right_leg_hip/FT:i",
             "portType": "bottle",
@@ -315,7 +315,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.leftFootHeelTiptoeFTs": {
+        "icubtelemetry.sens_leftFootHeelTiptoeFTs": {
             "yarpName": "${this.robotYarpPortPrefix}/left_foot_heel_tiptoe/measures:o",
             "localName": "${this.localYarpPortPrefix}/left_foot_heel_tiptoe/FT:i",
             "portType": "bottle",
@@ -325,7 +325,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.rightFootHeelTiptoeFTs": {
+        "icubtelemetry.sens_rightFootHeelTiptoeFTs": {
             "yarpName": "${this.robotYarpPortPrefix}/right_foot_heel_tiptoe/measures:o",
             "localName": "${this.localYarpPortPrefix}/right_foot_heel_tiptoe/FT:i",
             "portType": "bottle",
@@ -335,7 +335,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.sens.batteryStatus": {
+        "icubtelemetry.sens_batteryStatus": {
             "yarpName": "${this.robotYarpPortPrefix}/battery/data:o",
             "localName": "${this.localYarpPortPrefix}/battery/data:i",
             "portType": "bottle",
@@ -345,7 +345,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "vectorCollectionsTelemetry.walkingController.logger": {
+        "vectorCollectionsTelemetry.walkingController_logger": {
             "yarpName": "/walking-coordinator/logger/data:o",
             "localName": "${this.localYarpPortPrefix}/walking-coordinator-logger/data:i",
             "portType": "bottle",
@@ -355,7 +355,7 @@
             },
             "sourceSync": "localTimer"
         },
-        "processLogging.yarplogger.yarpRobotInterface": {
+        "processLogging.yarplogger_yarpRobotInterface": {
             "yarpName": "@{^\\/log\\/.*\\[yarprobotinterface\\].*$}",
             "localName": "${this.localYarpPortPrefix}/proc-yarprobotinterface-yarptextlogging:i",
             "portType": "bottle",
@@ -365,7 +365,7 @@
             },
             "sourceSync": "yarpPort"
         },
-        "processLogging.yarplogger.walkingModule": {
+        "processLogging.yarplogger_walkingModule": {
             "yarpName": "@{\\[walkingModule\\]}",
             "localName": "${this.localYarpPortPrefix}/proc-walkingmodule-yarptextlogging:i",
             "portType": "bottle",

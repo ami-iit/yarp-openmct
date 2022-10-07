@@ -161,13 +161,13 @@
   "telemetryEntries": [
     {
       "name": "yarprobotinterface process logging through yarplogger",
-      "key": "yarplogger.yarpRobotInterface",
+      "key": "yarplogger_yarpRobotInterface",
       "type": "yarpopenmct.yarptextlog",
       "values": "${JSON.stringify(this.presetValuesBase.yarpLoggerMessage)}"
     },
     {
       "name": "WalkingModule process logging through yarplogger",
-      "key": "yarplogger.walkingModule",
+      "key": "yarplogger_walkingModule",
       "type": "yarpopenmct.yarptextlog",
       "values": "${JSON.stringify(this.presetValuesBase.yarpLoggerMessage)}"
     }
