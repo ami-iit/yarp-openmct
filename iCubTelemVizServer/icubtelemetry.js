@@ -22,13 +22,13 @@ const TELEMETRY_DATA_DEPTH_MS = 60 * 1000;
 
 function ICubTelemetry(portInConfig) {
     this.state = {
-        "icubtelemetry.sens_legacyIMU": {
+        "icubtelemetry.IMUsens.legacyIMU": {
           "ori": {"roll": 0, "pitch": 0, "yaw": 0},
           "acc": {"x": 0, "y": 0, "z": 0},
           "gyr": {"x": 0, "y": 0, "z": 0},
           "mag": {"x": 0, "y": 0, "z": 0}
         },
-        "icubtelemetry.sens_leftLegJointState": {
+        "icubtelemetry.jointState.leftLegJointState": {
             "jointPos": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
             "jointVel": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
             "jointAcc": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
@@ -39,8 +39,8 @@ function ICubTelemetry(portInConfig) {
             "motorCur": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0},
             "motorPwm": {"hip_pitch": 0, "hip_roll": 0, "hip_yaw": 0, "knee": 0, "ankle_pitch": 0, "ankle_roll": 0}
         },
-        "icubtelemetry.sens_rightLegJointState": {},
-        "icubtelemetry.sens_leftArmJointState": {
+        "icubtelemetry.jointState.rightLegJointState": {},
+        "icubtelemetry.jointState.leftArmJointState": {
             "jointPos": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
             "jointVel": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
             "jointAcc": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
@@ -51,8 +51,8 @@ function ICubTelemetry(portInConfig) {
             "motorCur": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0},
             "motorPwm": {"shoulder_pitch": 0, "shoulder_roll": 0, "shoulder_yaw": 0, "elbow": 0, "wrist_prosup": 0, "wrist_pitch": 0, "wrist_yaw": 0}
         },
-        "icubtelemetry.sens_rightArmJointState": {},
-        "icubtelemetry.sens_torsoJointState": {
+        "icubtelemetry.jointState.rightArmJointState": {},
+        "icubtelemetry.jointState.torsoJointState": {
             "jointPos": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
             "jointVel": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
             "jointAcc": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
@@ -63,7 +63,7 @@ function ICubTelemetry(portInConfig) {
             "motorCur": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0},
             "motorPwm": {"torso_pitch": 0, "torso_roll": 0, "torso_yaw": 0}
         },
-        "icubtelemetry.sens_headJointState": {
+        "icubtelemetry.jointState.headJointState": {
             "jointPos": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
             "jointVel": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
             "jointAcc": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
@@ -74,18 +74,18 @@ function ICubTelemetry(portInConfig) {
             "motorCur": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0},
             "motorPwm": {"head_pitch": 0, "head_roll": 0, "head_yaw": 0}
         },
-        "icubtelemetry.sens_camLeftEye": 0,
-        "icubtelemetry.sens_camRightEye": 0,
-        "icubtelemetry.sens_leftArmEEwrench": {
+        "icubtelemetry.camView.camLeftEye": 0,
+        "icubtelemetry.camView.camRightEye": 0,
+        "icubtelemetry.EEwrenches.leftArmEEwrench": {
             "force": {"x": 0, "y": 0, "z": 0},
             "torque": {"x": 0, "y": 0, "z": 0}
         },
-        "icubtelemetry.sens_leftArmFT": {
+        "icubtelemetry.FTsens.leftArmFT": {
             "force": {"x": 0, "y": 0, "z": 0},
             "torque": {"x": 0, "y": 0, "z": 0},
             "temperature": 0
         },
-        "icubtelemetry.sens_batteryStatus": {
+        "icubtelemetry.batteryStatus": {
             "voltage": 0, "current": 0, "charge": 0, "temperature": 0, "status": 0
         },
         "processLogging.yarplogger_yarpRobotInterface": {
@@ -93,32 +93,32 @@ function ICubTelemetry(portInConfig) {
         }
     };
 
-    this.state["icubtelemetry.sens_rightLegJointState"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftLegJointState"]));
-    this.state["icubtelemetry.sens_rightArmJointState"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmJointState"]));
-    this.state["icubtelemetry.sens_headIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_legacyIMU"]));
-    this.state["icubtelemetry.sens_leftArmIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_legacyIMU"]));
-    this.state["icubtelemetry.sens_rightArmIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_legacyIMU"]));
-    this.state["icubtelemetry.sens_leftLegIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_legacyIMU"]));
-    this.state["icubtelemetry.sens_rightLegIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_legacyIMU"]));
-    this.state["icubtelemetry.sens_leftFootIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_legacyIMU"]));
-    this.state["icubtelemetry.sens_rightFootIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_legacyIMU"]));
-    this.state["icubtelemetry.sens_rightArmEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_leftUpperLegEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_leftLowerLegEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_rightUpperLegEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_rightLowerLegEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_leftFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_leftFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_rightFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_rightFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmEEwrench"]));
-    this.state["icubtelemetry.sens_rightArmFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmFT"]));
-    this.state["icubtelemetry.sens_leftLegHipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmFT"]));
-    this.state["icubtelemetry.sens_rightLegHipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmFT"]));
-    this.state["icubtelemetry.sens_leftFootHeelFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmFT"]));
-    this.state["icubtelemetry.sens_leftFootToetipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmFT"]));
-    this.state["icubtelemetry.sens_rightFootHeelFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmFT"]));
-    this.state["icubtelemetry.sens_rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmFT"]));
-    this.state["icubtelemetry.sens_rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.sens_leftArmFT"]));
+    this.state["icubtelemetry.jointState.rightLegJointState"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.jointState.leftLegJointState"]));
+    this.state["icubtelemetry.jointState.rightArmJointState"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.jointState.leftArmJointState"]));
+    this.state["icubtelemetry.IMUsens.headIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.IMUsens.legacyIMU"]));
+    this.state["icubtelemetry.IMUsens.leftArmIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.IMUsens.legacyIMU"]));
+    this.state["icubtelemetry.IMUsens.rightArmIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.IMUsens.legacyIMU"]));
+    this.state["icubtelemetry.IMUsens.leftLegIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.IMUsens.legacyIMU"]));
+    this.state["icubtelemetry.IMUsens.rightLegIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.IMUsens.legacyIMU"]));
+    this.state["icubtelemetry.IMUsens.leftFootIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.IMUsens.legacyIMU"]));
+    this.state["icubtelemetry.IMUsens.rightFootIMU"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.IMUsens.legacyIMU"]));
+    this.state["icubtelemetry.EEwrenches.rightArmEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.EEwrenches.leftUpperLegEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.EEwrenches.leftLowerLegEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.EEwrenches.rightUpperLegEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.EEwrenches.rightLowerLegEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.EEwrenches.leftFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.EEwrenches.leftFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.EEwrenches.rightFootFrontEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.EEwrenches.rightFootRearEEwrench"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.EEwrenches.leftArmEEwrench"]));
+    this.state["icubtelemetry.FTsens.rightArmFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.FTsens.leftArmFT"]));
+    this.state["icubtelemetry.FTsens.leftLegHipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.FTsens.leftArmFT"]));
+    this.state["icubtelemetry.FTsens.rightLegHipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.FTsens.leftArmFT"]));
+    this.state["icubtelemetry.FTsens.leftFootHeelFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.FTsens.leftArmFT"]));
+    this.state["icubtelemetry.FTsens.leftFootToetipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.FTsens.leftArmFT"]));
+    this.state["icubtelemetry.FTsens.rightFootHeelFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.FTsens.leftArmFT"]));
+    this.state["icubtelemetry.FTsens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.FTsens.leftArmFT"]));
+    this.state["icubtelemetry.FTsens.rightFootToetipFT"] = JSON.parse(JSON.stringify(this.state["icubtelemetry.FTsens.leftArmFT"]));
     this.state["processLogging.yarplogger_walkingModule"] = JSON.parse(JSON.stringify(this.state["processLogging.yarplogger_yarpRobotInterface"]));
 
     this.parseNforwardDataToNotifierOrSend = {};
@@ -258,7 +258,7 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
     }.bind(this);
 
     switch(id) {
-        case "icubtelemetry.sens_legacyIMU":
+        case "icubtelemetry.IMUsens.legacyIMU":
             this.state[id].ori.roll = sensorSample[0];
             this.state[id].ori.pitch = sensorSample[1];
             this.state[id].ori.yaw = sensorSample[2];
@@ -272,13 +272,13 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             this.state[id].mag.y = sensorSample[10];
             this.state[id].mag.z = sensorSample[11];
             break;
-        case "icubtelemetry.sens_headIMU":
-        case "icubtelemetry.sens_leftArmIMU":
-        case "icubtelemetry.sens_rightArmIMU":
-        case "icubtelemetry.sens_leftLegIMU":
-        case "icubtelemetry.sens_rightLegIMU":
-        case "icubtelemetry.sens_leftFootIMU":
-        case "icubtelemetry.sens_rightFootIMU":
+        case "icubtelemetry.IMUsens.headIMU":
+        case "icubtelemetry.IMUsens.leftArmIMU":
+        case "icubtelemetry.IMUsens.rightArmIMU":
+        case "icubtelemetry.IMUsens.leftLegIMU":
+        case "icubtelemetry.IMUsens.rightLegIMU":
+        case "icubtelemetry.IMUsens.leftFootIMU":
+        case "icubtelemetry.IMUsens.rightFootIMU":
             this.state[id].ori.roll = sensorSample[3][0][0][0];
             this.state[id].ori.pitch = sensorSample[3][0][0][1];
             this.state[id].ori.yaw = sensorSample[3][0][0][2];
@@ -292,8 +292,8 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             this.state[id].mag.y = sensorSample[2][0][0][1];
             this.state[id].mag.z = sensorSample[2][0][0][2];
             break;
-        case "icubtelemetry.sens_leftLegJointState":
-        case "icubtelemetry.sens_rightLegJointState":
+        case "icubtelemetry.jointState.leftLegJointState":
+        case "icubtelemetry.jointState.rightLegJointState":
             for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12],['motorPos',6],['motorVel',8],['motorAcc',10],['motorPwm',14],['motorCur',16]]) {
                 this.state[id][jointStateMod].hip_pitch = sensorSample[index][0];
                 this.state[id][jointStateMod].hip_roll = sensorSample[index][1];
@@ -303,8 +303,8 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
                 this.state[id][jointStateMod].ankle_roll = sensorSample[index][5];
             }
             break;
-        case "icubtelemetry.sens_leftArmJointState":
-        case "icubtelemetry.sens_rightArmJointState":
+        case "icubtelemetry.jointState.leftArmJointState":
+        case "icubtelemetry.jointState.rightArmJointState":
             for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12],['motorPos',6],['motorVel',8],['motorAcc',10],['motorPwm',14],['motorCur',16]]) {
                 this.state[id][jointStateMod].shoulder_pitch = sensorSample[index][0];
                 this.state[id][jointStateMod].shoulder_roll = sensorSample[index][1];
@@ -315,30 +315,30 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
                 this.state[id][jointStateMod].wrist_yaw = sensorSample[index][6];
             }
             break;
-        case "icubtelemetry.sens_torsoJointState":
+        case "icubtelemetry.jointState.torsoJointState":
             for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12],['motorPos',6],['motorVel',8],['motorAcc',10],['motorPwm',14],['motorCur',16]]) {
                 this.state[id][jointStateMod].torso_pitch = sensorSample[index][0];
                 this.state[id][jointStateMod].torso_roll = sensorSample[index][1];
                 this.state[id][jointStateMod].torso_yaw = sensorSample[index][2];
             }
             break;
-        case "icubtelemetry.sens_headJointState":
+        case "icubtelemetry.jointState.headJointState":
             for (let [jointStateMod,index] of [['jointPos',0],['jointVel',2],['jointAcc',4],['jointTrq',12],['motorPos',6],['motorVel',8],['motorAcc',10],['motorPwm',14],['motorCur',16]]) {
                 this.state[id][jointStateMod].head_pitch = sensorSample[index][0];
                 this.state[id][jointStateMod].head_roll = sensorSample[index][1];
                 this.state[id][jointStateMod].head_yaw = sensorSample[index][2];
             }
             break;
-        case "icubtelemetry.sens_leftArmEEwrench":
-        case "icubtelemetry.sens_rightArmEEwrench":
-        case "icubtelemetry.sens_leftUpperLegEEwrench":
-        case "icubtelemetry.sens_leftLowerLegEEwrench":
-        case "icubtelemetry.sens_rightUpperLegEEwrench":
-        case "icubtelemetry.sens_rightLowerLegEEwrench":
-        case "icubtelemetry.sens_leftFootFrontEEwrench":
-        case "icubtelemetry.sens_leftFootRearEEwrench":
-        case "icubtelemetry.sens_rightFootFrontEEwrench":
-        case "icubtelemetry.sens_rightFootRearEEwrench":
+        case "icubtelemetry.EEwrenches.leftArmEEwrench":
+        case "icubtelemetry.EEwrenches.rightArmEEwrench":
+        case "icubtelemetry.EEwrenches.leftUpperLegEEwrench":
+        case "icubtelemetry.EEwrenches.leftLowerLegEEwrench":
+        case "icubtelemetry.EEwrenches.rightUpperLegEEwrench":
+        case "icubtelemetry.EEwrenches.rightLowerLegEEwrench":
+        case "icubtelemetry.EEwrenches.leftFootFrontEEwrench":
+        case "icubtelemetry.EEwrenches.leftFootRearEEwrench":
+        case "icubtelemetry.EEwrenches.rightFootFrontEEwrench":
+        case "icubtelemetry.EEwrenches.rightFootRearEEwrench":
             this.state[id].force.x = sensorSample[0];
             this.state[id].force.y = sensorSample[1];
             this.state[id].force.z = sensorSample[2];
@@ -346,23 +346,23 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
             this.state[id].torque.y = sensorSample[4];
             this.state[id].torque.z = sensorSample[5];
             break;
-        case "icubtelemetry.sens_leftArmFT":
-        case "icubtelemetry.sens_rightArmFT":
-        case "icubtelemetry.sens_leftLegHipFT":
-        case "icubtelemetry.sens_rightLegHipFT":
+        case "icubtelemetry.FTsens.leftArmFT":
+        case "icubtelemetry.FTsens.rightArmFT":
+        case "icubtelemetry.FTsens.leftLegHipFT":
+        case "icubtelemetry.FTsens.rightLegHipFT":
             parseFTmasData(id,0,sensorSample);
             break;
-        case "icubtelemetry.sens_leftFootHeelTiptoeFTs":
-            for (let [subId,sensIdx] of [["icubtelemetry.sens_leftFootHeelFT",0],["icubtelemetry.sens_leftFootToetipFT",1]]) {
+        case "icubtelemetry.FTsens.leftFootHeelTiptoeFTs":
+            for (let [subId,sensIdx] of [["icubtelemetry.FTsens.leftFootHeelFT",0],["icubtelemetry.FTsens.leftFootToetipFT",1]]) {
                 parseFTmasData(subId,sensIdx,sensorSample);
             }
-            return ["icubtelemetry.sens_leftFootHeelFT","icubtelemetry.sens_leftFootToetipFT"];
-        case "icubtelemetry.sens_rightFootHeelTiptoeFTs":
-            for (let [subId,sensIdx] of [["icubtelemetry.sens_rightFootHeelFT",0],["icubtelemetry.sens_rightFootToetipFT",1]]) {
+            return ["icubtelemetry.FTsens.leftFootHeelFT","icubtelemetry.FTsens.leftFootToetipFT"];
+        case "icubtelemetry.FTsens.rightFootHeelTiptoeFTs":
+            for (let [subId,sensIdx] of [["icubtelemetry.FTsens.rightFootHeelFT",0],["icubtelemetry.FTsens.rightFootToetipFT",1]]) {
                 parseFTmasData(subId,sensIdx,sensorSample);
             }
-            return ["icubtelemetry.sens_rightFootHeelFT","icubtelemetry.sens_rightFootToetipFT"];
-        case "icubtelemetry.sens_batteryStatus":
+            return ["icubtelemetry.FTsens.rightFootHeelFT","icubtelemetry.FTsens.rightFootToetipFT"];
+        case "icubtelemetry.batteryStatus":
             this.state[id].voltage = sensorSample[0];
             this.state[id].current = sensorSample[1];
             this.state[id].charge = sensorSample[2];
@@ -398,8 +398,8 @@ ICubTelemetry.prototype.parseVectorCollectionMap = function (id,sensorSample) {
  */
 ICubTelemetry.prototype.generateTelemetry = function (timestamp,value,id) {
     switch(id) {
-        case "icubtelemetry.sens_camLeftEye":
-        case "icubtelemetry.sens_camRightEye":
+        case "icubtelemetry.camView.camLeftEye":
+        case "icubtelemetry.camView.camRightEye":
             var telemetrySample = {timestamp: timestamp, value: value, id: id};
             break;
         default:

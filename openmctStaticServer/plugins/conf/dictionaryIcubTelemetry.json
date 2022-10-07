@@ -360,134 +360,277 @@
   },
   "telemetryEntries": [
     {
-      "name": "Legacy IMU sensor measurements",
-      "key": "sens_legacyIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
-    },
-    {
-      "name": "Head IMU sensor measurements",
-      "key": "sens_headIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
-    },
-    {
-      "name": "Left arm IMU sensor measurements",
-      "key": "sens_leftArmIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
-    },
-    {
-      "name": "Right arm IMU sensor measurements",
-      "key": "sens_rightArmIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
-    },
-    {
-      "name": "Left leg IMU sensor measurements",
-      "key": "sens_leftLegIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
-    },
-    {
-      "name": "Right leg IMU sensor measurements",
-      "key": "sens_rightLegIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
-    },
-    {
-      "name": "Left foot IMU sensor measurements",
-      "key": "sens_leftFootIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
-    },
-    {
-      "name": "Right foot IMU sensor measurements",
-      "key": "sens_rightFootIMU",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
-    },
-    {
-      "name": "Left leg joint state measurements",
-      "key": "sens_leftLegJointState",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.generatedValuesBase.jointState.leg)}"
-    },
-    {
-      "name": "Right leg joint state measurements",
-      "key": "sens_rightLegJointState",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.generatedValuesBase.jointState.leg)}"
-    },
-    {
-      "name": "Left arm joint state measurements",
-      "key": "sens_leftArmJointState",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.generatedValuesBase.jointState.arm)}"
-    },
-    {
-      "name": "Right arm joint state measurements",
-      "key": "sens_rightArmJointState",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.generatedValuesBase.jointState.arm)}"
-    },
-    {
-      "name": "Torso joint state measurements",
-      "key": "sens_torsoJointState",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.generatedValuesBase.jointState.torso)}"
-    },
-    {
-      "name": "Head joint state measurements",
-      "key": "sens_headJointState",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.generatedValuesBase.jointState.head)}"
-    },
-    {
-      "name": "Camera view Left eye",
-      "key": "sens_camLeftEye",
-      "type": "yarpopenmct.camimage",
-      "values": [
+      "name": "IMU sensors",
+      "key": "IMUsens",
+      "type": "folder",
+      "telemetryEntries": [
         {
-          "key": "value",
-          "name": "Cam Left Eye",
-          "format": "image",
-          "hints": {
-            "image": 1
-          }
+          "name": "Legacy IMU sensor measurements",
+          "key": "legacyIMU",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
         },
         {
-          "key": "utc",
-          "source": "timestamp",
-          "name": "Timestamp",
-          "format": "utc",
-          "hints": {
-            "domain": 1
-          }
+          "name": "Head IMU sensor measurements",
+          "key": "headIMU",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
+        },
+        {
+          "name": "Left arm IMU sensor measurements",
+          "key": "leftArmIMU",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
+        },
+        {
+          "name": "Right arm IMU sensor measurements",
+          "key": "rightArmIMU",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
+        },
+        {
+          "name": "Left leg IMU sensor measurements",
+          "key": "leftLegIMU",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
+        },
+        {
+          "name": "Right leg IMU sensor measurements",
+          "key": "rightLegIMU",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
+        },
+        {
+          "name": "Left foot IMU sensor measurements",
+          "key": "leftFootIMU",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
+        },
+        {
+          "name": "Right foot IMU sensor measurements",
+          "key": "rightFootIMU",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.IMUsensor)}"
         }
       ]
     },
     {
-      "name": "Camera view Right eye",
-      "key": "sens_camRightEye",
-      "type": "yarpopenmct.camimage",
-      "values": [
+      "name": "Joint state",
+      "key": "jointState",
+      "type": "folder",
+      "telemetryEntries": [
         {
-          "key": "value",
-          "name": "Cam Right Eye",
-          "format": "image",
-          "hints": {
-            "image": 1
-          }
+          "name": "Left leg joint state measurements",
+          "key": "leftLegJointState",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.generatedValuesBase.jointState.leg)}"
         },
         {
-          "key": "utc",
-          "source": "timestamp",
-          "name": "Timestamp",
-          "format": "utc",
-          "hints": {
-            "domain": 1
-          }
+          "name": "Right leg joint state measurements",
+          "key": "rightLegJointState",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.generatedValuesBase.jointState.leg)}"
+        },
+        {
+          "name": "Left arm joint state measurements",
+          "key": "leftArmJointState",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.generatedValuesBase.jointState.arm)}"
+        },
+        {
+          "name": "Right arm joint state measurements",
+          "key": "rightArmJointState",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.generatedValuesBase.jointState.arm)}"
+        },
+        {
+          "name": "Torso joint state measurements",
+          "key": "torsoJointState",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.generatedValuesBase.jointState.torso)}"
+        },
+        {
+          "name": "Head joint state measurements",
+          "key": "headJointState",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.generatedValuesBase.jointState.head)}"
+        }
+      ]
+    },
+    {
+      "name": "Camera view",
+      "key": "camView",
+      "type": "folder",
+      "telemetryEntries": [
+        {
+          "name": "Camera view Left eye",
+          "key": "camLeftEye",
+          "type": "yarpopenmct.camimage",
+          "values": [
+            {
+              "key": "value",
+              "name": "Cam Left Eye",
+              "format": "image",
+              "hints": {
+                "image": 1
+              }
+            },
+            {
+              "key": "utc",
+              "source": "timestamp",
+              "name": "Timestamp",
+              "format": "utc",
+              "hints": {
+                "domain": 1
+              }
+            }
+          ]
+        },
+        {
+          "name": "Camera view Right eye",
+          "key": "camRightEye",
+          "type": "yarpopenmct.camimage",
+          "values": [
+            {
+              "key": "value",
+              "name": "Cam Right Eye",
+              "format": "image",
+              "hints": {
+                "image": 1
+              }
+            },
+            {
+              "key": "utc",
+              "source": "timestamp",
+              "name": "Timestamp",
+              "format": "utc",
+              "hints": {
+                "domain": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "End effector wrenches",
+      "key": "EEwrenches",
+      "type": "folder",
+      "telemetryEntries": [
+        {
+          "name": "Left Arm end effector wrench",
+          "key": "leftArmEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Right Arm end effector wrench",
+          "key": "rightArmEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Left Upper Leg end effector wrench",
+          "key": "leftUpperLegEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Left Lower Leg end effector wrench",
+          "key": "leftLowerLegEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Right Upper Leg end effector wrench",
+          "key": "rightUpperLegEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Right Lower Leg end effector wrench",
+          "key": "rightLowerLegEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Left Foot Front end effector wrench",
+          "key": "leftFootFrontEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Left Foot Rear end effector wrench",
+          "key": "leftFootRearEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Right Foot Front end effector wrench",
+          "key": "rightFootFrontEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        },
+        {
+          "name": "Right Foot Rear end effector wrench",
+          "key": "rightFootRearEEwrench",
+          "type": "yarpopenmct.wbdestimation",
+          "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
+        }
+      ]
+    },
+    {
+      "name": "FT sensors",
+      "key": "FTsens",
+      "type": "folder",
+      "telemetryEntries": [
+        {
+          "name": "Left arm FT sensor measurements",
+          "key": "leftArmFT",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+        },
+        {
+          "name": "Right arm FT sensor measurements",
+          "key": "rightArmFT",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+        },
+        {
+          "name": "Left leg hip FT sensor measurements",
+          "key": "leftLegHipFT",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+        },
+        {
+          "name": "Right leg hip FT sensor measurements",
+          "key": "rightLegHipFT",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+        },
+        {
+          "name": "Left foot heel FT sensor measurements",
+          "key": "leftFootHeelFT",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+        },
+        {
+          "name": "Left foot toe tip FT sensor measurements",
+          "key": "leftFootToetipFT",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+        },
+        {
+          "name": "Right foot heel FT sensor measurements",
+          "key": "rightFootHeelFT",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
+        },
+        {
+          "name": "Right foot toe tip FT sensor measurements",
+          "key": "rightFootToetipFT",
+          "type": "yarpopenmct.sensormeas",
+          "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
         }
       ]
     },
@@ -517,116 +660,8 @@
       ]
     },
     {
-      "name": "Left Arm end effector wrench",
-      "key": "sens_leftArmEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Right Arm end effector wrench",
-      "key": "sens_rightArmEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Left Upper Leg end effector wrench",
-      "key": "sens_leftUpperLegEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Left Lower Leg end effector wrench",
-      "key": "sens_leftLowerLegEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Right Upper Leg end effector wrench",
-      "key": "sens_rightUpperLegEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Right Lower Leg end effector wrench",
-      "key": "sens_rightLowerLegEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Left Foot Front end effector wrench",
-      "key": "sens_leftFootFrontEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Left Foot Rear end effector wrench",
-      "key": "sens_leftFootRearEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Right Foot Front end effector wrench",
-      "key": "sens_rightFootFrontEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Right Foot Rear end effector wrench",
-      "key": "sens_rightFootRearEEwrench",
-      "type": "yarpopenmct.wbdestimation",
-      "values": "${JSON.stringify(this.presetValuesBase.cartesianEEwrench)}"
-    },
-    {
-      "name": "Left arm FT sensor measurements",
-      "key": "sens_leftArmFT",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
-    },
-    {
-      "name": "Right arm FT sensor measurements",
-      "key": "sens_rightArmFT",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
-    },
-    {
-      "name": "Left leg hip FT sensor measurements",
-      "key": "sens_leftLegHipFT",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
-    },
-    {
-      "name": "Right leg hip FT sensor measurements",
-      "key": "sens_rightLegHipFT",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
-    },
-    {
-      "name": "Left foot heel FT sensor measurements",
-      "key": "sens_leftFootHeelFT",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
-    },
-    {
-      "name": "Left foot toe tip FT sensor measurements",
-      "key": "sens_leftFootToetipFT",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
-    },
-    {
-      "name": "Right foot heel FT sensor measurements",
-      "key": "sens_rightFootHeelFT",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
-    },
-    {
-      "name": "Right foot toe tip FT sensor measurements",
-      "key": "sens_rightFootToetipFT",
-      "type": "yarpopenmct.sensormeas",
-      "values": "${JSON.stringify(this.presetValuesBase.FTsensor)}"
-    },
-    {
       "name": "Battery State",
-      "key": "sens_batteryStatus",
+      "key": "batteryStatus",
       "type": "yarpopenmct.sensormeas",
       "values": [
         {

@@ -42,9 +42,12 @@ function generateObject(identifier,dictionary) {
         identifier: identifier,
         name: telemetryEntry.name,
         type: telemetryEntry.type,
-        telemetry: {
-            values: telemetryEntry.values
-        },
+        telemetry: function () {
+            if (telemetryEntry.type !== 'folder') return {
+                values: telemetryEntry.values
+            };
+            return undefined;
+        }(),
         location: identifier.namespace + ':' + dictionary.key
     };
 }
