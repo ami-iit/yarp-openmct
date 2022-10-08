@@ -390,6 +390,7 @@ ICubTelemetry.prototype.parseVectorCollectionMap = function (id,sensorSample) {
     sensorSample[0].forEach(function (signal) {
         this.state[id][signal[0]] = signal[1];
     },this);
+    return [id];
 }
 
 /**
