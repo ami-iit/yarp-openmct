@@ -25,16 +25,6 @@
             },
             "sourceSync": "localTimer"
         },
-        "icubtelemetry.IMUsens.headIMU": {
-            "yarpName": "${this.robotYarpPortPrefix}/head/inertials/measures:o",
-            "localName": "${this.localYarpPortPrefix}/head/inertials:i",
-            "portType": "bottle",
-            "parser": {
-                "type": "internal",
-                "outputFormat": "fromId"
-            },
-            "sourceSync": "localTimer"
-        },
         "icubtelemetry.IMUsens.leftArmIMU": {
             "yarpName": "${this.robotYarpPortPrefix}/left_arm/imu/measures:o",
             "localName": "${this.localYarpPortPrefix}/leftArm/inertials:i",
