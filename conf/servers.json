@@ -15,9 +15,9 @@
         "port": 8080
     },
     "portInConfig": {
-        "icubtelemetry.IMUsens.legacyIMU": {
-            "yarpName": "${this.robotYarpPortPrefix}/inertial",
-            "localName": "${this.localYarpPortPrefix}/inertial:i",
+        "icubtelemetry.EEwrenches.leftArmEEwrench": {
+            "yarpName": "/wholeBodyDynamics/left_arm/cartesianEndEffectorWrench:o",
+            "localName": "${this.localYarpPortPrefix}/left_arm/cartesianEndEffectorWrench:i",
             "portType": "bottle",
             "parser": {
                 "type": "internal",
