@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="iCubTelemChrome" type="JavascriptDebugType" uri="http://localhost:3000" useFirstLineBreakpoints="true">
+  <configuration default="false" name="iCubTelemChrome" type="JavascriptDebugType" uri="http://192.168.1.201:3000" useFirstLineBreakpoints="true">
     <method v="2" />
   </configuration>
 </component>

@@ -1,7 +1,7 @@
 {
     "robotYarpPortPrefix": "/icubSim",
     "localYarpPortPrefix": "/yarpjs",
-    "commonHostIPaddress": "localhost",
+    "commonHostIPaddress": "192.168.1.70",
     "telemVizServer": {
         "host": "${this.commonHostIPaddress}",
         "port": 8081

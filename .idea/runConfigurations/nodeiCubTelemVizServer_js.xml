@@ -1,5 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="nodeiCubTelemVizServer.js" type="NodeJSConfigurationType" singleton="false" path-to-js-file="iCubTelemVizServer.js" working-dir="$PROJECT_DIR$/iCubTelemVizServer">
+    <envs>
+      <env name="PATH" value="$USER_HOME$/miniforge3/envs/robotologydeps3/share/rubygems/bin:$USER_HOME$/miniforge3/envs/robotologydeps3/bin:$USER_HOME$/miniforge3/condabin:$USER_HOME$/.nvm/versions/node/v14.17.0/bin:$USER_HOME$/.jenv/shims:$USER_HOME$/.jenv/bin:$USER_HOME$/.rbenv/shims:/usr/local/opt/tcl-tk/bin:$USER_HOME$/tools/gnulib:$PROJECT_DIR$/../swig/install/bin:/Applications/MATLAB_R2020b.app/bin:/usr/local/Cellar/gettext/0.19.8.1/bin:$USER_HOME$/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:/usr/local/opt/qt/bin:/usr/local/opt/gettext/bin:$USER_HOME$/tools/git-latexdiff/build:/Applications/microchip/xc16/v1.36/bin:/Applications/microchip/xc16/v1.24/bin:$PROJECT_DIR$/../superbuild-soft-eng-3/robotology-superbuild/build/install/bin" />
+    </envs>
     <method v="2" />
   </configuration>
 </component>

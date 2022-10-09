@@ -11,7 +11,7 @@
     "socket.io": "1.5.1",
     "socket.io-stream": "latest",
     "YarpJS": "https://github.com/robotology/yarp.js",
-    "openmct": "https://github.com/ami-iit/openmct.git#1.7.8-iit",
+    "openmct": "file:/Users/nunoguedelha/dev/openmct",
     "ws": "^7.2.0"
   },
   "repository": {
