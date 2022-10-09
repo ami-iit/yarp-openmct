@@ -71,7 +71,14 @@ Object.keys(portInConfig).forEach(function (id) {
     switch (portInConfig[id]["portType"]) {
         case 'bottle':
             portIn.onRead(function (bottle){
-                icubtelemetry.processOrDropYarpData[id](id,bottle.toArray());
+                if (id === 'icubtelemetry.IMUsens.headIMU') {
+                    console.log(portInConfig[id]["localName"]);
+                    console.log(portInConfig[id]["yarpName"]);
+                    console.log(id,bottle.toArray());
+                }
+                if (!id.includes('icubtelemetry.IMUsens')) {
+                    icubtelemetry.processOrDropYarpData[id](id, bottle.toArray());
+                }
             });
             break;
         case 'image':
