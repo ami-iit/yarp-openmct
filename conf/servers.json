@@ -24,6 +24,66 @@
                 "outputFormat": "fromId"
             },
             "sourceSync": "localTimer"
+        },
+        "icubtelemetry.jointState.leftLegJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_leg/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/left_leg/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            },
+            "sourceSync": "localTimer"
+        },
+        "icubtelemetry.jointState.rightLegJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_leg/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/right_leg/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            },
+            "sourceSync": "localTimer"
+        },
+        "icubtelemetry.jointState.leftArmJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/left_arm/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/left_arm/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            },
+            "sourceSync": "localTimer"
+        },
+        "icubtelemetry.jointState.rightArmJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/right_arm/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/right_arm/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            },
+            "sourceSync": "localTimer"
+        },
+        "icubtelemetry.jointState.torsoJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/torso/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/torso/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            },
+            "sourceSync": "localTimer"
+        },
+        "icubtelemetry.jointState.headJointState": {
+            "yarpName": "${this.robotYarpPortPrefix}/head/stateExt:o",
+            "localName": "${this.localYarpPortPrefix}/head/stateExt:o",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            },
+            "sourceSync": "localTimer"
         }
     }
 }
