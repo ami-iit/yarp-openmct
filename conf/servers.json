@@ -15,9 +15,9 @@
         "port": 8080
     },
     "portInConfig": {
-        "icubtelemetry.jointState.leftLegJointState": {
-            "yarpName": "${this.robotYarpPortPrefix}/left_leg/stateExt:o",
-            "localName": "${this.localYarpPortPrefix}/left_leg/stateExt:o",
+        "icubtelemetry.IMUsens.legacyIMU": {
+            "yarpName": "${this.robotYarpPortPrefix}/inertial",
+            "localName": "${this.localYarpPortPrefix}/inertial:i",
             "portType": "bottle",
             "parser": {
                 "type": "internal",
