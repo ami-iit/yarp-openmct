@@ -71,9 +71,9 @@ Object.keys(portInConfig).forEach(function (id) {
     switch (portInConfig[id]["portType"]) {
         case 'bottle':
             portIn.onRead(function (bottle){
-                console.log(portInConfig[id]["localName"]);
-                console.log(portInConfig[id]["yarpName"]);
-                console.log(id,bottle.toArray());
+                console.log(`[[DEBUG]] to port: ${portInConfig[id]["localName"]}`);
+                console.log(`[[DEBUG]] from port: ${portInConfig[id]["yarpName"]}`);
+                console.log(`[[DEBUG]] bottle: ${id,bottle.toArray()}`);
                 icubtelemetry.processOrDropYarpData[id](id, bottle.toArray());
             });
             break;
