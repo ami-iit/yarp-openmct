@@ -138,11 +138,11 @@ function ICubTelemetry(portInConfig) {
                         this.parseNforwardDataToNotifierOrSend[key].parse = this.parseFromId.bind(this);
                         break;
                     default:
-                        console.error('Unsupported output format');
+                        throw new Error(`Unsupported output format for ${key} port configuration!`);
                 }
                 break;
             default:
-                console.error('Unsupported parser type.');
+                throw new Error(`Unsupported parser type for ${key} port configuration!`);
         }
         switch (portInConfig[key].sourceSync) {
             case "localTimer":
@@ -160,7 +160,7 @@ function ICubTelemetry(portInConfig) {
                 }.bind(this);
                 break;
             default:
-                console.error('Unsupported synch source.');
+                throw new Error(`Unsupported synch source for ${key} port configuration!`);
         }
         this.parseNforwardDataToNotifierOrSend[key].process = function (id,data) {
             let subIds = this.parse(id,data);
