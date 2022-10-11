@@ -1,0 +1,545 @@
+{
+  "name": "iFeel Suit Telemetry",
+  "key": "iFeelSuitTelemetry",
+  "telemetryEntryBase": {
+    "name": "#{inVars.name}",
+    "key": "#{inVars.key}",
+    "type": "yarpopenmct.sensormeas",
+    "values": "#{inVars.values}"
+  },
+  "presetValuesBase": {
+    "accSens": [
+      {
+        "key": "value.acc.x",
+        "name": "Acc X",
+        "unit": "m/s^2",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.acc.y",
+        "name": "Acc Y",
+        "unit": "m/s^2",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.acc.z",
+        "name": "Acc Z",
+        "unit": "m/s^2",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      }
+    ],
+    "emgSens": [
+      {
+        "key": "value.value",
+        "name": "Value",
+        "unit": "",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.normalization",
+        "name": "Normalization",
+        "unit": "",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      }
+    ],
+    "force3dSens": [
+      {
+        "key": "value.force.x",
+        "name": "Fx",
+        "unit": "N",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.force.y",
+        "name": "Fy",
+        "unit": "N",
+        "format": "float",
+        "hints": {
+          "range":2
+        }
+      },
+      {
+        "key": "value.force.z",
+        "name": "Fz",
+        "unit": "N",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      }
+    ],
+    "torq3dSens": [
+      {
+        "key": "value.torque.x",
+        "name": "Taux",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 4
+        }
+      },
+      {
+        "key": "value.torque.y",
+        "name": "Tauy",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 5
+        }
+      },
+      {
+        "key": "value.torque.z",
+        "name": "Tauz",
+        "unit": "Nm",
+        "format": "float",
+        "hints": {
+          "range": 6
+        }
+      }
+    ],
+    "FTsens": "${JSON.stringify([...this.presetValuesBase.force3dSens,...this.presetValuesBase.torq3dSens])}",
+    "FBaccSens": "${this.presetValuesBase.accSens}",
+    "gyroSens": [
+      {
+        "key": "value.gyr.x",
+        "name": "Gyr X",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.gyr.y",
+        "name": "Gyr Y",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.gyr.z",
+        "name": "Gyr Z",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      }
+    ],
+    "magSens": [
+      {
+        "key": "value.mag.x",
+        "name": "Mag X",
+        "unit": "T",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.mag.y",
+        "name": "Mag Y",
+        "unit": "T",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.mag.z",
+        "name": "Mag Z",
+        "unit": "T",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      }
+    ],
+    "orientRPY": [
+      {
+        "key": "value.oriRPY.roll",
+        "name": "Roll",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.oriRPY.pitch",
+        "name": "Pitch",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.oriRPY.yaw",
+        "name": "Yaw",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      }
+    ],
+    "orientQuat": [
+      {
+        "key": "value.oriQuat.w",
+        "name": "Ori Quat W",
+        "unit": "",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.oriQuat.x",
+        "name": "Ori Quat X",
+        "unit": "",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.oriQuat.y",
+        "name": "Ori Quat Y",
+        "unit": "",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      },
+      {
+        "key": "value.oriQuat.z",
+        "name": "Ori Quat Z",
+        "unit": "",
+        "format": "float",
+        "hints": {
+          "range": 4
+        }
+      }
+    ],
+    "position": [
+      {
+        "key": "value.pos.x",
+        "name": "Pos X",
+        "unit": "m",
+        "format": "float",
+        "hints": {
+          "range": 5
+        }
+      },
+      {
+        "key": "value.pos.y",
+        "name": "Pos Y",
+        "unit": "m",
+        "format": "float",
+        "hints": {
+          "range": 6
+        }
+      },
+      {
+        "key": "value.pos.z",
+        "name": "Pos Z",
+        "unit": "m",
+        "format": "float",
+        "hints": {
+          "range": 7
+        }
+      }
+    ],
+    "linearVel": [
+      {
+        "key": "value.linearVel.x",
+        "name": "Linear Vel X",
+        "unit": "m/s",
+        "format": "float",
+        "hints": {
+          "range": 8
+        }
+      },
+      {
+        "key": "value.linearVel.y",
+        "name": "Linear Vel Y",
+        "unit": "m/s",
+        "format": "float",
+        "hints": {
+          "range": 9
+        }
+      },
+      {
+        "key": "value.linearVel.z",
+        "name": "Linear Vel Z",
+        "unit": "m/s",
+        "format": "float",
+        "hints": {
+          "range": 10
+        }
+      }
+    ],
+    "angularVel": [
+      {
+        "key": "value.angVel.x",
+        "name": "Ang Vel X",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 11
+        }
+      },
+      {
+        "key": "value.angVel.y",
+        "name": "Ang Vel Y",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 12
+        }
+      },
+      {
+        "key": "value.angVel.z",
+        "name": "Ang Vel Z",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 13
+        }
+      }
+    ],
+    "linearAcc": [
+      {
+        "key": "value.linearAcc.x",
+        "name": "Linear Acc X",
+        "unit": "m/s^2",
+        "format": "float",
+        "hints": {
+          "range": 14
+        }
+      },
+      {
+        "key": "value.linearAcc.y",
+        "name": "Linear Acc Y",
+        "unit": "m/s^2",
+        "format": "float",
+        "hints": {
+          "range": 15
+        }
+      },
+      {
+        "key": "value.linearAcc.z",
+        "name": "Linear Acc Z",
+        "unit": "m/s^2",
+        "format": "float",
+        "hints": {
+          "range": 16
+        }
+      }
+    ],
+    "angularAcc": [
+      {
+        "key": "value.angAcc.x",
+        "name": "Ang Acc X",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 17
+        }
+      },
+      {
+        "key": "value.angAcc.y",
+        "name": "Ang Acc Y",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 18
+        }
+      },
+      {
+        "key": "value.angAcc.z",
+        "name": "Ang Acc Z",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 19
+        }
+      }
+    ],
+    "orientSens": "${this.presetValuesBase.orientQuat}",
+    "positionSens": "${this.presetValuesBase.position}",
+    "poseSens": "${JSON.stringify([...this.presetValuesBase.orientQuat,...this.presetValuesBase.position])}",
+    "skinSens": [
+      {
+        "key": "value.taxel.#{inVars.taxelIndex}",
+        "name": "Taxel [#{inVars.taxelIndex}]",
+        "unit": "",
+        "format": "float",
+        "hints": {
+          "range": "#{inVars.rangeIndex}"
+        }
+      }
+    ],
+    "tempSens": [
+      {
+        "key": "value",
+        "name": "Temperature",
+        "unit": "ºC",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      }
+    ],
+    "virtLinkKinSens": "${JSON.stringify([...this.presetValuesBase.orientQuat,...this.presetValuesBase.position,...this.presetValuesBase.linearVel,...this.presetValuesBase.angularVel,...this.presetValuesBase.linearAcc,...this.presetValuesBase.angularAcc])}",
+    "virtJointKinSens": [
+      {
+        "key": "value.position",
+        "name": "Joint position",
+        "unit": "deg",
+        "format": "float",
+        "hints": {
+          "range": 1
+        }
+      },
+      {
+        "key": "value.velocity",
+        "name": "Joint velocity",
+        "unit": "deg/s",
+        "format": "float",
+        "hints": {
+          "range": 2
+        }
+      },
+      {
+        "key": "value.acceleration",
+        "name": "Joint acceleration",
+        "unit": "deg/s^2",
+        "format": "float",
+        "hints": {
+          "range": 3
+        }
+      }
+    ],
+    "virtSpherJointKinSens": "${JSON.stringify([...this.presetValuesBase.orientRPY,...this.presetValuesBase.angularVel,...this.presetValuesBase.angularAcc])}"
+  },
+  "telemetryEntries": [
+    {
+      "name": "Accelerometers",
+      "key": "accSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "EMG Sensors",
+      "key": "emgSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Force (3D) Sensors",
+      "key": "force3dSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "FT Sensors",
+      "key": "FTsens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Free Body Acceleration Sensors",
+      "key": "FBaccSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Gyroscopes",
+      "key": "gyroSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Magnetometers",
+      "key": "magSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Orientation Sensors",
+      "key": "orientSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Pose Sensors",
+      "key": "poseSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Position Sensors",
+      "key": "positionSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Skin Sensors",
+      "key": "skinSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Temperature Sensors",
+      "key": "tempSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Torque (3D) Sensors",
+      "key": "torq3dSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Virtual Link Kinetic Sensors",
+      "key": "virtLinkKinSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Virtual Joint Kinetic Sensors",
+      "key": "virtJointKinSens",
+      "type": "folder",
+      "telemetryEntries": []
+    },
+    {
+      "name": "Virtual Spherical Joint Kinetic Sensors",
+      "key": "virtSpherJointKinSens",
+      "type": "folder",
+      "telemetryEntries": []
+    }
+  ]
+}

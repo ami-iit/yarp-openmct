@@ -122,6 +122,10 @@ function DictionaryPlugin(telemServerHost,telemServerPort) {
             {
                 namespace: YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE,
                 key: 'vectorCollectionsTelemetry'
+            },
+            {
+                namespace: YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE,
+                key: 'iFeelSuitTelemetry'
             }
         ]);
 

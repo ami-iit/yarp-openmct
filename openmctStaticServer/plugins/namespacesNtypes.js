@@ -4,7 +4,8 @@ const VECTORCOLLECTIONS_DOMAIN_OBJECTS_SUBNAMESPACE = 'vectorCollectionsTelemetr
 const dictionaryID2file = {
     'icubtelemetry': 'plugins/conf/dictionaryIcubTelemetry.json',
     'vectorCollectionsTelemetry': 'config/dictionaryVectorCollectionsTelemetry.json',
-    'processLogging': 'plugins/conf/dictionaryProcessLogging.json'
+    'processLogging': 'plugins/conf/dictionaryProcessLogging.json',
+    'iFeelSuitTelemetry': 'plugins/conf/dictionaryIFeelSuitTelemetry.json'
 }
 Object.freeze(dictionaryID2file);
 
