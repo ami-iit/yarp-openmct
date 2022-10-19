@@ -16,15 +16,14 @@ YarpNameListHandler.prototype.run = function (prefix,onStdout,onStdinf,onStderr)
             // Spawn the command process asynchronously
             let procHdl = this.spawn('yarp', ['name', 'list', prefix.toString()]);
             // Set the output callbacks
-            procHdl.stdout.on('data', function (data) {
-                onStdout(data);
-            });
+            procHdl.stdout.on('data', onStdout);
             procHdl.stderr.on('data', onStderr);
             procHdl.on('spawn', function (code) {
                 this.yarpNameListprocHdl = procHdl;
-                onStdinf('Yarp command successfully started...');
+                onStdinf(`"yarp name list" command successfully started...`);
             }.bind(this));
             procHdl.on('error', function (error) {
+                error.message = `"yarp name list" command failed! [ ${error.message} ]`;
                 reject(error);
             });
             procHdl.on('close', function (code) {

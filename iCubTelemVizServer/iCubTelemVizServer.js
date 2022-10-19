@@ -108,7 +108,9 @@ const connectPortsAndStartNotifier = function (matchedPortConfig) {
     icubtelemetry.startNotifier();
 }
 
-configHandler.matchRegexpYarpPortNames().then(connectPortsAndStartNotifier);
+configHandler.matchRegexpYarpPortNames().then(connectPortsAndStartNotifier).catch((errorMessage) => {
+    console.error(errorMessage);
+});
 
 // Create RPC server for executing system commands
 portRPCserver4sysCmds = yarp.portHandler.open('/yarpjs/sysCmdsGenerator/rpc','rpc');
@@ -192,7 +194,9 @@ var openMctServerHandler = new OpenMctServerHandler(console.log,console.error);
 openMctServerHandler.installRefreshPorts(() => {
     TerminationHandler.prototype.unlistenToNetworkPorts.forEach((disconnect) => {disconnect();});
     TerminationHandler.prototype.unlistenToNetworkPorts = [];
-    configHandler.matchRegexpYarpPortNames().then(connectPortsAndStartNotifier);
+    configHandler.matchRegexpYarpPortNames().then(connectPortsAndStartNotifier).catch((errorMessage) => {
+        console.error(errorMessage);
+    });
 });
 var ret = openMctServerHandler.start();
 console.log(ret);
