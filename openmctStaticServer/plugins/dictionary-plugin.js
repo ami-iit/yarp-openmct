@@ -24,6 +24,26 @@ function requestLatestTelemetrySample(telemetryEntryKey) {
         });
 }
 
+function requestFolderTelemetryEntryKeys(folderDomainObjectKey) {
+    if (folderDomainObjectKey === 'iFeelSuitTelemetry.accSens') {
+        return Promise.resolve([
+            '10',
+            '11'
+        ]);
+    } else {
+        return Promise.resolve([]);
+    }
+}
+
+function getFolderTelemetryEntryKeys(dictionary,folderDomainObjectKey) {
+    if ((telemetryEntries = getElemFromComposedKey(dictionary, folderDomainObjectKey).telemetryEntries).length > 0) {
+        return Promise.resolve(telemetryEntries.map(function (entry) {
+            return entry.key
+        }));
+    }
+    return requestFolderTelemetryEntryKeys(folderDomainObjectKey);
+}
+
 function getDictionary(identifier) {
     let subNamespace = identifier.key.split('.')[0];
     if (dictionaryID2file[subNamespace] !== undefined) {
@@ -52,6 +72,23 @@ function generateObject(identifier,dictionary) {
     };
 }
 
+function generateObject4iFeelSuitTelemetry(identifier,parentKey,dictionary) {
+    let telemetryEntry = dictionary.telemetryEntryBase;
+    return {
+        identifier: identifier,
+        name: identifier.key,
+        type: telemetryEntry.type,
+        telemetry: {
+            values: [
+                ...dictionary.presetValuesBase[parentKey],
+                dictionary.presetValuesBase.status,
+                dictionary.presetValuesBase.timestamp
+            ]
+        },
+        location: identifier.namespace + ':' + dictionary.key
+    };
+}
+
 class ObjectProvider {
     get(identifier) {
         return getDictionary(identifier).then(function (dictionary) {
@@ -71,6 +108,13 @@ class ObjectProvider {
                         return generateObject(identifier,modifiedDictionary);
                     });
             }
+            if (dictionary.key === 'iFeelSuitTelemetry') {
+                let splitParentComposedKey = identifier.key.split('.');
+                splitParentComposedKey.pop();
+                if (getElemFromComposedKey(dictionary,splitParentComposedKey.join('.')).telemetryEntries.length == 0) {
+                    return generateObject4iFeelSuitTelemetry(identifier,splitParentComposedKey.pop(),dictionary);
+                }
+            }
             return generateObject(identifier,dictionary);
         }.bind(this)).catch((errorMessage) => {
             console.error(errorMessage);
@@ -85,15 +129,16 @@ var compositionProvider = {
             && domainObject.type === 'folder';
     },
     load: function (domainObject) {
-        return getDictionary(domainObject.identifier)
-            .then(function (dictionary) {
-                return getElemFromComposedKey(dictionary,domainObject.identifier.key).telemetryEntries.map(function (m) {
+        return getDictionary(domainObject.identifier).then(function (dictionary) {
+            return getFolderTelemetryEntryKeys(dictionary,domainObject.identifier.key).then(function (keys) {
+                return keys.map(function (k) {
                     return {
                         namespace: domainObject.identifier.namespace,
-                        key: [domainObject.identifier.key,m.key].join('.')
+                        key: [domainObject.identifier.key,k].join('.')
                     };
                 });
             });
+        });
     }
 };
 

@@ -16,6 +16,7 @@
 // Handle errors
 var assert = require('assert');
 const {yarpBottleString2JSON} = require('../common/utils');
+const WearableDataParser = require('./wearableDataParser');
 
 const NOTIFIER_REPEAT_INTERVAL_MS = 10;
 const TELEMETRY_DATA_DEPTH_MS = 60 * 1000;
@@ -124,6 +125,8 @@ function ICubTelemetry(portInConfig) {
     this.parseNforwardDataToNotifierOrSend = {};
 
     this.telemetryIDsToSend = [];
+
+    this.wearableDataParser = new WearableDataParser(this.state);
 
     Object.keys(portInConfig).forEach((key) => {
         this.parseNforwardDataToNotifierOrSend[key] = {};
@@ -380,6 +383,8 @@ ICubTelemetry.prototype.parseFromId = function (id,sensorSample) {
                 yarpBottleString2JSON(sensorSample[1])
             );
             break;
+        case "iFeelSuitTelemetry.wearableData":
+            return this.wearableDataParser.parse(sensorSample,this.state,this.history);
         default:
             this.state[id] = sensorSample;
     }

@@ -442,7 +442,34 @@
         }
       }
     ],
-    "virtSpherJointKinSens": "${JSON.stringify([...this.presetValuesBase.orientRPY,...this.presetValuesBase.angularVel,...this.presetValuesBase.angularAcc])}"
+    "virtSpherJointKinSens": "${JSON.stringify([...this.presetValuesBase.orientRPY,...this.presetValuesBase.angularVel,...this.presetValuesBase.angularAcc])}",
+    "status": {
+      "key": "value.status",
+      "name": "Sensor Status",
+      "unit": "",
+      "format": "enum",
+      "enumerations": [
+        {"value":  0, "string": "ERROR"},
+        {"value":  1, "string": "OK"},
+        {"value":  2, "string": "CALIBRATING"},
+        {"value":  3, "string": "DATA_OVERFLOW"},
+        {"value":  4, "string": "TIMEOUT"},
+        {"value":  5, "string": "UNKNOWN"},
+        {"value":  6, "string": "WAITING_FOR_FIRST_READ"}
+      ],
+      "hints": {
+        "range": 30
+      }
+    },
+    "timestamp": {
+      "key": "utc",
+      "source": "timestamp",
+      "name": "Timestamp",
+      "format": "utc",
+      "hints": {
+        "domain": 1
+      }
+    }
   },
   "telemetryEntries": [
     {

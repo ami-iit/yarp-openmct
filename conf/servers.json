@@ -355,6 +355,16 @@
             },
             "sourceSync": "localTimer"
         },
+        "iFeelSuitTelemetry.wearableData": {
+            "yarpName": "/iFeelSuit/WearableData/data:o",
+            "localName": "${this.localYarpPortPrefix}/iFeelSuit/WearableData/data:i",
+            "portType": "bottle",
+            "parser": {
+                "type": "internal",
+                "outputFormat": "fromId"
+            },
+            "sourceSync": "yarpPort"
+        },
         "processLogging.yarplogger_yarpRobotInterface": {
             "yarpName": "@{^\\/log\\/.*\\[yarprobotinterface\\].*$}",
             "localName": "${this.localYarpPortPrefix}/proc-yarprobotinterface-yarptextlogging:i",
