@@ -25,14 +25,29 @@ function requestLatestTelemetrySample(telemetryEntryKey) {
 }
 
 function requestFolderTelemetryEntryKeys(folderDomainObjectKey) {
-    if (folderDomainObjectKey === 'iFeelSuitTelemetry.accSens') {
-        return Promise.resolve([
-            '10',
-            '11'
-        ]);
-    } else {
-        return Promise.resolve([]);
-    }
+    var url = `http://${telemServerAddress.host}:${telemServerAddress.port}/wearableMetadata/${folderDomainObjectKey}/childTelemEntryKeys`;
+
+    return http.get(url)
+        .then(function (resp) {
+            return resp.data[0];
+        }).catch((errorMessage) => {
+            console.error(errorMessage);
+            throw new Error(errorMessage);
+        });
+}
+
+function requestTelemetryEntryNames(telemetryEntryKey) {
+    let splitComposedKey = telemetryEntryKey.split('.');
+    let entryKey = splitComposedKey.pop();
+    var url = `http://${telemServerAddress.host}:${telemServerAddress.port}/wearableMetadata/${splitComposedKey.join('.')}/${entryKey}/name`;
+
+    return http.get(url)
+        .then(function (resp) {
+            return resp.data[0];
+        }).catch((errorMessage) => {
+            console.error(errorMessage);
+            throw new Error(errorMessage);
+        });
 }
 
 function getFolderTelemetryEntryKeys(dictionary,folderDomainObjectKey) {
@@ -73,20 +88,21 @@ function generateObject(identifier,dictionary) {
 }
 
 function generateObject4iFeelSuitTelemetry(identifier,parentKey,dictionary) {
-    let telemetryEntry = dictionary.telemetryEntryBase;
-    return {
-        identifier: identifier,
-        name: identifier.key,
-        type: telemetryEntry.type,
-        telemetry: {
-            values: [
-                ...dictionary.presetValuesBase[parentKey],
-                dictionary.presetValuesBase.status,
-                dictionary.presetValuesBase.timestamp
-            ]
-        },
-        location: identifier.namespace + ':' + dictionary.key
-    };
+    return requestTelemetryEntryNames(identifier.key).then(function (telemetryName) {
+        return {
+            identifier: identifier,
+            name: telemetryName,
+            type: dictionary.telemetryEntryBase.type,
+            telemetry: {
+                values: [
+                    ...dictionary.presetValuesBase[parentKey],
+                    dictionary.presetValuesBase.status,
+                    dictionary.presetValuesBase.timestamp
+                ]
+            },
+            location: identifier.namespace + ':' + dictionary.key
+        };
+    });
 }
 
 class ObjectProvider {
@@ -109,10 +125,10 @@ class ObjectProvider {
                     });
             }
             if (dictionary.key === 'iFeelSuitTelemetry') {
-                let splitParentComposedKey = identifier.key.split('.');
-                splitParentComposedKey.pop();
-                if (getElemFromComposedKey(dictionary,splitParentComposedKey.join('.')).telemetryEntries.length == 0) {
-                    return generateObject4iFeelSuitTelemetry(identifier,splitParentComposedKey.pop(),dictionary);
+                let splitComposedKey = identifier.key.split('.');
+                splitComposedKey.pop();
+                if (getElemFromComposedKey(dictionary,splitComposedKey.join('.')).telemetryEntries.length == 0) {
+                    return generateObject4iFeelSuitTelemetry(identifier,splitComposedKey.pop(),dictionary);
                 }
             }
             return generateObject(identifier,dictionary);

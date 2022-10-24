@@ -41,6 +41,7 @@ app.get('/', function(req, res){
 var ICubTelemetry = require('./icubtelemetry');
 var RealtimeServer = require('./realtime-server');
 var HistoryServer = require('./history-server');
+var WearableMetadataServer = require('./wearable-metadata-server');
 
 // Create the ping handler
 var PingHandler = require('./pingHandler');
@@ -60,8 +61,10 @@ var portInConfig = config.portInConfig;
 var icubtelemetry = new ICubTelemetry(portInConfig);
 var realtimeServer = new RealtimeServer(icubtelemetry);
 var historyServer = new HistoryServer(icubtelemetry);
+var wearableMetadataServer = new WearableMetadataServer(icubtelemetry.wearableDataParser);
 app.use('/realtime', realtimeServer);
 app.use('/history', historyServer);
+app.use('/wearableMetadata', wearableMetadataServer);
 
 // Open the Yarp ports, register read callback functions
 Object.keys(portInConfig).forEach(function (id) {
