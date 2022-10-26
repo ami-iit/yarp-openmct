@@ -5,7 +5,7 @@ function WearableMetadataServer(wearableDataParser) {
 
     router.get('/:folderKeys/childTelemEntryKeys', function (req, res) {
         let response = req.params.folderKeys.split(',').map(function (folderId) {
-            return Object.keys(wearableDataParser.telemKeyTree[folderId]);
+            return Object.keys(wearableDataParser.telemKeyTree.get(folderId).names);
         }, []);
         res.status(200).json(response).end();
     });
@@ -13,7 +13,7 @@ function WearableMetadataServer(wearableDataParser) {
     router.get('/:folderKey/:entryKeys/name', function (req, res) {
         let folderId = req.params.folderKey;
         let response = req.params.entryKeys.split(',').map(function (entryId) {
-            return wearableDataParser.telemKeyTree[folderId][entryId];
+            return wearableDataParser.telemKeyTree.get(folderId).names[entryId];
         });
         res.status(200).json(response).end();
     });
