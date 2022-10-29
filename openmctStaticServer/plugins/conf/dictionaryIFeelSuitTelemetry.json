@@ -116,7 +116,7 @@
       }
     ],
     "FTsens": "${JSON.stringify([...this.presetValuesBase.force3dSens,...this.presetValuesBase.torq3dSens])}",
-    "FBaccSens": "${this.presetValuesBase.accSens}",
+    "FBaccSens": "${JSON.stringify(this.presetValuesBase.accSens)}",
     "gyroSens": [
       {
         "key": "value.gyr.x",
@@ -387,8 +387,8 @@
         }
       }
     ],
-    "orientSens": "${this.presetValuesBase.orientQuat}",
-    "positionSens": "${this.presetValuesBase.position}",
+    "orientSens": "${JSON.stringify(this.presetValuesBase.orientQuat)}",
+    "positionSens": "${JSON.stringify(this.presetValuesBase.position)}",
     "poseSens": "${JSON.stringify([...this.presetValuesBase.orientQuat,...this.presetValuesBase.position])}",
     "skinSens": [
       {
