@@ -25,10 +25,6 @@ function WearableDataParser(state) {
     ]);
 }
 
-// WearableDataParser.prototype.addSubIdToKeyTree = function (subID) {
-//     this.telemKeyTree.iFeelSuitTelemetry.accSens.push(subID.split('.')[2]);
-// }
-
 WearableDataParser.prototype.parse = function (sensorSample,state,history) {
     this.producerName = sensorSample[0];
     let subIDs = [];
@@ -57,20 +53,24 @@ WearableDataParser.prototype.parse = function (sensorSample,state,history) {
                     state[telemKey].taxel = sensorData[1]
                     break;
                 default:
+                    let offset = 0;
                     telemFolderMetadata.keyPrefix.forEach((prfx,idx) => {
                         let data = {};
                         switch(telemFolderMetadata.format[idx]) {
                             case "vectorXYZ":
-                                let [x,y,z] = sensorData[1];
+                                let [x,y,z] = sensorData[1].slice(offset);
                                 Object.assign(data, {x: x, y: y, z: z});
+                                offset += 3;
                                 break;
                             case "vectorRPY":
-                                let [roll,pitch,yaw] = sensorData[1];
+                                let [roll,pitch,yaw] = sensorData[1].slice(offset);
                                 Object.assign(data, {roll: roll, pitch: pitch, yaw: yaw});
+                                offset += 3;
                                 break;
                             case "quaternionWXYZ":
-                                let [qw,qx,qy,qz] = sensorData[1];
+                                let [qw,qx,qy,qz] = sensorData[1].slice(offset);
                                 Object.assign(data, {w: qw, x: qx, y: qy, z: qz});
+                                offset += 4;
                                 break;
                             default:
                                 throw new Error("Unsupported sensor data format");
