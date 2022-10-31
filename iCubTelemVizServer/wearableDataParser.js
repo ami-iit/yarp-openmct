@@ -3,6 +3,8 @@
  * from the port publishing iFeelSuit wearable sensors.
  */
 
+const {flatten} = require('../common/utils');
+
 function WearableDataParser(state) {
     this.producerName = undefined;
     this.telemKeyTree = new Map([
@@ -23,6 +25,35 @@ function WearableDataParser(state) {
         ["iFeelSuitTelemetry.virtJointKinSens", {keyPrefix: [], format: [], names: []}],
         ["iFeelSuitTelemetry.virtSpherJointKinSens", {keyPrefix: ["oriRPY","angVel","angAcc"], format: ["vectorRPY","vectorXYZ","vectorXYZ"], names: []}]
     ]);
+
+    for (const telemFolderKey of this.telemKeyTree.keys()) {
+        let telemFolderMetadata = this.telemKeyTree.get(telemFolderKey);
+        let parsedData = {};
+        telemFolderMetadata.keyPrefix.forEach((prfx,idx) => {
+            switch(telemFolderMetadata.format[idx]) {
+                case "vectorXYZ":
+                    parsedData[prfx] = {x: 0, y: 0, z: 0};
+                    break;
+                case "vectorRPY":
+                    parsedData[prfx] = {roll: 0, pitch: 0, yaw: 0};
+                    break;
+                case "quaternionWXYZ":
+                    parsedData[prfx] = {w: 0, x: 0, y: 0, z: 0};
+                    break;
+                default:
+                    throw new Error("Unsupported sensor data format definition!");
+            }
+        });
+        let packedParsedData = {};
+        packedParsedData.parsedData = parsedData;
+        let flattenParsedData = flatten(packedParsedData);
+        let funcBody = `
+          let parsedData = ${JSON.stringify(parsedData)};
+          [${Object.keys(flattenParsedData).toString()}] = sensorData;
+          return parsedData;
+        `;
+        telemFolderMetadata.parse = Function('sensorData', funcBody);
+    }
 }
 
 WearableDataParser.prototype.parse = function (sensorSample,state,history) {
@@ -53,30 +84,7 @@ WearableDataParser.prototype.parse = function (sensorSample,state,history) {
                     state[telemKey].taxel = sensorData[1]
                     break;
                 default:
-                    let offset = 0;
-                    telemFolderMetadata.keyPrefix.forEach((prfx,idx) => {
-                        let data = {};
-                        switch(telemFolderMetadata.format[idx]) {
-                            case "vectorXYZ":
-                                let [x,y,z] = sensorData[1].slice(offset);
-                                Object.assign(data, {x: x, y: y, z: z});
-                                offset += 3;
-                                break;
-                            case "vectorRPY":
-                                let [roll,pitch,yaw] = sensorData[1].slice(offset);
-                                Object.assign(data, {roll: roll, pitch: pitch, yaw: yaw});
-                                offset += 3;
-                                break;
-                            case "quaternionWXYZ":
-                                let [qw,qx,qy,qz] = sensorData[1].slice(offset);
-                                Object.assign(data, {w: qw, x: qx, y: qy, z: qz});
-                                offset += 4;
-                                break;
-                            default:
-                                throw new Error("Unsupported sensor data format");
-                        }
-                        state[telemKey][prfx] = data;
-                    });
+                    Object.assign(state[telemKey],telemFolderMetadata.parse(sensorData[1]));
             }
             subIDs.push(telemKey);
             if (!Object.keys(history).includes(telemKey)) {

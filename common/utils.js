@@ -189,6 +189,22 @@ function yarpBottleString2JSON(bottleAsString) {
     return bottleAsJSON;
 }
 
+function flatten(nestedObj) {
+    let flattenHelper = function(nestedObj,parentKey) {
+        let flatObj = {};
+        Object.keys(nestedObj).forEach(function (k) {
+            if (typeof nestedObj[k] == "object") {
+                Object.assign(flatObj, flattenHelper(nestedObj[k], parentKey + k + "."));
+            } else {
+                flatObj[parentKey + k] = nestedObj[k];
+            }
+        });
+        return flatObj;
+    }
+
+    return flattenHelper(nestedObj,'');
+}
+
 module.exports = {
     signalName2codeMap: signalName2codeMap,
     signalName2exitCodeMap: signalName2exitCodeMap,
@@ -196,5 +212,6 @@ module.exports = {
     jsonExportScript: jsonExportScript,
     evalTemplateLiteralInJSON: evalTemplateLiteralInJSON,
     expandTelemetryDictionary: expandTelemetryDictionary,
-    yarpBottleString2JSON: yarpBottleString2JSON
+    yarpBottleString2JSON: yarpBottleString2JSON,
+    flatten: flatten
 };
