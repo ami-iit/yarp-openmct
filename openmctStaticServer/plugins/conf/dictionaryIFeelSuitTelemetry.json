@@ -39,7 +39,7 @@
     ],
     "emgSens": [
       {
-        "key": "value.value",
+        "key": "value.emg.value",
         "name": "Value",
         "unit": "",
         "format": "float",
@@ -48,7 +48,7 @@
         }
       },
       {
-        "key": "value.normalization",
+        "key": "value.emg.normalization",
         "name": "Normalization",
         "unit": "",
         "format": "float",
@@ -403,7 +403,7 @@
     ],
     "tempSens": [
       {
-        "key": "value",
+        "key": "value.temp",
         "name": "Temperature",
         "unit": "ºC",
         "format": "float",
@@ -415,7 +415,7 @@
     "virtLinkKinSens": "${JSON.stringify([...this.presetValuesBase.orientQuat,...this.presetValuesBase.position,...this.presetValuesBase.linearVel,...this.presetValuesBase.angularVel,...this.presetValuesBase.linearAcc,...this.presetValuesBase.angularAcc])}",
     "virtJointKinSens": [
       {
-        "key": "value.position",
+        "key": "value.virtJointKin.position",
         "name": "Joint position",
         "unit": "deg",
         "format": "float",
@@ -424,7 +424,7 @@
         }
       },
       {
-        "key": "value.velocity",
+        "key": "value.virtJointKin.velocity",
         "name": "Joint velocity",
         "unit": "deg/s",
         "format": "float",
@@ -433,7 +433,7 @@
         }
       },
       {
-        "key": "value.acceleration",
+        "key": "value.virtJointKin.acceleration",
         "name": "Joint acceleration",
         "unit": "deg/s^2",
         "format": "float",
