@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="openmctdist/espressoTheme.css">
 </head>
 <body>
-    <script>
+    <script type="module">
         const ONE_SECOND = 1000;
         const THIRTY_SECONDS = 30 * 1000;
         const ONE_MINUTE = THIRTY_SECONDS * 2;
@@ -22,6 +22,8 @@
         const FIFTEEN_MINUTES = FIVE_MINUTES * 3;
         const THIRTY_MINUTES = FIFTEEN_MINUTES * 2;
         const ONE_HOUR = THIRTY_MINUTES * 2;
+
+        import StaticImportObjectPlugin from "./plugins/staticImportObjectPlugin/plugin.js";
 
         // Open MCT native plugins
         openmct.install(openmct.plugins.LocalStorage());
@@ -132,6 +134,7 @@
         openmct.install(DictionaryPlugin(telemServerHost,telemServerPort));
         openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
         openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort));
+        openmct.install(StaticImportObjectPlugin('myPanels', 'exchange/headIMUoverlayPlotOrientation.json'));
 
         openmct.start();
     </script>

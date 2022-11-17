@@ -20,156 +20,151 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
+/**
+ * Utility for checking if a thing is an Open MCT Identifier.
+ * @private
+ */
+function isIdentifier(thing) {
+    return typeof thing === 'object'
+        && Object.prototype.hasOwnProperty.call(thing, 'key')
+        && Object.prototype.hasOwnProperty.call(thing, 'namespace');
+}
 
-], function (
+/**
+ * Utility for checking if a thing is a key string.  Not perfect.
+ * @private
+ */
+function isKeyString(thing) {
+    return typeof thing === 'string';
+}
 
-) {
-
-    /**
-     * Utility for checking if a thing is an Open MCT Identifier.
-     * @private
-     */
-    function isIdentifier(thing) {
-        return typeof thing === 'object'
-            && Object.prototype.hasOwnProperty.call(thing, 'key')
-            && Object.prototype.hasOwnProperty.call(thing, 'namespace');
+/**
+ * Convert a keyString into an Open MCT Identifier, ex:
+ * 'scratch:root' ==> {namespace: 'scratch', key: 'root'}
+ *
+ * Idempotent.
+ *
+ * @param keyString
+ * @returns identifier
+ */
+function parseKeyString(keyString) {
+    if (isIdentifier(keyString)) {
+        return keyString;
     }
 
-    /**
-     * Utility for checking if a thing is a key string.  Not perfect.
-     * @private
-     */
-    function isKeyString(thing) {
-        return typeof thing === 'string';
+    let keyStringMap = keyString.replace(/\\:/g,'\\-').split(':');
+
+    // We got one of the following field maps:
+    // - [namespace,key,index]
+    // - [namespace,key]
+    // - [key]
+    switch (keyStringMap.length) {
+        case 1:
+            return {namespace: '', key: keyStringMap[0], index: undefined};
+        case 2:
+            return {namespace: keyStringMap[0].replace(/\\-/g,':'), key: keyStringMap[1], index: undefined};
+        case 3:
+            return {namespace: keyStringMap[0].replace(/\\-/g,':'), key: keyStringMap[1], index: keyStringMap[2]};
+    }
+}
+
+/**
+ * Convert an Open MCT Identifier into a keyString, ex:
+ * {namespace: 'scratch', key: 'root', index: 1} ==> 'scratch:root:1'
+ *
+ * If skipIndex=true, it returns instead 'scratch:root'.
+ *
+ * Idempotent
+ *
+ * @param identifier
+ * @param skipIndex
+ * @returns keyString
+ */
+function makeKeyString(identifier, skipIndex) {
+    if (isKeyString(identifier)) {
+        return identifier;
     }
 
-    /**
-     * Convert a keyString into an Open MCT Identifier, ex:
-     * 'scratch:root' ==> {namespace: 'scratch', key: 'root'}
-     *
-     * Idempotent.
-     *
-     * @param keyString
-     * @returns identifier
-     */
-    function parseKeyString(keyString) {
-        if (isIdentifier(keyString)) {
-            return keyString;
-        }
+    let namespace = identifier.namespace ? identifier.namespace.replace(/:/g, '\\:') : undefined;
+    let index = skipIndex ? undefined : identifier.index;
 
-        let keyStringMap = keyString.replace(/\\:/g,'\\-').split(':');
+    let keyElements = [
+        namespace,
+        identifier.key,
+        index
+    ];
 
-        // We got one of the following field maps:
-        // - [namespace,key,index]
-        // - [namespace,key]
-        // - [key]
-        switch (keyStringMap.length) {
-            case 1:
-                return {namespace: '', key: keyStringMap[0], index: undefined};
-            case 2:
-                return {namespace: keyStringMap[0].replace(/\\-/g,':'), key: keyStringMap[1], index: undefined};
-            case 3:
-                return {namespace: keyStringMap[0].replace(/\\-/g,':'), key: keyStringMap[1], index: keyStringMap[2]};
-        }
+    return keyElements.filter((elem) => elem !== undefined).join(':');
+}
+
+/**
+ * Convert a new domain object into an old format model, removing the
+ * identifier and converting the composition array from Open MCT Identifiers
+ * to old format keyStrings.
+ *
+ * @param domainObject
+ * @returns oldFormatModel
+ */
+function toOldFormat(model) {
+    model = JSON.parse(JSON.stringify(model));
+    delete model.identifier;
+    if (model.composition) {
+        model.composition = model.composition.map((value) => makeKeyString(value, false));
     }
 
-    /**
-     * Convert an Open MCT Identifier into a keyString, ex:
-     * {namespace: 'scratch', key: 'root', index: 1} ==> 'scratch:root:1'
-     *
-     * If skipIndex=true, it returns instead 'scratch:root'.
-     *
-     * Idempotent
-     *
-     * @param identifier
-     * @param skipIndex
-     * @returns keyString
-     */
-    function makeKeyString(identifier, skipIndex) {
-        if (isKeyString(identifier)) {
-            return identifier;
-        }
+    return model;
+}
 
-        let namespace = identifier.namespace ? identifier.namespace.replace(/:/g, '\\:') : undefined;
-        let index = skipIndex ? undefined : identifier.index;
-
-        let keyElements = [
-            namespace,
-            identifier.key,
-            index
-        ];
-
-        return keyElements.filter((elem) => elem !== undefined).join(':');
+/**
+ * Convert an old format domain object model into a new format domain
+ * object.  Adds an identifier using the provided keyString, and converts
+ * the composition array to utilize Open MCT Identifiers.
+ *
+ * @param model
+ * @param keyString
+ * @returns domainObject
+ */
+function toNewFormat(model, keyString) {
+    model = JSON.parse(JSON.stringify(model));
+    model.identifier = parseKeyString(keyString);
+    if (model.composition) {
+        model.composition = model.composition.map(parseKeyString);
     }
 
-    /**
-     * Convert a new domain object into an old format model, removing the
-     * identifier and converting the composition array from Open MCT Identifiers
-     * to old format keyStrings.
-     *
-     * @param domainObject
-     * @returns oldFormatModel
-     */
-    function toOldFormat(model) {
-        model = JSON.parse(JSON.stringify(model));
-        delete model.identifier;
-        if (model.composition) {
-            model.composition = model.composition.map((value) => makeKeyString(value, false));
-        }
+    return model;
+}
 
-        return model;
-    }
+/**
+ * Compare two Open MCT Identifiers, returning true if they are equal.
+ *
+ * @param identifier
+ * @param otherIdentifier
+ * @returns Boolean true if identifiers are equal.
+ */
+function identifierEquals(a, b) {
+    return a.key === b.key && a.namespace === b.namespace;
+}
 
-    /**
-     * Convert an old format domain object model into a new format domain
-     * object.  Adds an identifier using the provided keyString, and converts
-     * the composition array to utilize Open MCT Identifiers.
-     *
-     * @param model
-     * @param keyString
-     * @returns domainObject
-     */
-    function toNewFormat(model, keyString) {
-        model = JSON.parse(JSON.stringify(model));
-        model.identifier = parseKeyString(keyString);
-        if (model.composition) {
-            model.composition = model.composition.map(parseKeyString);
-        }
+/**
+ * Compare two domain objects, return true if they're the same object.
+ * Equality is determined by identifier.
+ *
+ * @param domainObject
+ * @param otherDomainOBject
+ * @returns Boolean true if objects are equal.
+ */
+function objectEquals(a, b) {
+    return identifierEquals(a.identifier, b.identifier);
+}
 
-        return model;
-    }
+const objectUtils = {
+    toOldFormat: toOldFormat,
+    toNewFormat: toNewFormat,
+    makeKeyString: (identifier) => makeKeyString(identifier, false),
+    makeKeyStringSkipIndex: (identifier) => makeKeyString(identifier, true),
+    parseKeyString: parseKeyString,
+    equals: objectEquals,
+    identifierEquals: identifierEquals
+};
 
-    /**
-     * Compare two Open MCT Identifiers, returning true if they are equal.
-     *
-     * @param identifier
-     * @param otherIdentifier
-     * @returns Boolean true if identifiers are equal.
-     */
-    function identifierEquals(a, b) {
-        return a.key === b.key && a.namespace === b.namespace;
-    }
-
-    /**
-     * Compare two domain objects, return true if they're the same object.
-     * Equality is determined by identifier.
-     *
-     * @param domainObject
-     * @param otherDomainOBject
-     * @returns Boolean true if objects are equal.
-     */
-    function objectEquals(a, b) {
-        return identifierEquals(a.identifier, b.identifier);
-    }
-
-    return {
-        toOldFormat: toOldFormat,
-        toNewFormat: toNewFormat,
-        makeKeyString: (identifier) => makeKeyString(identifier, false),
-        makeKeyStringSkipIndex: (identifier) => makeKeyString(identifier, true),
-        parseKeyString: parseKeyString,
-        equals: objectEquals,
-        identifierEquals: identifierEquals
-    };
-});
+export default objectUtils;
