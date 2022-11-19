@@ -1,5 +1,4 @@
 const YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE = 'yarpopenmct';
-const YARPOPENMCT_MY_PANELS_NAMESPACE = 'yarpopenmctMyPanels';
 const VECTORCOLLECTIONS_DOMAIN_OBJECTS_SUBNAMESPACE = 'vectorCollectionsTelemetry';
 
 const dictionaryID2file = {

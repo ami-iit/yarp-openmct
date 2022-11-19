@@ -45,9 +45,9 @@ function convertToNewObjects(oldObjectMap) {
         }, {});
 }
 
-/* Set the root location correctly for a top-level object */
-function setRootLocation(objectMap, rootIdentifier) {
-    objectMap[objectUtils.makeKeyString(rootIdentifier)].location = 'ROOT';
+/* Set the location correctly for a top-level object */
+function setRootLocation(objectMap, rootIdentifier, rootLocation) {
+    objectMap[objectUtils.makeKeyString(rootIdentifier)].location = rootLocation;
 
     return objectMap;
 }
@@ -56,10 +56,10 @@ function setRootLocation(objectMap, rootIdentifier) {
  * Takes importData (as provided by the ImportExport plugin) and exposes
  * an object provider to fetch those objects.
  */
-function StaticModelProvider(importData, rootIdentifier) {
+function StaticModelProvider(importData, rootIdentifier, rootLocation) {
     const oldFormatObjectMap = rewriteObjectIdentifiers(importData, rootIdentifier);
     const newFormatObjectMap = convertToNewObjects(oldFormatObjectMap);
-    this.objectMap = setRootLocation(newFormatObjectMap, rootIdentifier);
+    this.objectMap = setRootLocation(newFormatObjectMap, rootIdentifier, rootLocation);
 }
 
 /**

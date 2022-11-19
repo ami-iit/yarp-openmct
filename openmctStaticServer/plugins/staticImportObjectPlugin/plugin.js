@@ -4,7 +4,7 @@ import StaticModelProvider from './StaticModelProvider.js';
  * Static Root Plugin: takes an export file and exposes it as a new root
  * object.
  */
-function StaticImportObjectPlugin(namespace, exportUrl) {
+function StaticImportObjectPlugin(namespace, exportUrl, rootLocation) {
 
     const rootIdentifier = {
         namespace: namespace,
@@ -19,7 +19,7 @@ function StaticImportObjectPlugin(namespace, exportUrl) {
                 return response.json();
             })
             .then(function (importData) {
-                cachedProvider = new StaticModelProvider(importData, rootIdentifier);
+                cachedProvider = new StaticModelProvider(importData, rootIdentifier, rootLocation);
 
                 return cachedProvider;
             });
