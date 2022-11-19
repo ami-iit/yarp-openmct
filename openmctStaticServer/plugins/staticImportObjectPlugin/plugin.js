@@ -34,7 +34,6 @@ function StaticImportObjectPlugin(namespace, exportUrl) {
     }
 
     return function install(openmct) {
-        openmct.objects.addRoot(rootIdentifier);
         openmct.objects.addProvider(namespace, {
             get: function (identifier) {
                 return getProvider().then(function (provider) {

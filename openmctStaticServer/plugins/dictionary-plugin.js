@@ -50,13 +50,17 @@ function requestTelemetryEntryNames(telemetryEntryKey) {
         });
 }
 
-function getFolderTelemetryEntryKeys(dictionary,folderDomainObjectKey) {
+function getFolderTelemetryEntryIdentifiers(dictionary,folderDomainObjectKey) {
     if ((telemetryEntries = getElemFromComposedKey(dictionary, folderDomainObjectKey).telemetryEntries).length > 0) {
         return Promise.resolve(telemetryEntries.map(function (entry) {
-            return entry.key
+            return {key: entry.key, namespace: entry.namespace};
         }));
     }
-    return requestFolderTelemetryEntryKeys(folderDomainObjectKey);
+    return requestFolderTelemetryEntryKeys(folderDomainObjectKey).then(function (keys) {
+        return keys.map(function (k) {
+            return {key: k, namespace: undefined};
+        });
+    });
 }
 
 function getDictionary(identifier) {
@@ -146,11 +150,14 @@ var compositionProvider = {
     },
     load: function (domainObject) {
         return getDictionary(domainObject.identifier).then(function (dictionary) {
-            return getFolderTelemetryEntryKeys(dictionary,domainObject.identifier.key).then(function (keys) {
-                return keys.map(function (k) {
+            return getFolderTelemetryEntryIdentifiers(dictionary,domainObject.identifier.key).then(function (ids) {
+                return ids.map(function (id) {
+                    if (id.namespace !== undefined) {
+                        return id;
+                    }
                     return {
                         namespace: domainObject.identifier.namespace,
-                        key: [domainObject.identifier.key,k].join('.')
+                        key: [domainObject.identifier.key,id.key].join('.')
                     };
                 });
             });
@@ -187,6 +194,10 @@ function DictionaryPlugin(telemServerHost,telemServerPort) {
             {
                 namespace: YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE,
                 key: 'iFeelSuitTelemetry'
+            },
+            {
+                namespace: YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE,
+                key: 'mySavedPanels'
             }
         ]);
 

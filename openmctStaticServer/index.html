@@ -134,7 +134,8 @@
         openmct.install(DictionaryPlugin(telemServerHost,telemServerPort));
         openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
         openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort));
-        openmct.install(StaticImportObjectPlugin('myPanels', 'exchange/headIMUoverlayPlotOrientation.json'));
+        openmct.install(StaticImportObjectPlugin('myPanel1', 'exchange/headIMUoverlayPlotOrientation.json'));
+        openmct.install(StaticImportObjectPlugin('myPanel2', 'exchange/JointTracking/LeftAnklePitchTracking.json'));
 
         openmct.start();
     </script>

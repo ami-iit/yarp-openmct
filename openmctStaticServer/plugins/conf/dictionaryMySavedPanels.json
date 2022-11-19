@@ -1,0 +1,28 @@
+{
+  "name": "My Saved Panels",
+  "key": "mySavedPanels",
+  "telemetryEntries": [
+    {
+      "name": "Kinetic sensors",
+      "key": "kineticSens",
+      "type": "folder",
+      "telemetryEntries": [
+        {
+          "namespace": "myPanel1",
+          "key": "root"
+        }
+      ]
+    },
+    {
+      "name": "Joint State Tracking",
+      "key": "jointStateTracking",
+      "type": "folder",
+      "telemetryEntries": [
+        {
+          "namespace": "myPanel2",
+          "key": "root"
+        }
+      ]
+    }
+  ]
+}
