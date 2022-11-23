@@ -1,0 +1,343 @@
+{
+  "openmct": {
+    "5f40bda0-56e6-4a37-929b-7cdf71776ce8": {
+      "configuration": {
+        "containers": [{
+          "id": "a2173bc0-8e10-49ff-b48b-5f455966a1ab",
+          "frames": [{
+            "id": "126aba53-b1ba-4cf5-b7d2-401d01221c11",
+            "domainObjectIdentifier": {
+              "namespace": "",
+              "key": "6ffa0059-8dbf-4bc4-9c82-e8d2535c136e"
+            },
+            "size": 100,
+            "noFrame": false
+          }],
+          "size": 50
+        }, {
+          "id": "8816942a-4458-4714-b8e1-4284eaaa9921",
+          "frames": [{
+            "id": "33dc49f8-3dd3-418d-b6fd-cffc68c8c9d9",
+            "domainObjectIdentifier": {
+              "namespace": "",
+              "key": "d7bbc644-0e6d-4328-8eb4-733e4bec2f45"
+            },
+            "size": 100,
+            "noFrame": false
+          }],
+          "size": 50
+        }],
+        "rowsLayout": false
+      },
+      "composition": [{
+        "namespace": "",
+        "key": "6ffa0059-8dbf-4bc4-9c82-e8d2535c136e"
+      }, {
+        "namespace": "",
+        "key": "d7bbc644-0e6d-4328-8eb4-733e4bec2f45"
+      }],
+      "name": "Left Leg Tracking",
+      "type": "flexible-layout",
+      "location": "mine",
+      "modified": 1661529393993,
+      "persisted": 1661529383749,
+      "id": "5f40bda0-56e6-4a37-929b-7cdf71776ce8",
+      "identifier": {
+        "namespace": "",
+        "key": "5f40bda0-56e6-4a37-929b-7cdf71776ce8"
+      }
+    },
+    "6ffa0059-8dbf-4bc4-9c82-e8d2535c136e": {
+      "composition": [{
+        "namespace": "",
+        "key": "029f25dd-3450-4771-988c-98e37302f332"
+      }, {
+        "namespace": "",
+        "key": "97128541-5e23-4a62-9c7d-41656545b8e8"
+      }, {
+        "namespace": "",
+        "key": "026b0b1d-8b7a-4c8d-8641-2e5947b4b778"
+      }],
+      "configuration": {},
+      "name": "Left Upper Leg Tracking",
+      "type": "telemetry.plot.stacked",
+      "location": "5f40bda0-56e6-4a37-929b-7cdf71776ce8",
+      "modified": 1661529317568,
+      "persisted": 1661529317568,
+      "id": "6ffa0059-8dbf-4bc4-9c82-e8d2535c136e",
+      "identifier": {
+        "namespace": "",
+        "key": "6ffa0059-8dbf-4bc4-9c82-e8d2535c136e"
+      }
+    },
+    "d7bbc644-0e6d-4328-8eb4-733e4bec2f45": {
+      "composition": [{
+        "namespace": "",
+        "key": "354d8e84-c881-47b3-824e-2b8f4dfb18ac"
+      }, {
+        "namespace": "",
+        "key": "0ce631da-c9af-4f6d-875e-8a601d97c537"
+      }, {
+        "namespace": "",
+        "key": "d6c551b8-8eab-4192-9bf1-1670b699f681"
+      }],
+      "configuration": {},
+      "name": "Left Lower Leg Tracking",
+      "type": "telemetry.plot.stacked",
+      "location": "5f40bda0-56e6-4a37-929b-7cdf71776ce8",
+      "modified": 1661529363658,
+      "persisted": 1661529363658,
+      "identifier": {
+        "namespace": "",
+        "key": "d7bbc644-0e6d-4328-8eb4-733e4bec2f45"
+      }
+    },
+    "029f25dd-3450-4771-988c-98e37302f332": {
+      "composition": [{
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "0"
+      }, {
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "1"
+      }],
+      "configuration": {
+        "series": [{
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "0"
+          },
+          "yKey": "value.joints_state::positions::desired.20"
+        }, {
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "1"
+          },
+          "yKey": "value.joints_state::positions::measured.20"
+        }],
+        "yAxis": {},
+        "xAxis": {},
+        "filters": {}
+      },
+      "name": "Left Hip Pitch Tracking",
+      "type": "telemetry.plot.overlay",
+      "location": "6ffa0059-8dbf-4bc4-9c82-e8d2535c136e",
+      "modified": 1661527806544,
+      "persisted": 1661527806544,
+      "id": "029f25dd-3450-4771-988c-98e37302f332",
+      "identifier": {
+        "namespace": "",
+        "key": "029f25dd-3450-4771-988c-98e37302f332"
+      }
+    },
+    "97128541-5e23-4a62-9c7d-41656545b8e8": {
+      "composition": [{
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "0"
+      }, {
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "1"
+      }],
+      "configuration": {
+        "series": [{
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "0"
+          },
+          "yKey": "value.joints_state::positions::desired.21"
+        }, {
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "1"
+          },
+          "yKey": "value.joints_state::positions::measured.21"
+        }],
+        "yAxis": {},
+        "xAxis": {},
+        "filters": {}
+      },
+      "name": "Left Hip Roll Tracking",
+      "type": "telemetry.plot.overlay",
+      "location": "6ffa0059-8dbf-4bc4-9c82-e8d2535c136e",
+      "modified": 1661529031388,
+      "id": "97128541-5e23-4a62-9c7d-41656545b8e8",
+      "persisted": 1661529031389,
+      "identifier": {
+        "namespace": "",
+        "key": "97128541-5e23-4a62-9c7d-41656545b8e8"
+      }
+    },
+    "026b0b1d-8b7a-4c8d-8641-2e5947b4b778": {
+      "composition": [{
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "0"
+      }, {
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "1"
+      }],
+      "configuration": {
+        "series": [{
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "0"
+          },
+          "yKey": "value.joints_state::positions::desired.22"
+        }, {
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "1"
+          },
+          "yKey": "value.joints_state::positions::measured.22"
+        }],
+        "yAxis": {},
+        "xAxis": {},
+        "filters": {}
+      },
+      "name": "Left Hip Yaw Tracking",
+      "type": "telemetry.plot.overlay",
+      "location": "6ffa0059-8dbf-4bc4-9c82-e8d2535c136e",
+      "modified": 1661529045944,
+      "id": "026b0b1d-8b7a-4c8d-8641-2e5947b4b778",
+      "persisted": 1661529045944,
+      "identifier": {
+        "namespace": "",
+        "key": "026b0b1d-8b7a-4c8d-8641-2e5947b4b778"
+      }
+    },
+    "354d8e84-c881-47b3-824e-2b8f4dfb18ac": {
+      "composition": [{
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "0"
+      }, {
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "1"
+      }],
+      "configuration": {
+        "series": [{
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "0"
+          },
+          "yKey": "value.joints_state::positions::desired.23"
+        }, {
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "1"
+          },
+          "yKey": "value.joints_state::positions::measured.23"
+        }],
+        "yAxis": {},
+        "xAxis": {},
+        "filters": {}
+      },
+      "name": "Left Knee Tracking",
+      "type": "telemetry.plot.overlay",
+      "location": "d7bbc644-0e6d-4328-8eb4-733e4bec2f45",
+      "modified": 1661529055374,
+      "id": "354d8e84-c881-47b3-824e-2b8f4dfb18ac",
+      "persisted": 1661529055375,
+      "identifier": {
+        "namespace": "",
+        "key": "354d8e84-c881-47b3-824e-2b8f4dfb18ac"
+      }
+    },
+    "0ce631da-c9af-4f6d-875e-8a601d97c537": {
+      "composition": [{
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "0"
+      }, {
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "1"
+      }],
+      "configuration": {
+        "series": [{
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "0"
+          },
+          "yKey": "value.joints_state::positions::desired.24"
+        }, {
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "1"
+          },
+          "yKey": "value.joints_state::positions::measured.24"
+        }],
+        "yAxis": {},
+        "xAxis": {},
+        "filters": {}
+      },
+      "name": "Left Ankle Pitch Tracking",
+      "type": "telemetry.plot.overlay",
+      "location": "d7bbc644-0e6d-4328-8eb4-733e4bec2f45",
+      "modified": 1661528620119,
+      "id": "0ce631da-c9af-4f6d-875e-8a601d97c537",
+      "persisted": 1661528620120,
+      "identifier": {
+        "namespace": "",
+        "key": "0ce631da-c9af-4f6d-875e-8a601d97c537"
+      }
+    },
+    "d6c551b8-8eab-4192-9bf1-1670b699f681": {
+      "composition": [{
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "0"
+      }, {
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "1"
+      }],
+      "configuration": {
+        "series": [{
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "0"
+          },
+          "yKey": "value.joints_state::positions::desired.25"
+        }, {
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "1"
+          },
+          "yKey": "value.joints_state::positions::measured.25"
+        }],
+        "yAxis": {},
+        "xAxis": {},
+        "filters": {}
+      },
+      "name": "Left Ankle Roll Tracking",
+      "type": "telemetry.plot.overlay",
+      "location": "d7bbc644-0e6d-4328-8eb4-733e4bec2f45",
+      "modified": 1661529015453,
+      "id": "d6c551b8-8eab-4192-9bf1-1670b699f681",
+      "persisted": 1661529015453,
+      "identifier": {
+        "namespace": "",
+        "key": "d6c551b8-8eab-4192-9bf1-1670b699f681"
+      }
+    }
+  },
+  "rootId": "5f40bda0-56e6-4a37-929b-7cdf71776ce8"
+}

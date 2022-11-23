@@ -3,25 +3,37 @@
   "key": "mySavedPanels",
   "telemetryEntries": [
     {
-      "name": "Kinetic sensors",
-      "key": "kineticSens",
-      "type": "folder",
-      "telemetryEntries": [
-        {
-          "namespace": "myPanel1",
-          "key": "root"
-        }
-      ]
-    },
-    {
       "name": "Joint State Tracking",
       "key": "jointStateTracking",
       "type": "folder",
       "telemetryEntries": [
-        {
-          "namespace": "myPanel2",
-          "key": "root"
-        }
+        {"namespace": "myPanel100", "key": "root"},
+        {"namespace": "myPanel101", "key": "root"},
+        {"namespace": "myPanel102", "key": "root"},
+        {"namespace": "myPanel103", "key": "root"},
+        {"namespace": "myPanel104", "key": "root"},
+        {"namespace": "myPanel105", "key": "root"},
+        {"namespace": "myPanel106", "key": "root"},
+        {"namespace": "myPanel107", "key": "root"},
+        {"namespace": "myPanel108", "key": "root"},
+        {"namespace": "myPanel109", "key": "root"},
+        {"namespace": "myPanel110", "key": "root"},
+        {"namespace": "myPanel111", "key": "root"},
+        {"namespace": "myPanel112", "key": "root"},
+        {"namespace": "myPanel113", "key": "root"},
+        {"namespace": "myPanel114", "key": "root"},
+        {"namespace": "myPanel115", "key": "root"},
+        {"namespace": "myPanel116", "key": "root"},
+        {"namespace": "myPanel117", "key": "root"},
+        {"namespace": "myPanel118", "key": "root"}
+      ]
+    },
+    {
+      "name": "Kinetic sensors",
+      "key": "kineticSens",
+      "type": "folder",
+      "telemetryEntries": [
+        {"namespace": "myPanel200", "key": "root"}
       ]
     }
   ]

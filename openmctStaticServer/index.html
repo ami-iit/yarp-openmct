@@ -134,8 +134,27 @@
         openmct.install(DictionaryPlugin(telemServerHost,telemServerPort));
         openmct.install(HistoricalTelemetryPlugin(telemServerHost,telemServerPort));
         openmct.install(RealtimeTelemetryPlugin(telemServerHost,telemServerPort));
-        openmct.install(StaticImportObjectPlugin('myPanel1', 'exchange/headIMUoverlayPlotOrientation.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
-        openmct.install(StaticImportObjectPlugin('myPanel2', 'exchange/JointTracking/LeftAnklePitchTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel100', 'exchange/JointTracking/LeftAnklePitchTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel101', 'exchange/JointTracking/LeftAnkleRollTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel102', 'exchange/JointTracking/LeftHipPitchTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel103', 'exchange/JointTracking/LeftHipRollPWM_Current.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel104', 'exchange/JointTracking/LeftHipRollTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel105', 'exchange/JointTracking/LeftHipYawTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel106', 'exchange/JointTracking/LeftKneeTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel107', 'exchange/JointTracking/LeftLegTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel108', 'exchange/JointTracking/LeftLowerLegTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel109', 'exchange/JointTracking/LeftUpperLegTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel110', 'exchange/JointTracking/RightAnklePitchTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel111', 'exchange/JointTracking/RightAnkleRollTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel112', 'exchange/JointTracking/RightHipPitchTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel113', 'exchange/JointTracking/RightHipRollTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel114', 'exchange/JointTracking/RightHipYawTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel115', 'exchange/JointTracking/RightKneeTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel116', 'exchange/JointTracking/RightLegTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel117', 'exchange/JointTracking/RightLowerLegTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel118', 'exchange/JointTracking/RightUpperLegTracking.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+
+        openmct.install(StaticImportObjectPlugin('myPanel200', 'exchange/headIMUoverlayPlotOrientation.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
 
         openmct.start();
     </script>

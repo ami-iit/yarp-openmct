@@ -1,0 +1,46 @@
+{
+  "openmct": {
+    "39188b55-c183-47f5-9a83-6992b2b4f903": {
+      "composition": [{
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "0"
+      }, {
+        "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+        "key": "walkingController.logger",
+        "index": "1"
+      }],
+      "configuration": {
+        "series": [{
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "0"
+          },
+          "yKey": "value.joints_state::positions::desired.31"
+        }, {
+          "identifier": {
+            "namespace": "yarpopenmct.vectorCollectionsTelemetry",
+            "key": "walkingController.logger",
+            "index": "1"
+          },
+          "yKey": "value.joints_state::positions::measured.31"
+        }],
+        "yAxis": {},
+        "xAxis": {},
+        "filters": {}
+      },
+      "name": "Right Ankle Roll Tracking",
+      "type": "telemetry.plot.overlay",
+      "location": "mine",
+      "modified": 1661527780824,
+      "persisted": 1661527599898,
+      "id": "39188b55-c183-47f5-9a83-6992b2b4f903",
+      "identifier": {
+        "namespace": "",
+        "key": "39188b55-c183-47f5-9a83-6992b2b4f903"
+      }
+    }
+  },
+  "rootId": "39188b55-c183-47f5-9a83-6992b2b4f903"
+}
