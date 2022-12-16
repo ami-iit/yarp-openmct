@@ -16,17 +16,20 @@ OpenMctServerHandlerChildProc.prototype.constructor = OpenMctServerHandlerChildP
 
 // Method for sending messages to the parent process through IPC only if there is one
 OpenMctServerHandlerChildProc.prototype.messageParentProcess = function (message) {
-    if (process.connected) {
-        process.send(message);
+    if (!process.connected) {
+        console.warn(`Could not send request for refreshing ports. Connection lost with the parent process!`);
+        return false;
     }
+    return process.send(message);
 }
 
 // Data and commands messaging to the parent process
 OpenMctServerHandlerChildProc.prototype.reportPIDtoParent = function () {
     this.messageParentProcess({"pid": process.pid});
 }
+
 OpenMctServerHandlerChildProc.prototype.requestPortsRefresh = function () {
-    this.messageParentProcess({"cmd": Child2ParentCommands.RefreshRegexpConnections});
+    return this.messageParentProcess({"cmd": Child2ParentCommands.RefreshRegexpConnections});
 }
 
 module.exports = OpenMctServerHandlerChildProc;
