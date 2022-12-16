@@ -35,6 +35,14 @@
       "telemetryEntries": [
         {"namespace": "myPanel200", "key": "root"}
       ]
+    },
+    {
+      "name": "Logging Tables",
+      "key": "loggingTables",
+      "type": "folder",
+      "telemetryEntries": [
+        {"namespace": "myPanel300", "key": "root"}
+      ]
     }
   ]
 }
