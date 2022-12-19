@@ -68,6 +68,10 @@ ConfigHandler.prototype.getActiveYarpPorts = function() {
         }).map((line) => {
             return line.split(' ')[2];
         });
+    }).catch((errorMessage) => {
+        console.error(`Failed running Yarp port names retrieval: ${errorMessage}./n
+        returning empty array of ports`);
+        return [];
     });
 }
 
@@ -86,11 +90,17 @@ ConfigHandler.prototype.matchRegexp = function(regexpPortIDs, activeYarpPortName
         let matchedPorts = activeYarpPortNames.filter((name) => {
             return (name.match(regexpPattern) !== null);
         });
-        if (matchedPorts > 1) {
-            console.error('error: Yarp port name regexp has multiple matches, kept the first match.');
+        if (matchedPorts.length == 0) {
+            console.warn(`Yarp port name regexp ${regexpMatchedPortInConfig[id].yarpName} does not match any existing ports`);
+            delete regexpMatchedPortInConfig[id];
+            return;
+        }
+        if (matchedPorts.length > 1) {
+            console.warn(`Yarp port name regexp ${regexpMatchedPortInConfig[id].yarpName} has multiple matches, kept the first match.`);
         }
         regexpMatchedPortInConfig[id].yarpName = matchedPorts[0];
     });
+
     return regexpMatchedPortInConfig;
 }
 
