@@ -34,10 +34,12 @@ const staticServer = new StaticServer();
 // The default page request processing is defined by default, but redefined here for triggering a refresh of the port
 // connections.
 app.get('/', function(req, res){
-    res.sendFile('index.html',{ root : __dirname});
-    if (!procHandler.requestPortsRefresh()) {
-        console.warn('Ports refresh request not sent!');
-    }
+    procHandler.requestPortsRefresh().then((result) => {
+        console.log(result);
+        res.sendFile('index.html',{ root : __dirname});
+    }).catch((errorMessage) => {
+        console.error(errorMessage);
+    });
 });
 
 app.get('/config/confServers.json', function(req, res){

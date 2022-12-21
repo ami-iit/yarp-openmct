@@ -29,7 +29,10 @@ OpenMctServerHandlerChildProc.prototype.reportPIDtoParent = function () {
 }
 
 OpenMctServerHandlerChildProc.prototype.requestPortsRefresh = function () {
-    return this.messageParentProcess({"cmd": Child2ParentCommands.RefreshRegexpConnections});
+    if (!this.messageParentProcess({"cmd": Child2ParentCommands.RefreshRegexpConnections})) {
+        return Promise.reject('Could not send request for refreshing ports. Connection lost with the parent process!');
+    };
+    return Promise.resolve('Request for refreshing ports sent successfully');
 }
 
 module.exports = OpenMctServerHandlerChildProc;
