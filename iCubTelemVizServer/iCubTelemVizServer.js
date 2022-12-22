@@ -196,6 +196,7 @@ openMctServerHandler.installRefreshPorts(() => {
     TerminationHandler.prototype.unlistenToNetworkPorts.forEach((disconnect) => {disconnect();});
     TerminationHandler.prototype.unlistenToNetworkPorts = [];
     configHandler.matchRegexpYarpPortNames().then(connectPortsAndStartNotifier);
+    openMctServerHandler.messageChildProcess({rply: 'go ahead!'});
 });
 var ret = openMctServerHandler.start();
 console.log(ret);

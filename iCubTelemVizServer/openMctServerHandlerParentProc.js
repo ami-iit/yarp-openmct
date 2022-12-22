@@ -25,6 +25,7 @@ function OpenMctServerHandlerParentProc(outputCallback,errorCallback) {
         this.errorCallback('Untriggered closure: ' + errorObject.toString());
     };
     this.refreshPortsNconnections = () => {};
+    this.npmStart = undefined;
 }
 
 // Old Javascript inheritance: inherit all of OpenMctServerHandlerBase'methods
@@ -47,23 +48,23 @@ OpenMctServerHandlerParentProc.prototype.start = function () {
 
     // Start the process
     const wPath = path.join(process.cwd(), '..', 'openmctStaticServer');
-    const npmStart = childProcess.spawn('sh', ['runModule.sh'], {
+    this.npmStart = childProcess.spawn('sh', ['runModule.sh'], {
         shell: 'bash',
         cwd: wPath,
         stdio: ['pipe', 'pipe', 'pipe', 'ipc']
     });
 
     // Set the output callbacks
-    npmStart.stdout.on('data', function (data) {
+    this.npmStart.stdout.on('data', function (data) {
         embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] stdout: ' + data);
     });
-    npmStart.stderr.on('data', function (data) {
+    this.npmStart.stderr.on('data', function (data) {
         embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] stderr: ' + data);
     });
-    npmStart.on('error', function (error) {
+    this.npmStart.on('error', function (error) {
         embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] error: ' + error.message);
     });
-    npmStart.on('message', function (m) {
+    this.npmStart.on('message', function (m) {
         embeddedThis.outputCallback('[OPEN-MCT STATIC SERVER] ipc: ' + JSON.stringify(m));
         Object.keys(m).forEach((k) => {
             switch (k) {
@@ -83,7 +84,7 @@ OpenMctServerHandlerParentProc.prototype.start = function () {
             }
         });
     });
-    npmStart.on('close', function (code,signal) {
+    this.npmStart.on('close', function (code,signal) {
         embeddedThis.processPID = undefined;
         // Call local or synchronisation callback
         try {
@@ -123,15 +124,26 @@ OpenMctServerHandlerParentProc.prototype.stop = function (signal,onCloseSuccess,
         this.onCloseSuccess = onCloseSuccess;
         this.onCloseFailure = onCloseFailure;
         process.kill(this.processPID,signal);
+        this.npmStart = undefined;
         return {status: 'WRPLY', message: util.format('Process (PID %d) OpenMCT Server stopping (signal %s) ...',this.processPID,signal)};
     } else {
         onCloseSuccess('');
+        this.npmStart = undefined;
         return {status: 'WARNING', message: 'No process OpenMCT Server running...'};
     }
 }
 
 OpenMctServerHandlerParentProc.prototype.isOn = function () {
     return (this.processPID !== undefined);
+}
+
+// Method for sending messages to the child process through IPC only if there is one
+OpenMctServerHandlerParentProc.prototype.messageChildProcess = function (message) {
+    if (!this.npmStart.connected) {
+        console.warn(`Could not send message. Connection lost with the child process!`);
+        return false;
+    }
+    return this.npmStart.send(message);
 }
 
 module.exports = OpenMctServerHandlerParentProc;

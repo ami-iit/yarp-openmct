@@ -17,7 +17,7 @@ OpenMctServerHandlerChildProc.prototype.constructor = OpenMctServerHandlerChildP
 // Method for sending messages to the parent process through IPC only if there is one
 OpenMctServerHandlerChildProc.prototype.messageParentProcess = function (message) {
     if (!process.connected) {
-        console.warn(`Could not send request for refreshing ports. Connection lost with the parent process!`);
+        console.warn(`Could not send message. Connection lost with the parent process!`);
         return false;
     }
     return process.send(message);
@@ -29,10 +29,16 @@ OpenMctServerHandlerChildProc.prototype.reportPIDtoParent = function () {
 }
 
 OpenMctServerHandlerChildProc.prototype.requestPortsRefresh = function () {
-    if (!this.messageParentProcess({"cmd": Child2ParentCommands.RefreshRegexpConnections})) {
-        return Promise.reject('Could not send request for refreshing ports. Connection lost with the parent process!');
-    };
-    return Promise.resolve('Request for refreshing ports sent successfully');
+    return new Promise(function (resolve, reject) {
+        process.once('message', function (m) {
+            console.log(`[ICUB-TELEM-VIZ SERVER] message: ${JSON.stringify(m)}`);
+            resolve('Ports refreshing completed!');
+        });
+        if (!this.messageParentProcess({"cmd": Child2ParentCommands.RefreshRegexpConnections})) {
+            reject('Could not send request for refreshing ports!');
+        };
+        console.log('Request for refreshing ports sent successfully');
+    });
 }
 
 module.exports = OpenMctServerHandlerChildProc;
