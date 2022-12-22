@@ -43,6 +43,24 @@
       "telemetryEntries": [
         {"namespace": "myPanel300", "key": "root"}
       ]
+    },
+    {
+      "name": "JointPositions",
+      "key": "jointPositions",
+      "type": "folder",
+      "telemetryEntries": [
+        {"namespace": "myPanel400", "key": "root"},
+        {"namespace": "myPanel401", "key": "root"},
+        {"namespace": "myPanel402", "key": "root"}
+      ]
+    },
+    {
+      "name": "Utilities",
+      "key": "utilities",
+      "type": "folder",
+      "telemetryEntries": [
+        {"namespace": "myPanel500", "key": "root"}
+      ]
     }
   ]
 }
