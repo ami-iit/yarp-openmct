@@ -1,7 +1,7 @@
 "use strict";
 
 // Import comon properties for OpenMctServerHandlerParentProc and OpenMctServerHandlerChildProc
-const {OpenMctServerHandlerBase,Child2ParentCommands} = require('../common/openMctServerHandlerBase');
+const {OpenMctServerHandlerBase,Child2ParentCommands,Parent2ChildReplies} = require('../common/openMctServerHandlerBase');
 
 function OpenMctServerHandlerChildProc(outputCallback) {
     // Old Javascript inheritance: Apply the "parent" class OpenMctServerHandlerBase
@@ -32,13 +32,26 @@ OpenMctServerHandlerChildProc.prototype.requestPortsRefresh = function () {
     return new Promise(function (resolve, reject) {
         process.once('message', function (m) {
             console.log(`[ICUB-TELEM-VIZ SERVER] message: ${JSON.stringify(m)}`);
-            resolve('Ports refreshing completed!');
+            if (!("rply" in m)) {
+                reject(`Can't parse IPC reply`);
+            } else {
+                switch (m.rply) {
+                    case Parent2ChildReplies.RefreshRegexpConnectionsCompleted:
+                        resolve('Ports refreshing completed!');
+                        break;
+                    case Parent2ChildReplies.RefreshRegexpConnectionsFailed:
+                        reject(`Ports refreshing Failed`);
+                        break;
+                    default:
+                }
+            };
         });
         if (!this.messageParentProcess({"cmd": Child2ParentCommands.RefreshRegexpConnections})) {
             reject('Could not send request for refreshing ports!');
-        };
-        console.log('Request for refreshing ports sent successfully');
-    });
+        } else {
+            console.log('Request for refreshing ports sent successfully');
+        }
+    }.bind(this));
 }
 
 module.exports = OpenMctServerHandlerChildProc;

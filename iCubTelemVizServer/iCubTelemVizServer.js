@@ -191,12 +191,13 @@ const consoleServerTracker = new WebsocketTracker(consoleServer);
 
 // Create and start the OpenMCT server
 var OpenMctServerHandler = require('./openMctServerHandlerParentProc');
+const {Child2ParentCommands,Parent2ChildReplies} = require("../common/openMctServerHandlerBase");
 var openMctServerHandler = new OpenMctServerHandler(console.log,console.error);
 openMctServerHandler.installRefreshPorts(() => {
     TerminationHandler.prototype.unlistenToNetworkPorts.forEach((disconnect) => {disconnect();});
     TerminationHandler.prototype.unlistenToNetworkPorts = [];
     configHandler.matchRegexpYarpPortNames().then(connectPortsAndStartNotifier);
-    openMctServerHandler.messageChildProcess({rply: 'go ahead!'});
+    openMctServerHandler.messageChildProcess({rply: Parent2ChildReplies.RefreshRegexpConnectionsCompleted});
 });
 var ret = openMctServerHandler.start();
 console.log(ret);
