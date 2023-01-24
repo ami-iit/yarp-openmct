@@ -19,7 +19,13 @@ function RealtimeTelemetryPlugin(telemServerHost,telemServerPort) {
             },
             subscribe: function (domainObject, callback) {
                 listener[domainObject.identifier.key] = callback;
-                socket.send('subscribe ' + domainObject.identifier.key);
+                try {
+                    socket.send('subscribe ' + domainObject.identifier.key);
+                } catch(errorMessage) {
+                    console.error(errorMessage);
+                    delete listener[domainObject.identifier.key];
+                    return function unsubscribe() {};
+                }
                 return function unsubscribe() {
                     delete listener[domainObject.identifier.key];
                     socket.send('unsubscribe ' + domainObject.identifier.key);
