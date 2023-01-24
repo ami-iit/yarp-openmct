@@ -157,6 +157,13 @@
         openmct.install(StaticImportObjectPlugin('myPanel200', 'exchange/headIMUoverlayPlotOrientation.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
 
         openmct.install(StaticImportObjectPlugin('myPanel300', 'exchange/logging/YarprobotinterfaceProcessLoggingTable.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        
+        openmct.install(StaticImportObjectPlugin('myPanel400', 'exchange/jointPositions/LeftLegPositions.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel401', 'exchange/jointPositions/RightLegPositions.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+        openmct.install(StaticImportObjectPlugin('myPanel402', 'exchange/jointPositions/LegsPositions.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
+
+        
+        openmct.install(StaticImportObjectPlugin('myPanel500', 'exchange/utilities/BatteryAndPing.json', `${YARPOPENMCT_DICTIONARY_PLUGIN_NAMESPACE}:mySavedPanels`));
 
         openmct.start();
     </script>
